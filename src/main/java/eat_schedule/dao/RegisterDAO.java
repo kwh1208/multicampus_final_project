@@ -6,5 +6,5 @@ import eat_schedule.dto.RegisterDTO;
 
 @Mapper
 public interface RegisterDAO {
-	public RegisterDTO loginOk(String id, String password);
+	public RegisterDTO loginOk(String user_id, String user_password);
 }

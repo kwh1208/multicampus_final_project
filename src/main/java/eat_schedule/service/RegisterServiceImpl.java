@@ -13,8 +13,8 @@ public class RegisterServiceImpl implements RegisterService {
 	RegisterDAO dao;
 	
 	@Override
-	public RegisterDTO loginOk(String id, String password) {
-		return dao.loginOk(id, password);
+	public RegisterDTO loginOk(String user_id, String user_password) {
+		return dao.loginOk(user_id, user_password);
 	}
 
 }

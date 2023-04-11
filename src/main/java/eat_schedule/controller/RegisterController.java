@@ -27,17 +27,17 @@ public class RegisterController {
 	}
 	
 	@PostMapping("loginOk")
-	public ModelAndView loginOk(String id, String password, HttpServletRequest request, HttpSession session ,HttpServletResponse res) {
+	public ModelAndView loginOk(String user_id, String user_password, HttpServletRequest request, HttpSession session ,HttpServletResponse res) {
 		//System.out.println(id);
 		//System.out.println(password);
 		
-		RegisterDTO dto = service.loginOk(id, password);
+		RegisterDTO dto = service.loginOk(user_id, user_password);
 		
 		ModelAndView mav = new ModelAndView();
 		
 		if(dto!=null) {
-			session.setAttribute("logId", dto.getId());
-			session.setAttribute("logName", dto.getName());
+			session.setAttribute("logId", dto.getUser_id());
+			session.setAttribute("logName", dto.getUser_name());
 			session.setAttribute("logStatus", "Y");
 			mav.setViewName("redirect:/");
 		}else {
