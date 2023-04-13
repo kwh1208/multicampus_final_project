@@ -20,7 +20,7 @@ public class Store {
 
 
     public int compareScore(Store o) {
-        if(this.score==o.score)
+        if(this.score.equals(o.score))
         return 0;
         else if (this.score < o.score) {
             return -1;
@@ -28,7 +28,7 @@ public class Store {
         else return 1;
     }
     public int compareReview(Store o) {
-        if(this.review==o.review)
+        if(this.review.equals(o.review))
             return 0;
         else if (this.review < o.review) {
             return -1;
@@ -37,7 +37,7 @@ public class Store {
     }
 
     public int compareWish(Store o) {
-        if(this.wish==o.wish)
+        if(this.wish.equals(o.wish))
             return 0;
         else if (this.wish < o.wish) {
             return -1;

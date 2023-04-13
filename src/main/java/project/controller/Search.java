@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import project.AppConfig;
+import project.dto.Common;
 import project.dto.Store;
 import project.service.FindPromotion;
 import project.service.FindStore;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 
 @Controller
@@ -33,7 +33,7 @@ public class Search {
 
         model.addAttribute("promotionList", findPromotion(district));
 
-//        model.addAttribute("area", area);
+        model.addAttribute("area", ac.getBean(Common.class).areas);
 
 
         if(sort.isEmpty()){
@@ -57,11 +57,11 @@ public class Search {
     ArrayList<Store> sortStore(String district, String category, String sort){
         ArrayList<Store> store = findAllStore(district, category);
         if(sort.equals("score")){
-            Collections.sort(store, Store::compareScore);
+            store.sort(Store::compareScore);
         } else if (sort.equals("review")) {
-            Collections.sort(store, Store::compareReview);
+            store.sort(Store::compareReview);
         } else if (sort.equals("wish")) {
-            Collections.sort(store, Store::compareWish);
+            store.sort(Store::compareWish);
         }
         return store;
     }

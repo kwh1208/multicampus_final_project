@@ -4,7 +4,7 @@
 <mapper namespace="project.Mapper.StoreMapper">
 
     <select id="findAll" resultType="project.dto.Store">
-        select store_name, location, tel_number, owner_comment, open_time, close_time, how_to_come, parking, wifi, animal, group_customer, playroom, disabled, picture_location
+        select *
         from store
         <where>
             <if test="district != null and district !=''">
@@ -16,7 +16,9 @@
         </where>
     </select>
     <select id="findStore" resultType="project.dto.Store">
-
+        select *
+        from store
+        where seq = #{seq}
     </select>
 
 </mapper>

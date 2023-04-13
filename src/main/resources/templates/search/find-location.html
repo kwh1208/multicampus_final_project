@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>먹스케줄</title>
@@ -8,20 +8,21 @@
 <span>logo</span>
 <div>nav-bar</div>
 <div>
-<!--    <a th:if="${session.User.username == null} " href="login">로그인</a>-->
-<!--    <a th:if="${session.User.username == null} " href="join">회원가입</a>-->
-<!--    <a th:if="${session.User.username != null} " href="logout">로그아웃</a>-->
-<!--    <a th:if="${session.User.username != null} " href="logout">마이페이지</a>-->
-<!--    <a th:if="${session.User.username != null} " href="logout">먹풍</a>-->
-<!--    <a th:if="${session.User.username != null} " href="logout">쿠폰</a>-->
+<!--    <a th:if="${session.User.user_name == null} " href="login">로그인</a>-->
+<!--    <a th:if="${session.User.user_name == null} " href="join">회원가입</a>-->
+<!--    <a th:if="${session.User.user_name != null} " href="logout">로그아웃</a>-->
+<!--    <a th:if="${session.User.user_name != null} " href="logout">마이페이지</a>-->
+<!--    <a th:if="${session.User.user_name != null} " href="logout">먹풍</a>-->
+<!--    <a th:if="${session.User.user_name != null} " href="logout">쿠폰</a>-->
 </div>
 <form action="./search" method="get">
+    <th:block th:each="area:${area}">
     <select name="district">
-        <option th:value="${district}">[[${district}}]]</option>
-        <option th:each="val:${area}" th:value="${val.district}">[[${val.district}]]</option>
+        <option th:value="${area.district}" th:selected="${area.district}==${district}">[[${val.district}]]</option>
     </select>
+    </th:block>
 <select name="category">
-    <option th:value="standard">--선택--</option>
+    <option th:value="">--선택--</option>
     <option th:each="val:${category}" th:value="${category.style}">[[${category.style}]]</option>
 </select>
     <button type="submit">수정 버튼</button>

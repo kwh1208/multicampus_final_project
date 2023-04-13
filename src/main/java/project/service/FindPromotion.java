@@ -25,6 +25,6 @@ public class FindPromotion {
 
         PromotionMapper promotionMapper = ac.getBean(PromotionMapper.class);
 
-        return promotionMapper.findAll(district);
+        return promotionMapper.findAll(district, today);
     }
 }

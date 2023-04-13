@@ -4,9 +4,10 @@
 <mapper namespace="project.Mapper.PromotionMapper">
 
     <select id="findAll" resultType="project.dto.Store">
-        select store_seq
-        from promotion_list
-        where district = #{district} and list_date = #{today}
+        select * from store
+        where seq =(select store_seq
+                          from promotion_list
+                          where district = #{district} and list_date = #{today})
     </select>
 
 </mapper>

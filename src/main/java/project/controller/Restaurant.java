@@ -17,6 +17,8 @@ import project.service.UpdateReservation;
 public class Restaurant {
     ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
     FindStore findStore = ac.getBean(FindStore.class);
+
+
     UpdateReservation updateReservation  = ac.getBean(UpdateReservation.class);
     @GetMapping("/{seq}")
     public String showRestaurant(@PathVariable int seq,
@@ -34,8 +36,8 @@ public class Restaurant {
                                  @SessionAttribute("user") User user,
                                  @RequestParam("reservation") Reservation reservation,
                                  Model model){
-        if(user.getUsername().isEmpty()){
-            return "/login";//로그인페이지 url
+        if(user.getUser_name().isEmpty()){
+            return "WEB-INF/views/register/loginForm";//로그인페이지 url
         }
         //인원수, user, 기타등등 받아서 update 하고 마이페이지로 넘어감.
         model.addAttribute("reservation", reservation);
@@ -44,6 +46,6 @@ public class Restaurant {
 
         //사장님한테 알림보내기
 
-        return "redirect:/store/{seq}";
+        return "redirect:/store/"+seq;
     }
 }

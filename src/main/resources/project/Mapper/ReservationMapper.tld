@@ -5,13 +5,13 @@
 
 
     <insert id="insertReservation">
-        insert into reservation ()
-        values ()
+        insert into reservation (store_seq, user_id, number_of_people, coupon, reservation_time, reservation_status, reservation_comment)
+        values (#{store_seq}, #{user_id}, #{number_of_people}, #{coupon}, #{reservation_time}, #{reservation_status}, #{reservation_comment})
     </insert>
     <update id="updateReservation">
-        update Store set
+        update store set
             reservation = reservation + 1
-            where store_seq=#{store_seq}
+            where seq=#{store_seq}
     </update>
 
 </mapper>
