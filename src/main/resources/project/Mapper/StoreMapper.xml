@@ -6,7 +6,17 @@
     <select id="findAll" resultType="project.dto.Store">
         select store_name, location, tel_number, owner_comment, open_time, close_time, how_to_come, parking, wifi, animal, group_customer, playroom, disabled, picture_location
         from store
-        where district = #{district}
+        <where>
+            <if test="district != null and district !=''">
+                and district = #{distritc}
+            </if>
+            <if test="category != null and category !=''">
+                and category = #{category}
+            </if>
+        </where>
+    </select>
+    <select id="findStore" resultType="project.dto.Store">
+
     </select>
 
 </mapper>

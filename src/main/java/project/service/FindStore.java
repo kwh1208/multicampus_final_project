@@ -11,11 +11,14 @@ import java.util.ArrayList;
 @Service
 public class FindStore {
     ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+    StoreMapper StoreMapper = ac.getBean(StoreMapper.class);
 
-    public ArrayList<Store> findStore(String district){
+    public ArrayList<Store> findAllStore(String district, String category){
 
-        StoreMapper StoreMapper = ac.getBean(StoreMapper.class);
+        return StoreMapper.findAll(district, category);
+    }
 
-        return StoreMapper.findAll(district);
+    public Store findStoreBySeq(int seq){
+        return StoreMapper.findStore(seq);
     }
 }
