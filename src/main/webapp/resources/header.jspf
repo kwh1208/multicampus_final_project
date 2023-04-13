@@ -16,7 +16,7 @@
 		</div>
 		
 		<ul class="nav_middle">
-			<li><a href="">이벤트</a></li>
+			<li><a href="/shopAndEvent/shopAndEventMain">상점 및 이벤트</a></li>
 			<li class="dropdown"><a href="">게시판</a>
 				<ul class="submenu">
 					<li><a href="">FAQ</a></li>
@@ -30,8 +30,13 @@
 				<li><a href="/register/loginForm">로그인</a></li>
 				<li><a href="/register/joinForm">회원가입</a></li>
 			</c:if>
-			<c:if test="${logStatus=='Y' }">
+			<c:if test="${logStatus=='Y'  && isOwner==1 }">
 				<li><a href="/register/logout">로그아웃</a></li>
+				<li><a href="/register/ownerMyPage">마이페이지</a></li>
+			</c:if>
+			<c:if test="${logStatus=='Y'  && isOwner==0 }">
+				<li><a href="/register/logout">로그아웃</a></li>
+				<li><a href="/register/userMyPage">마이페이지</a></li>
 			</c:if>
 		</ul>
 	</nav>
