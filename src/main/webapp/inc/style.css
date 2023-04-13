@@ -1,0 +1,59 @@
+@charset "UTF-8";
+
+
+.top_menu ul{
+	margin:0;
+	padding:0;
+	list-style:none;
+	background-color: #FF9139;
+}
+.top_menu li{
+	background-color: #FF9139;
+	padding:50px;
+	display:inline-block;
+	width:150px;
+	color:#fff;
+}
+.sidebar {
+  position: fixed;
+  top: 150px;
+  left: 0px;
+  bottom: 0;
+  width: 20%;
+  float:left;
+  background-color: #fff;
+
+}
+.menu {
+  display: flex;
+  flex-direction: column;
+  width: 200px; /* 메뉴 전체 너비 조절 */
+}
+
+.menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu li {
+  display: block; /* li 태그를 블록으로 표시 */
+}
+
+.menu a {
+  display: block; /* a 태그를 블록으로 표시 */
+  padding: 20px; /* 메뉴 간격 조절 */
+  text-decoration: none;
+  color: #333; /* 링크 색상 지정 */
+}
+/* 마우스 오버시 메뉴 배경색 변경 */
+.menu a:hover {
+  background-color: #FFFFFF;
+  color:#FFA964;
+}
+
+.content{
+	top:200px;
+	width:70%;
+	float:right;
+}
