@@ -16,7 +16,7 @@
  		select count(phone_number) cnt from user where phone_number=#{param1}
  	</select>
  	<insert id="registerInsert">
- 		insert into user(user_id, user_password, user_name, nickname, email, address, gender, is_owner, phone_number)
- 		values(#{user_id}, #{user_password}, #{user_name}, #{nickname}, #{email}, #{address}, ${gender}, ${is_owner}, #{phone_number})
+ 		insert into user(user_id, user_password, user_name, nickname, email, address, gender, is_owner, phone_number, last_month_balloon, balloon, grade, join_date)
+ 		values(#{user_id}, #{user_password}, #{user_name}, #{nickname}, #{email}, #{address}, ${gender}, ${is_owner}, #{phone_number}, 15, 15, "브론즈", NOW())
  	</insert>
 </mapper>

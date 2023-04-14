@@ -136,23 +136,33 @@
 	          var phone_val = $('#phone_number').val().replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
 	          var address_val = $('#address').val();
 
-	          
+	          /*
 	          if( !(reg_id.test(id_val)) || !(reg_pass.test(pass_val)) || !(pass_val == pass_chk_val) || !(reg_name.test(name_val)) || !(reg_nickname.test(nickname_val)) || 
 	        		!(reg_email.test(email_val)) || !(reg_phone.test(phone_val)) || !(reg_addr.test(address_val))){
 					alert('입력이 안되었거나 잘못 입력된 값이 있어요.');
-					return false;
+					console.log(reg_phone.test(id_val));
+					console.log(reg_phone.test(pass_val));
+					console.log(reg_phone.test(name_val));
+					console.log(reg_phone.test(nickname_val));
+					console.log(reg_phone.test(email_val));
+					console.log(reg_phone.test(phone_val));
+					console.log(reg_phone.test(address_val));
+
 	          }else if($("#idStatus").val()=="N"){
 	        	  alert("아이디 중복검사를 하세요");
-				  return false;
+
 	          }else if($("#nicknameStatus").val()=="N"){
 	        	  alert("닉네임 중복검사를 하세요");
-				  return false;
+		
 	          }else if($("#phoneStatus").val()=="N"){
 	        	  alert("전화전호 인증 버튼을 눌러주세요.");
-	        	  return false;
+	
 	          }else{
 	        	  $("#joinForm").attr("action", "joinOk");
 	          }
+	          */
+	          $("#joinForm").attr("action", "joinOk");
+	          $("#joinForm").submit();
 	       }
 	    
 	    // 아이디 중복검사
@@ -238,13 +248,14 @@
 			</li>
 			
 			<li>
-				<input type="text" id="phone_number" name="phone_number" class="" placeholder="전화번호( - 없이 입력)" onkeyup="keyevent(this)" autocomplete='off'/>
+				<input type="text" id="phone_number" name="phone_number" class="" placeholder="휴대폰번호( - 없이 입력)" onkeyup="keyevent(this)" autocomplete='off'/>
 				<input type="button" value="인증" onclick="phone_chk()"/>
 				<input type="hidden" id="phoneStatus" value="N"/>
 				<div class="login_param_check" id="login_pass_param_check">
                 	<span id="login_param_check_txt_phone" class="login_param_check_txt" ></span>
                 </div>
 			</li>
+			
 		</ul>
 	</form>
 

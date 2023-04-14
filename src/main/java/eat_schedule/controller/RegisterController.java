@@ -111,9 +111,9 @@ public class RegisterController {
 	
 	// 회원가입
 	@RequestMapping(value="/joinOk", method=RequestMethod.POST)
-	public ModelAndView joinOk(RegisterDTO dto) {
+	public ModelAndView joinOk(RegisterDTO dto, HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
-		
+
 		int result = service.registerInsert(dto);
 		
 		if(result>0) {// 성공
