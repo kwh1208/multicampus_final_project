@@ -13,7 +13,7 @@ public class ReservationServiceImpl implements ReservationService {
 	ReservationDAO dao;
 	
 	@Override
-	public ReservationDTO reservationInfo(String user_id) {
-		return dao.reservationInfo(user_id);
+	public ReservationDTO ReservationSelect(String user_id) {
+		return dao.ReservationSelect(user_id);
 	}
 }

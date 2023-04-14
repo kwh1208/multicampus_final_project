@@ -7,22 +7,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import eat_schedule.dto.ReservationDTO;
-import eat_schedule.service.ReservationService;
+import eat_schedule.dto.ReviewDTO;
+import eat_schedule.service.ReviewService;
 
 @Controller
-public class ReservationController {
+public class ReviewController {
 	@Autowired
-	ReservationService service;
+	ReviewService service;
 	
-	@GetMapping("user/myReservation")
-	public ModelAndView reservationInfo(HttpSession session) { 
+	@GetMapping("user/myReview")
+	public ModelAndView myReview(HttpSession session) { 
 		ModelAndView mav = new ModelAndView();
 		
-		ReservationDTO dto = service.ReservationSelect((String)session.getAttribute("logId"));
+		ReviewDTO dto = service.ReviewSelect((String)session.getAttribute("logId"));
 		mav.addObject("dto", dto);
-		mav.setViewName("user/myReservation");	
+		mav.setViewName("user/myReview");	
 		return mav;
-
 	}
 }

@@ -16,6 +16,4 @@ public class ReservationDTO {
 	private String reservation_status;
 	private String reservation_comment;
 	
-
-	
 }

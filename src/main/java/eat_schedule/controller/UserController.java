@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import eat_schedule.dto.UserDTO;
 import eat_schedule.service.UserService;
@@ -30,7 +31,7 @@ public class UserController {
 	}
 	
 	@PostMapping("user/joinEditOk")
-	public ModelAndView joinEditOk(UserDTO dto, HttpSession session) {
+	public ModelAndView joinEditOk(@RequestParam("UserDTO") UserDTO dto, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		dto.setUser_id((String)session.getAttribute("logId"));
 		
