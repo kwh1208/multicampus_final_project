@@ -112,17 +112,14 @@
 	      $('#phone_number').keyup(function(){
 	         var txt_val = $('#phone_number').val().replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
 	         var txt_sub = txt_val.substr(0,3);
+	         $("#phoneStatus").val("N");
 	         
 	         if(!reg_phone.test(txt_val) || txt_sub !='010'){
 	            phone_element.style.color="red";
-	            login_otp_element.style.background="gray";
-	            $('.otp_request').attr("disabled" , true);
 	            phone_element.innerHTML='010부터 하이폰 (-) 없이 입력 해야해요 !';
 	         }else{
 	            phone_element.style.color="blue";
-	            login_otp_element.style.background="red";
-	            $('.otp_request').attr("disabled" , false);
-	            phone_element.innerHTML=  txt_val + ' > 인증번호를 요청해주세요   ';
+	            phone_element.innerHTML=  '인증버튼을 눌러주세요   ';
 	         }
 	      });
 	}
@@ -138,10 +135,10 @@
 	          var email_val = $('#email').val();
 	          var phone_val = $('#phone_number').val().replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
 	          var address_val = $('#address').val();
-	          var otp_val = $('#otp').val();
+
 	          
 	          if( !(reg_id.test(id_val)) || !(reg_pass.test(pass_val)) || !(pass_val == pass_chk_val) || !(reg_name.test(name_val)) || !(reg_nickname.test(nickname_val)) || 
-	        		!(reg_email.test(email_val)) || !(reg_phone.test(phone_val)) || !(reg_addr.test(address_val)) || (otp_val == "") ||  (otp_val == null)){
+	        		!(reg_email.test(email_val)) || !(reg_phone.test(phone_val)) || !(reg_addr.test(address_val))){
 					alert('입력이 안되었거나 잘못 입력된 값이 있어요.');
 					return false;
 	          }else if($("#idStatus").val()=="N"){
@@ -150,6 +147,9 @@
 	          }else if($("#nicknameStatus").val()=="N"){
 	        	  alert("닉네임 중복검사를 하세요");
 				  return false;
+	          }else if($("#phoneStatus").val()=="N"){
+	        	  alert("전화전호 인증 버튼을 눌러주세요.");
+	        	  return false;
 	          }else{
 	        	  $("#joinForm").attr("action", "joinOk");
 	          }
@@ -166,91 +166,19 @@
 		// 닉네임 중복검사
 		function nickname_double_chk(){
 			if($("#nickname").val()!=""){
-				window.open("nicknameCheck?nickname="+$("#nickname").val(), "chk", "width=400, height=300");
+				window.open("/register/nicknameCheck?nickname="+$("#nickname").val(), "chk", "width=400, height=300");
 			}else{
 				alert("닉네임을 입력 후 중복검사하세요.");
 			}
 		}
-		
-	// 전화번호 인증
-	function create_otp(){
-      var txt_val = $('#phone_number').val().replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
-      const otp_element = document.getElementById('#otp');
-      const phone_element = document.getElementById('login_param_check_txt_phone');
-      const otp_request_element = document.getElementById('otp_request');
-      
-      phone_element.innerHTML=  txt_val + '(으)로 인증번호를 요청했어요.';
-      otp_request_element.style.background="gray";
-      $('#otp').css('display','block');
-      $('#create_timer').css("display" , 'block');
-      $('.otp_request').attr("disabled" , true);
-      
-      var ctn_val = $('#phone_number').val();
-      
-      if(ctn_val > 10){
-         $.ajax({
-              type: "post",
-              url: "/sendSMS",
-              //async: false,
-              dataType : "json",
-              data: {
-                  "phone_number" : ctn_val, 
-              },
-              success: function(data){
-                    var otp_num = data.otp_num;
-                    
-                    $('#otp').keyup(function(){
-                       
-                    var otp_txt = $('#otp').val();
-                    
-                    // 인증 후 keyup 이벤트 막기 위함.
-                    if(otp_flag){
-                       return false;
-                    }
-                    
-                    if(otp_num == otp_txt){
-                       alert('인증에 성공했어요!');
-                       otp_flag = true;
-                       $('#otp').attr("readonly" , true);
-                       $('.new_face_btn').css('display','inline-block');
-                       $('#create_timer').css("display" , 'none');
-                    }else if(otp_num != otp_txt && otp_txt.length > 5){
-                       alert('인증번호가 일치하지 않아요');
-                    }
-                 });
-            },beforeSend:function(){
-                 $(':input').attr("readonly" , true);
-            },complete:function(){
-                 $(':input').attr("readonly" , false);
-            }
-         });
-      }else{
-         alert('휴대폰 번호를 확인해주세요!');
-      }
-      
-      var time = 180;
-      var min = "";
-      var sec = "";
-      
-      var timer = setInterval(function(){
-         min = parseInt(time/60);
-         sec = time%60;
-         
-         document.getElementById('create_timer').innerHTML = min + "분 " + sec + "초";
-         time --;
-         
-         if( time < 0 ){
-            clearInterval(timer);
-            alert('인증 시간이 초과되었어요');
-            phone_element.innerHTML=  txt_val + '  --  인증번호를 요청해주세요   ';
-            $('.new_face_btn').css('display','none');
-            $('#otp').css('display','none');
-            $('#create_timer').css("display" , 'none');
-            $('.otp_request').attr("disabled" , false);
-            otp_request_element.style.background="red";
-         }
-      }, 1000);
-   }
+		// 전화번호 DB에 이미 등록되어있는지 확인
+		function phone_chk(){
+			if($("#phone_number").val()!=""){
+				window.open("/register/phoneCheck?phone_number="+$("#phone_number").val(), "chk", "width=400, height=300");
+			}else{
+				alert("전화번호를 입력 후 인증버튼을 눌러주세요.");
+			}
+		}
 	
 </script>
 <div class="all">
@@ -311,31 +239,15 @@
 			
 			<li>
 				<input type="text" id="phone_number" name="phone_number" class="" placeholder="전화번호( - 없이 입력)" onkeyup="keyevent(this)" autocomplete='off'/>
+				<input type="button" value="인증" onclick="phone_chk()"/>
+				<input type="hidden" id="phoneStatus" value="N"/>
 				<div class="login_param_check" id="login_pass_param_check">
                 	<span id="login_param_check_txt_phone" class="login_param_check_txt" ></span>
                 </div>
-				<input type="button" id="otp_request" class="otp_request" value="인증번호요청" autocomplete='off' onclick="create_otp()"/>
-				<div class="login_param_check" id="login_pass_param_check">
-                	<span id="login_param_check_txt_value" class="login_param_check_txt" ></span>
-                </div>
 			</li>
 		</ul>
 	</form>
-	
-	<form method="post" id="frm_otp" name="frm_otp" action="/sendSMS">
-		<ul>
-			<li>
-				 <input type="hidden" name="phone_number" value=''/>
-				 <div class="login_param_check" id="login_pass_param_check">
-				 <input type="text" id="otp" name="otp" class="otp" placeholder="인증번호 입력" onkeyup="otpCheck(this)" autocomplete='off'/>
-				 </div>
-			</li>
-		</ul>
-	</form>
-	
-	<div class="timer" id="timer">
-    	<div id="create_timer" class="timer"></div>
-    </div>
+
     
 		<input type="submit" id="new_face" class="new_face_btn" value="회원가입" onclick="new_face_event()"/> 
 		

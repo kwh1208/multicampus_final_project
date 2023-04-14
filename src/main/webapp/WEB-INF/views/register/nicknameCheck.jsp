@@ -7,7 +7,7 @@
 </style>
 <script>
 	function setNickname(nickname){
-		opener.document.getElementById("nicknmae").value = nickname;
+		opener.document.getElementById("nickname").value = nickname;
 		opener.document.getElementById("nicknameStatus").value = "Y";
 
 		window.close(); 

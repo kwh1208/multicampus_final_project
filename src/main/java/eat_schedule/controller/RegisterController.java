@@ -1,6 +1,7 @@
 package eat_schedule.controller;
 
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -12,17 +13,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import eat_schedule.dto.RegisterDTO;
 import eat_schedule.service.RegisterService;
+
 
 @Controller
 @RequestMapping("/register")
 public class RegisterController {
 	@Autowired
 	RegisterService service;
+	
 	
 	// 로그인
 	@GetMapping("loginForm")
@@ -94,6 +96,17 @@ public class RegisterController {
 		model.addAttribute("result", result);
 		
 		return "register/nicknameCheck";
+	}
+	// 전화번호 중복검사
+	@GetMapping("phoneCheck")
+	public String phoneCheck(String phone_number, Model model) {
+
+		int result = service.phoneCheckCount(phone_number);
+
+		model.addAttribute("phone_number", phone_number);
+		model.addAttribute("result", result);
+		
+		return "register/phoneCheck";
 	}
 	
 	// 회원가입

@@ -12,6 +12,9 @@
  	<select id="nicknameCheckCount" resultType="int">
  		select count(nickname) cnt from user where nickname=#{param1}
  	</select>
+ 	 <select id="phoneCheckCount" resultType="int">
+ 		select count(phone_number) cnt from user where phone_number=#{param1}
+ 	</select>
  	<insert id="registerInsert">
  		insert into user(user_id, user_password, user_name, nickname, email, address, gender, is_owner, phone_number)
  		values(#{user_id}, #{user_password}, #{user_name}, #{nickname}, #{email}, #{address}, ${gender}, ${is_owner}, #{phone_number})

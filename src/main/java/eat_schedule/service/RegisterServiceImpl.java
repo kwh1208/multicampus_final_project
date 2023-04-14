@@ -1,11 +1,14 @@
 package eat_schedule.service;
 
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import eat_schedule.dao.RegisterDAO;
 import eat_schedule.dto.RegisterDTO;
+
 
 
 @Service
@@ -33,6 +36,12 @@ public class RegisterServiceImpl implements RegisterService {
 	public int registerInsert(RegisterDTO dto) {
 		return dao.registerInsert(dto);
 	}
+
+	@Override
+	public int phoneCheckCount(String phone_number) {
+		return dao.phoneCheckCount(phone_number);
+	}
+	
 
 
 }
