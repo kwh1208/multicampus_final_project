@@ -14,9 +14,9 @@ import java.util.ArrayList;
 
 @Service
 public class FindPromotion {
-    ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
 
     public ArrayList<Store> findPromotionList(String district){
+        ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
         LocalDate now = LocalDate.now();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");

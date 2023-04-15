@@ -17,11 +17,13 @@ import project.service.FindStore;
 
 import java.util.ArrayList;
 
+import static project.dto.Common.area;
+
 
 @Controller
 @RequestMapping
 public class Search {
-    ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+
     @GetMapping("search")
     public String searchDistrict(@RequestParam("district") String district,
                                  @RequestParam("category") String category,
@@ -33,7 +35,8 @@ public class Search {
 
         model.addAttribute("promotionList", findPromotion(district));
 
-        model.addAttribute("area", ac.getBean(Common.class).areas);
+        model.addAttribute("area", area);
+        model.addAttribute("AllCategory", Common.category);
 
 
         if(sort.isEmpty()){
@@ -48,9 +51,11 @@ public class Search {
         return "search/find-location";
     }
     ArrayList<Store> findPromotion(String district){
+        ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
         return ac.getBean(FindPromotion.class).findPromotionList(district);
     }
     ArrayList<Store> findAllStore(String district, String category){
+        ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
         return ac.getBean(FindStore.class).findAllStore(district, category);
     }
 

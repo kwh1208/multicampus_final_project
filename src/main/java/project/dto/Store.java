@@ -18,6 +18,8 @@ public class Store {
 
     Integer wish;
 
+    String store_name;
+
 
     public int compareScore(Store o) {
         if(this.score.equals(o.score))

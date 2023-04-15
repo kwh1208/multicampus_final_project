@@ -10,9 +10,10 @@ import project.dto.Reservation;
 
 @Service
 public class UpdateReservation {
-    ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
-    ReservationMapper reservationMapper = ac.getBean(ReservationMapper.class);
+
     public void updateReservation(Reservation reservation){
+        ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+        ReservationMapper reservationMapper = ac.getBean(ReservationMapper.class);
         reservationMapper.insertReservation(reservation);
         reservationMapper.updateReservation(reservation);
         //트랜잭션 커밋

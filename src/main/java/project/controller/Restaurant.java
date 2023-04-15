@@ -15,14 +15,12 @@ import project.service.UpdateReservation;
 @RequestMapping("/store")
 @Controller
 public class Restaurant {
-    ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
-    FindStore findStore = ac.getBean(FindStore.class);
 
-
-    UpdateReservation updateReservation  = ac.getBean(UpdateReservation.class);
     @GetMapping("/{seq}")
     public String showRestaurant(@PathVariable int seq,
                                  Model model){
+        ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+        FindStore findStore = ac.getBean(FindStore.class);
         Store store = findStore.findStoreBySeq(seq);
 
         model.addAttribute("store", store);
@@ -36,6 +34,8 @@ public class Restaurant {
                                  @SessionAttribute("user") User user,
                                  @RequestParam("reservation") Reservation reservation,
                                  Model model){
+        ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+        UpdateReservation updateReservation  = ac.getBean(UpdateReservation.class);
         if(user.getUser_name().isEmpty()){
             return "WEB-INF/views/register/loginForm";//로그인페이지 url
         }
