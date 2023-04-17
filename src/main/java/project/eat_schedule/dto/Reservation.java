@@ -1,4 +1,4 @@
-package project.dto;
+package project.eat_schedule.dto;
 
 import lombok.Getter;
 import lombok.Setter;

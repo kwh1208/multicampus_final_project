@@ -1,16 +1,20 @@
-package project.controller;
+package project.eat_schedule.controller;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import project.AppConfig;
-import project.dto.Reservation;
-import project.dto.Store;
-import project.dto.User;
-import project.service.FindStore;
-import project.service.UpdateReservation;
+import project.eat_schedule.AppConfig;
+import project.eat_schedule.Mapper.MenuMapper;
+import project.eat_schedule.dto.Menu;
+import project.eat_schedule.dto.Reservation;
+import project.eat_schedule.dto.Store;
+import project.eat_schedule.dto.User;
+import project.eat_schedule.service.FindStore;
+import project.eat_schedule.service.UpdateReservation;
+
+import java.util.List;
 
 @RequestMapping("/store")
 @Controller
@@ -22,8 +26,11 @@ public class Restaurant {
         ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
         FindStore findStore = ac.getBean(FindStore.class);
         Store store = findStore.findStoreBySeq(seq);
+        List<Menu> menu = ac.getBean(MenuMapper.class).findMenu(seq);
+        model.addAttribute("menu", menu);
 
         model.addAttribute("store", store);
+
 
         return "/search/store";
     }
@@ -43,8 +50,6 @@ public class Restaurant {
         model.addAttribute("reservation", reservation);
 
         updateReservation.updateReservation(reservation);
-
-        //사장님한테 알림보내기
 
         return "redirect:/store/"+seq;
     }

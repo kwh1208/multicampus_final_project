@@ -1,4 +1,4 @@
-package project.dto;
+package project.eat_schedule.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,9 +17,7 @@ public class User {
     private String address;
     private int gender;
     private String email;
-    private int last_month_balloon;
-    private int now_balloon;
-    private String grade;
+    private int balloon;
     private String join_date;
 
 }

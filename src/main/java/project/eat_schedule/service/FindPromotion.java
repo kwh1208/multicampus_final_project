@@ -1,11 +1,11 @@
-package project.service;
+package project.eat_schedule.service;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
-import project.AppConfig;
-import project.Mapper.PromotionMapper;
-import project.dto.Store;
+import project.eat_schedule.AppConfig;
+import project.eat_schedule.Mapper.PromotionMapper;
+import project.eat_schedule.dto.Store;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

@@ -1,6 +1,6 @@
-package project.Mapper;
+package project.eat_schedule.Mapper;
 
-import project.dto.Store;
+import project.eat_schedule.dto.Store;
 
 import java.util.ArrayList;
 

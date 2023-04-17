@@ -1,4 +1,4 @@
-package project.service;
+package project.eat_schedule.service;
 
 import org.springframework.stereotype.Service;
 

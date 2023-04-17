@@ -1,6 +1,6 @@
-package project.Mapper;
+package project.eat_schedule.Mapper;
 
-import project.dto.Reservation;
+import project.eat_schedule.dto.Reservation;
 
 
 public interface ReservationMapper {

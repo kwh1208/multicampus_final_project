@@ -1,4 +1,4 @@
-package project.controller;
+package project.eat_schedule.controller;
 
 
 
@@ -9,15 +9,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import project.AppConfig;
-import project.dto.Common;
-import project.dto.Store;
-import project.service.FindPromotion;
-import project.service.FindStore;
+import project.eat_schedule.AppConfig;
+import project.eat_schedule.dto.Common;
+import project.eat_schedule.dto.Store;
+import project.eat_schedule.service.FindPromotion;
+import project.eat_schedule.service.FindStore;
 
 import java.util.ArrayList;
 
-import static project.dto.Common.area;
+import static project.eat_schedule.dto.Common.area;
 
 
 @Controller

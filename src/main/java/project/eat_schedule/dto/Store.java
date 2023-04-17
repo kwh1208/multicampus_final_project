@@ -1,4 +1,4 @@
-package project.dto;
+package project.eat_schedule.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +19,8 @@ public class Store {
     Integer wish;
 
     String store_name;
+
+    String tel_number;
 
 
     public int compareScore(Store o) {

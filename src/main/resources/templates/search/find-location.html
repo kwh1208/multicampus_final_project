@@ -2,18 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>먹스케줄</title>
+    <link rel="stylesheet" href="/css/slide.css"/>
+    <title th:text="district"></title>
 </head>
 <body>
 <span>logo</span>
 <div>nav-bar</div>
 <div>
-<!--    <a th:if="${session.logStatus == null} " href="login">로그인</a>-->
-<!--    <a th:if="${session.logStatus == null} " href="join">회원가입</a>-->
-<!--    <a th:if="${session.logStatus != null} " href="logout">로그아웃</a>-->
-<!--    <a th:if="${session.logStatus != null} " href="logout">마이페이지</a>-->
-<!--    <a th:if="${session.logStatus != null} " href="logout">먹풍</a>-->
-<!--    <a th:if="${session.logStatus != null} " href="logout">쿠폰</a>-->
+    <a th:if="${session.logStatus == null} " href="login">로그인</a>
+    <a th:if="${session.logStatus == null} " href="join">회원가입</a>
+    <a th:if="${session.logStatus != null} " href="logout">로그아웃</a>
+    <a th:if="${session.logStatus != null} " href="logout">마이페이지</a>
+    <a th:if="${session.logStatus != null} " href="logout">먹풍</a>
+    <a th:if="${session.logStatus != null} " href="logout">쿠폰</a>
 </div>
 <form action="./search" method="get">
     <th:block th:each="area:${area}">
@@ -27,6 +28,22 @@
 </select>
     <button type="submit">수정 버튼</button>
 </form>
+<div class="slide slide_wrap">
+    <div class="slide_item item1" th:each="List:${promotionList}">
+        <img th:src="@{/picture/store/} + ${List.picture_location}">
+        <table>
+                <tr th:text="${List.store_name}"></tr>
+                <tr th:text="${List.tel_number}"></tr>
+                <tr th:text="${List.category}"></tr>
+                <tr th:text="${List.review}"></tr>
+                <tr th:text="${List.score}"></tr>
+        </table>
+    </div>
+    <div class="slide_prev_button slide_button">◀</div>
+    <div class="slide_next_button slide_button">▶</div>
+    <ul class="slide_pagination"></ul>
+</div>
+<script th:inline="javascript" th:src="@{/js/slide.js}"></script>
 <form action="" method="get">
     <button class="sort_btn" value="score">평점순</button>
     <button class="sort_btn" value="review">리뷰많은순</button>
@@ -34,10 +51,10 @@
 </form>
 <div th:each="store:${storeList}" th:if="${store.category}==${category}">
     <a th:href="@{/restaurant/{seq}(seq=${store.seq})}">
-<!--    <img src=""> 대표사진-->
+    <img th:src="@{/picture/store/{seq}.jpg(seq=${store.seq})}">
     <h3 th:text="${store.store_name}">가게이름</h3>
+    <img src="/picture/star.jpg" alt="별 사진">
     <p th:text="${store.score}">평점</p>
-<!--    <img src="" alt=""> 평점-->
     </a>
 </div>
 </body>
