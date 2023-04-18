@@ -3,6 +3,7 @@ package eat_schedule.mapper;
 import org.apache.ibatis.annotations.Mapper;
 
 import eat_schedule.dto.StoreDTO;
+import eat_schedule.dto.RegisterDTO;
 
 @Mapper
 public interface OwnerDAO {
@@ -14,4 +15,8 @@ public interface OwnerDAO {
 	public StoreDTO storeInfoEdit(String ownerId);
 	//가게정보수정
 	public int storeInfoEditOk(StoreDTO store);
+	//회원정보수정시 원래 데이터 불러오기
+	public RegisterDTO userInfoEdit(String ownerId);
+	//회원정보수정
+	public int userInfoEditOk(RegisterDTO user);
 }

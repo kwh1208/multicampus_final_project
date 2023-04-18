@@ -3,4 +3,24 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="eat_schedule.mapper.OwnerDAO">
+<insert id="storeRegisterOk">
+	insert into store(owner_id, store_name, location, tel_number, owner_comment, open_time, close_time, how_to_come, parking, wifi, animal, group_customer, playroom, disabled, district)
+	values(#{owner_id}, #{store_name}, #{location}, #{tel_number}, #{owner_comment}, #{open_time}, #{close_time}, #{how_to_come}, #{parking}, #{wifi}, #{animal}, #{group_customer}, #{playroom}, #{disabled}, #{district})
+</insert>
+<select id="storeInfoEdit" resultType="eat_schedule.dto.StoreDTO">
+	select seq, owner_id, store_name, location, tel_number, owner_comment, open_time, close_time, how_to_come, parking, wifi, animal, group_customer, playroom, disabled from store
+	where owner_id=#{param1}
+</select>
+<update id="storeInfoEditOk" parameterType="eat_schedule.dto.StoreDTO">
+	update store set store_name=#{store_name}, location=#{location}, tel_number=#{tel_number}, owner_comment=#{owner_comment}, open_time=#{open_time}, close_time=#{close_time}
+	, how_to_come=#{how_to_come}, parking=#{parking}, wifi=#{wifi}, animal=#{animal}, group_customer=#{group_customer}, playroom=#{playroom}, disabled=#{disabled}, district=#{district} where seq=${seq}
+</update>
+<select id="userInfoEdit" resultType="eat_schedule.dto.RegisterDTO">
+	select user_id, user_password, user_name, nickname, is_owner, phone_number, address, gender, email, balloon, join_date from user
+	where user_id=#{param1}
+</select>
+<update id="userInfoEditOk">
+	update user set user_name=#{user_name}, nickname=#{nickname}, phone_number=#{phone_number}, address=#{address}
+	, email=#{email} where user_id=#{user_id} and user_password=#{user_password}
+</update>
 </mapper>

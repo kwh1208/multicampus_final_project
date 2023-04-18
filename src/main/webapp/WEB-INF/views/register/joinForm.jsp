@@ -48,11 +48,34 @@
 	            pass_element.style.color="red";
 	            pass_element.innerHTML= "비밀번호는 최소 8 자, 최소 하나의 문자,숫자,특수문자가 포함 되어야해요 !";
 	         }else{
-	        	 pass_element.style.color="blue";
-	             pass_element.innerHTML= '비밀번호를 올바르게 입력 했어요 !';
+	            if(txt_val_chk.length > 0 && (!(txt_val == txt_val_chk))){
+	               pass_element.style.color="red";
+	               pass_element.innerHTML= "비밀번호와 재확인 비밀번호와 값이 달라요 .";
+	            }else{
+	               pass_element.style.color="blue";
+	               pass_element.innerHTML= '비밀번호를 올바르게 입력 했어요 !';
+	            }
 	         }
 	      });
 	      
+	      // 비밀번호 재확인
+	      $('#user_password_chk').keyup(function(){
+	         var txt_val = $('#user_password').val();
+	         var txt_val_chk = $('#user_password_chk').val();
+	         
+	         if(txt_val.length > 0 && (!(txt_val == txt_val_chk))){
+	            pass_chk_element.style.color="red";
+	            pass_chk_element.innerHTML= "비밀번호와 재확인 비밀번호와 값이 달라요 .";
+	         }else{
+	            if(txt_val.length > 0){
+	               pass_chk_element.style.color="blue";
+	               pass_chk_element.innerHTML= '비밀번호 재확인 되었어요 !';
+	            }else{
+	               pass_chk_element.style.color="red";
+	               pass_chk_element.innerHTML= "비밀번호를 먼저 입력해주세요 .";
+	            }
+	         }
+	      });
 	      
 	      // 이름
 	      $('#user_name').keyup(function(){
@@ -139,6 +162,14 @@
 	          $("#joinForm").submit();
 	       }
 	    
+	    // 아이디 중복검사
+	   	function id_double_chk(){
+			if($("#user_id").val()!=""){
+				window.open("/register/idCheck?user_id="+$("#user_id").val(), "chk", "width=400, height=300");
+			}else{
+				alert("아이디를 입력 후 중복검사하세요.");
+			}
+		}
 		// 닉네임 중복검사
 		function nickname_double_chk(){
 			if($("#nickname").val()!=""){
@@ -163,39 +194,60 @@
 	<form method="post" id="joinForm">
 		<ul>
 			<li>
-				<input type="text" id="user_id" name="user_id"  placeholder="아이디" value="${user.user_id }" onkeyup="keyevent(this)" autocomplete='off' readonly/>
+				<input type="text" id="user_id" name="user_id" class="" placeholder="아이디" onkeyup="keyevent(this)" autocomplete='off'/>
+				<input type="button" value="아이디중복검사" onclick="id_double_chk()"/>
+				<input type="hidden" id="idStatus" value="N"/>
 				<div class="login_param_check" id="login_pass_param_check">
                 	<span id="login_param_check_txt_id" class="login_param_check_txt" ></span>
                 </div>
 			</li>
 			<li>
-				<input type="password" id="user_password" name="user_password"  placeholder="비밀번호" onkeyup="keyevent(this)"  autocomplete='off'/>
+				<input type="password" id="user_password" name="user_password" class="" placeholder="비밀번호" onkeyup="keyevent(this)"  autocomplete='off'/>
 			    <div class="login_param_check" id="login_pass_param_check">
                 	<span id="login_param_check_txt_pass" class="login_param_check_txt" ></span>
                 </div>
 			</li>
 			<li>
-				<input type="text" id="user_name" name="user_name"  placeholder="이름" onkeyup="keyevent(this)" value="${user.user_name }" autocomplete='off'/>
+				<input type="password" id="user_password_chk" name="user_password_chk" class="" placeholder="비밀번호확인" onkeyup="keyevent(this)" autocomplete='off'/>
+				<div class="login_param_check" id="login_pass_param_check">
+                	<span id="login_param_check_txt_pass_chk" class="login_param_check_txt" ></span>
+                </div>
+			</li>
+			<li>
+				<input type="text" id="user_name" name="user_name" class="" placeholder="이름" onkeyup="keyevent(this)" autocomplete='off'/>
 			 	<div class="login_param_check" id="login_pass_param_check">
                 	<span id="login_param_check_txt_name" class="login_param_check_txt" ></span>
                 </div>
 			</li>
 			<li>
-				<input type="text" id="nickname" name="nickname"  placeholder="닉네임" onkeyup="keyevent(this)" value="${user.nickname }" readonly autocomplete='off'/>
-				<input type="button" value="닉네임변경하기" onclick="nickname_double_chk()"/>
+				<input type="text" id="nickname" name="nickname" class="" placeholder="닉네임" onkeyup="keyevent(this)" autocomplete='off'/>
+				<input type="button" value="닉네임중복검사" onclick="nickname_double_chk()"/>
+				<input type="hidden" id="nicknameStatus" value="N"/>
 			</li>
 			<li>
-				<input type="text" id="email" name="email"  placeholder="이메일" onkeyup="keyevent(this)" value="${user.email }" autocomplete='off'/>
+				<input type="text" id="email" name="email" class="" placeholder="이메일" onkeyup="keyevent(this)" autocomplete='off'/>
 			    <div class="login_param_check" id="login_pass_param_check">
                 	<span id="login_param_check_txt_email" class="login_param_check_txt" ></span>
                 </div>
 			</li>
 			<li>
-				<input type="text" id="address" name="address"  placeholder="주소" onkeyup="keyevent(this)" autocomplete='off'/>
+				<input type="text" id="address" name="address" class="" placeholder="주소" onkeyup="keyevent(this)" autocomplete='off'/>
 			</li>
+			<li>성별</li>
 			<li>
-				<input type="text" id="phone_number" name="phone_number"  placeholder="휴대폰번호( - 없이 입력)" onkeyup="keyevent(this)" value="phone_number" readonly autocomplete='off'/>
-				<input type="button" value="휴대번호변경" onclick="phone_chk()"/>
+				<input type="radio" name="gender" value="1"/>남
+				<input type="radio" name="gender" value="0"/>여
+			</li>
+			<li>계정 유형 선택</li>
+			<li>
+				<input type="radio" name="is_owner" value="1"/>사장님
+				<input type="radio" name="is_owner" value="0"/>고객
+			</li>
+			
+			<li>
+				<input type="text" id="phone_number" name="phone_number" class="" placeholder="휴대폰번호( - 없이 입력)" onkeyup="keyevent(this)" autocomplete='off'/>
+				<input type="button" value="인증" onclick="phone_chk()"/>
+				<input type="hidden" id="phoneStatus" value="N"/>
 				<div class="login_param_check" id="login_pass_param_check">
                 	<span id="login_param_check_txt_phone" class="login_param_check_txt" ></span>
                 </div>

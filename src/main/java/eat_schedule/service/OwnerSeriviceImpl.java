@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import eat_schedule.dto.StoreDTO;
+import eat_schedule.dto.RegisterDTO;
 import eat_schedule.mapper.OwnerDAO;
 
 @Service
@@ -25,5 +26,13 @@ public class OwnerSeriviceImpl implements OwnerService {
 	@Override
 	public StoreDTO storeSelect(String ownerId) {
 		return dao.storeSelect(ownerId);
+	}
+	@Override
+	public RegisterDTO userInfoEdit(String ownerId) {
+		return dao.userInfoEdit(ownerId);
+	}
+	@Override
+	public int userInfoEditOk(RegisterDTO user) {
+		return dao.userInfoEditOk(user);
 	}
 }
