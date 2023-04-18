@@ -1,5 +1,7 @@
 package eat_schedule.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +15,7 @@ public class ReservationServiceImpl implements ReservationService {
 	ReservationDAO dao;
 	
 	@Override
-	public ReservationDTO ReservationSelect(String user_id) {
+	public List<ReservationDTO> ReservationSelect(String user_id) {
 		return dao.ReservationSelect(user_id);
 	}
 }

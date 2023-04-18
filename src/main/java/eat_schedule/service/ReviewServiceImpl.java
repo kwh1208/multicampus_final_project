@@ -1,5 +1,7 @@
 package eat_schedule.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +15,13 @@ public class ReviewServiceImpl implements ReviewService {
 	ReviewDAO dao;
 	
 	@Override
-	public ReviewDTO ReviewSelect(String user_id) {
+	public List<ReviewDTO> ReviewSelect(String user_id) {
 		return dao.ReviewSelect(user_id);
+	}
+	
+	@Override
+	public int ReviewInsert(ReviewDTO dto) {
+		return dao.ReviewInsert(dto);
 	}
 
 }

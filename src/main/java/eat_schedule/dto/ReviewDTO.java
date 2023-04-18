@@ -16,5 +16,12 @@ public class ReviewDTO {
 	private String review_time;
 	private String owner_comment;
 	private String comment_time;
+	
+	private String store_name;
+
+	public void setUser_id(String attribute) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

@@ -16,4 +16,9 @@ public class ReservationDTO {
 	private String reservation_status;
 	private String reservation_comment;
 	
+	private String store_name;
+	
+	private String user_name;
+	private String phone_number;
+	
 }

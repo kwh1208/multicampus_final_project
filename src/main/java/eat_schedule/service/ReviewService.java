@@ -1,7 +1,10 @@
 package eat_schedule.service;
 
+import java.util.List;
+
 import eat_schedule.dto.ReviewDTO;
 
 public interface ReviewService {
-	public ReviewDTO ReviewSelect(String user_id);
+	public List<ReviewDTO> ReviewSelect(String user_id);
+	public int ReviewInsert(ReviewDTO dto);
 }

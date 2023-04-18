@@ -1,59 +1,87 @@
-@charset "UTF-8";
 
-
-.top_menu ul{
-	margin:0;
-	padding:0;
-	list-style:none;
-	background-color: #FF9139;
-}
-.top_menu li{
-	background-color: #FF9139;
-	padding:50px;
-	display:inline-block;
-	width:150px;
-	color:#fff;
-}
-.sidebar {
-  position: fixed;
-  top: 150px;
-  left: 0px;
-  bottom: 0;
-  width: 20%;
-  float:left;
-  background-color: #fff;
-
-}
-.menu {
-  display: flex;
-  flex-direction: column;
-  width: 200px; /* 메뉴 전체 너비 조절 */
-}
-
-.menu ul {
-  list-style: none;
+body{
   padding: 0;
   margin: 0;
 }
-
-.menu li {
-  display: block; /* li 태그를 블록으로 표시 */
+div{
+  box-sizing: border-box;
 }
 
-.menu a {
-  display: block; /* a 태그를 블록으로 표시 */
-  padding: 20px; /* 메뉴 간격 조절 */
-  text-decoration: none;
-  color: #333; /* 링크 색상 지정 */
-}
-/* 마우스 오버시 메뉴 배경색 변경 */
-.menu a:hover {
-  background-color: #FFFFFF;
-  color:#FFA964;
+/* 오렌지 텍스트 */
+.green{
+  color: #FF7100;
 }
 
-.content{
-	top:200px;
-	width:70%;
-	float:right;
+.wrap{
+  background-color: #F8F8F8;
+  max-width: 1200px;
+  margin:0 auto;
+}
+/* 오렌지배경 */
+.orangeContainer{  
+  height: 132px;
+  background-color: #FF7100;    
+  
+  display: flex;
+  align-items: flex-end;
+  padding: 16px;
+}
+
+.orangeContainer .name{
+   font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+} 
+
+.summaryContainer{
+  background-color: white;  
+  display: flex;  
+  padding: 21px 16px;  
+  height: 90px;
+  margin-bottom: 10px;
+}
+
+.summaryContainer .item{
+  flex-grow: 1
+}
+/* 녹색 숫자 */
+.summaryContainer .number{
+  font-size: 19px;
+  font-weight: bold;
+  color: #FF7100;
+}
+/* 텍스트 */
+.summaryContainer .item > div:nth-child(2){
+  font-size: 13px;
+}
+
+/*=================== 리스트 ==================*/
+.listContainer{  
+  padding: 0;
+  background-color: #ffffff;
+  margin-bottom: 10px;
+}
+.listContainer .item{  
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  color: black;
+  text-decoration: none;  
+  height: 56px;
+  box-sizing: border-box;
+}
+.listContainer .text{
+  font-size: 16px;
+  position: relative;
+}
+.listContainer .right{
+  margin-left: auto;
+}
+
+/*  */
+.listContainer .item:hover{
+/*   background-color: #f8f8f8; */
+}
+.infoContainer .item:hover{
+/*   background-color: #f8f8f8; */
 }

@@ -9,22 +9,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import eat_schedule.dto.ReservationDTO;
-import eat_schedule.service.ReservationService;
+import eat_schedule.dto.CouponDTO;
+import eat_schedule.service.CouponService;
 
 @Controller
-public class ReservationController {
+public class CouponController {
 	@Autowired
-	ReservationService service;
+	CouponService service;
 	
-	// 예약내역 확인
-	@GetMapping("user/myReservation")
-	public ModelAndView myReservation(HttpSession session) { 
+	// 쿠폰 내역 확인
+	@GetMapping("user/myCoupon")
+	public ModelAndView myCoupon(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		
-		List<ReservationDTO> list = service.ReservationSelect((String)session.getAttribute("logId"));
+		List<CouponDTO> list= service.CouponSelect((String)session.getAttribute("logId"));
 		mav.addObject("list", list);
-		mav.setViewName("user/myReservation");	
+		mav.setViewName("user/myCoupon");	
 		return mav;
 
 	}
