@@ -13,5 +13,8 @@
             reservation = reservation + 1
             where seq=#{store_seq}
     </update>
+    <select id="findAbleTime" resultType="project.eat_schedule.dto.AbleTime">
+
+    </select>
 
 </mapper>

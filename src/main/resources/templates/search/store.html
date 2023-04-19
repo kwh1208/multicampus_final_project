@@ -1,10 +1,317 @@
-<!DOCTYPE html>
-<html lang="en">
+<!--<!DOCTYPE html>-->
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="${store.store_name}"></title>
+    <style>
+        td {
+            width: 50px;
+            height: 50px;
+        }
+
+        .Calendar {
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .Calendar>thead>tr:first-child>td { font-weight: bold; }
+
+        .Calendar>thead>tr:last-child>td {
+            background-color: gray;
+            color: white;
+        }
+
+        .pastDay{ background-color: lightgray; }
+
+        .today{
+            background-color: #FFCA64;
+            cursor: pointer;
+        }
+
+        .futureDay{
+            background-color: #FFFFFF;
+            cursor: pointer;
+        }
+
+        .futureDay.choiceDay, .today.choiceDay{
+            background-color: #3E85EF;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        window.onload = function () { buildCalendar(); }    // 웹 페이지가 로드되면 buildCalendar 실행
+
+        let nowMonth = new Date();  // 현재 달을 페이지를 로드한 날의 달로 초기화
+        let today = new Date();     // 페이지를 로드한 날짜를 저장
+        today.setHours(0,0,0,0);    // 비교 편의를 위해 today의 시간을 초기화
+
+        // 달력 생성 : 해당 달에 맞춰 테이블을 만들고, 날짜를 채워 넣는다.
+        function buildCalendar() {
+
+            let firstDate = new Date(nowMonth.getFullYear(), nowMonth.getMonth(), 1);     // 이번달 1일
+            let lastDate = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1, 0);  // 이번달 마지막날
+
+            let tbody_Calendar = document.querySelector(".Calendar > tbody");
+            document.getElementById("calYear").innerText = nowMonth.getFullYear();             // 연도 숫자 갱신
+            document.getElementById("calMonth").innerText = leftPad(nowMonth.getMonth() + 1);  // 월 숫자 갱신
+
+            while (tbody_Calendar.rows.length > 0) {                        // 이전 출력결과가 남아있는 경우 초기화
+                tbody_Calendar.deleteRow(tbody_Calendar.rows.length - 1);
+            }
+
+            let nowRow = tbody_Calendar.insertRow();        // 첫번째 행 추가
+
+            for (let j = 0; j < firstDate.getDay(); j++) {  // 이번달 1일의 요일만큼
+                let nowColumn = nowRow.insertCell();        // 열 추가
+            }
+
+            for (let nowDay = firstDate; nowDay <= lastDate; nowDay.setDate(nowDay.getDate() + 1)) {   // day는 날짜를 저장하는 변수, 이번달 마지막날까지 증가시키며 반복
+
+                let nowColumn = nowRow.insertCell();        // 새 열을 추가하고
+                nowColumn.innerText = leftPad(nowDay.getDate());      // 추가한 열에 날짜 입력
+
+
+                if (nowDay.getDay() == 0) {                 // 일요일인 경우 글자색 빨강으로
+                    nowColumn.style.color = "#DC143C";
+                }
+                if (nowDay.getDay() == 6) {                 // 토요일인 경우 글자색 파랑으로 하고
+                    nowColumn.style.color = "#0000CD";
+                    nowRow = tbody_Calendar.insertRow();    // 새로운 행 추가
+                }
+
+
+                if (nowDay < today) {                       // 지난날인 경우
+                    nowColumn.className = "pastDay";
+                }
+                else if (nowDay.getFullYear() == today.getFullYear() && nowDay.getMonth() == today.getMonth() && nowDay.getDate() == today.getDate()) { // 오늘인 경우
+                    nowColumn.className = "today";
+                    nowColumn.onclick = function () { choiceDate(this); }
+                }
+                else {                                      // 미래인 경우
+                    nowColumn.className = "futureDay";
+                    nowColumn.onclick = function () { choiceDate(this); }
+                }
+            }
+        }
+
+        // 날짜 선택
+        function choiceDate(nowColumn) {
+            if (document.getElementsByClassName("choiceDay")[0]) {                              // 기존에 선택한 날짜가 있으면
+                document.getElementsByClassName("choiceDay")[0].classList.remove("choiceDay");  // 해당 날짜의 "choiceDay" class 제거
+            }
+            nowColumn.classList.add("choiceDay");// 선택된 날짜에 "choiceDay" class 추가
+            reservation()
+
+        }
+
+        // 이전달 버튼 클릭
+        function prevCalendar() {
+            nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() - 1, nowMonth.getDate());   // 현재 달을 1 감소
+            buildCalendar();    // 달력 다시 생성
+        }
+        // 다음달 버튼 클릭
+        function nextCalendar() {
+            nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1, nowMonth.getDate());   // 현재 달을 1 증가
+            buildCalendar();    // 달력 다시 생성
+        }
+
+        // input값이 한자리 숫자인 경우 앞에 '0' 붙혀주는 함수
+        function leftPad(value) {
+            if (value < 10) {
+                value = "0" + value;
+                return value;
+            }
+            return value;
+        }
+        function reservation() {
+            let selectedDay = document.getElementsByClassName("choiceDay")[0];
+            document.getElementById("selectedDay").innerHTML=selectedDay;
+        }
+
+        function onDisplay() {
+            $('#reservation_confirm').show();
+        }
+        function offDisplay() {
+            $('#reservation_confirm').hide();
+        }
+
+        function kakaoTalk(){
+
+        }
+
+        </script>
 </head>
 <body>
+<span>logo</span>
+<div>nav-bar</div>
+<div>
+    <a th:if="${session.logStatus != null} " th:href="logout" th:text="로그아웃" href="login"></a>
+    <a th:if="${session.logStatus != null} " th:href="mypage" th:text="마이페이지" href="join"></a>
+    <a th:if="${session.logStatus != null} " th:href="logout">먹풍</a>
+    <a th:if="${session.logStatus != null} " th:href="logout">쿠폰</a>
+    <a th:if="${session.logStatus == null} " th:href="logout">로그인</a>
+    <a th:if="${session.logStatus == null} " th:href="logout">회원가입</a>
+</div>
+<th:block id="store_seq" th:value="${store.seq}"></th:block>
+<div class="slide slide_wrap">
+    <div class="slide_item item1" th:each="num:${#numbers.sequence(1,${store.picture_number})}">
+        <img th:src="@{/picture/store/{seq}/${num}(seq=${store.seq})}">
+    </div>
+    <div class="slide_prev_button slide_button">◀</div>
+    <div class="slide_next_button slide_button">▶</div>
+    <ul class="slide_pagination"></ul>
+</div>
+<script th:inline="javascript" th:src="@{/js/slide.js}"></script>
+<div class="con">
+<div th:object="${store}"><!--/* 음식점정보 */-->
+    <div th:id="map"><!--/* 지도 */-->
+        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bf51c8be3f9bf6ff5d80d7217305cd1b&libraries=services"></script>
+        <script>
+            var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                mapOption = {
+                    center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                    level: 3 // 지도의 확대 레벨
+                };
 
+            // 지도를 생성합니다
+            var map = new kakao.maps.Map(mapContainer, mapOption);
+
+            // 주소-좌표 변환 객체를 생성합니다
+            var geocoder = new kakao.maps.services.Geocoder();
+
+            // 주소로 좌표를 검색합니다
+            geocoder.addressSearch('[[${store.location}]]', function(result, status) {
+
+                // 정상적으로 검색이 완료됐으면
+                if (status === kakao.maps.services.Status.OK) {
+
+                    var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                    // 결과값으로 받은 위치를 마커로 표시합니다
+                    var marker = new kakao.maps.Marker({
+                        map: map,
+                        position: coords
+                    });
+
+                    // 인포윈도우로 장소에 대한 설명을 표시합니다
+                    var infowindow = new kakao.maps.InfoWindow({
+                        content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+                    });
+                    infowindow.open(map, marker);
+
+                    // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                    map.setCenter(coords);
+                }
+                function zoomIn() {
+                    // 현재 지도의 레벨을 얻어옵니다
+                    var level = map.getLevel();
+
+                    // 지도를 1레벨 내립니다 (지도가 확대됩니다)
+                    map.setLevel(level - 1);
+
+                    // 지도 레벨을 표시합니다
+                    displayLevel();
+                }
+
+                function zoomOut() {
+                    // 현재 지도의 레벨을 얻어옵니다
+                    var level = map.getLevel();
+
+                    // 지도를 1레벨 올립니다 (지도가 축소됩니다)
+                    map.setLevel(level + 1);
+
+                    // 지도 레벨을 표시합니다
+                    displayLevel();
+                }
+            });
+        </script>
+            </div>
+    <table>
+        <tr th:field="*{store_name}" th:text="*{store_name}"></tr>
+        <tr th:field="*{location}" th:text="*{location}"></tr>
+        <tr th:field="*{category}" th:text="*{category}"></tr>
+        <tr th:name="time" th:id="time" th:value="time" th:text="|*{open_time}+' ~ '+*{close_time}|"></tr>
+        <tr th:field="*{comment}" th:text="*{comment}"></tr>
+        <tr th:field="*{tel_number}" th:text="*{tel_number}"></tr>
+        <tr th:field="*{how_to_come}" th:text="*{how_to_come}"></tr>
+        <tr th:if="${facility} != null" th:name="'편의시설'" th:id="'편의시설'" th:value="'편의시설'" th:text="${facility}"></tr>
+    </table>
+</div>
+<div><!--/* 메뉴 */-->
+    <table>
+        <th:block th:each="kind:${type}">
+        <tr th:text="${kind}"></tr>
+        <tr th:if="${menus}==${kind}" th:each="menu:${menus}">
+            <td th:field="${menu.menu_name}" th:text="${menu.menu_name}"></td>
+            <td th:field="${menu.price}" th:text="${menu.price}"></td>
+        </tr>
+        </th:block>
+    </table>
+</div>
+<div><!--/* 리뷰 */-->
+    <div>
+        <img src="별모양">
+        <p th:field="${avgScore}" th:text="${avgScore}"></p>
+    </div>
+    <div th:each="review:${reviews}">
+        <p th:field="${review.user_id}" th:text="${review.user_id}"></p>
+        <img src="별모양">
+        <p th:field="${review.score}" th:text="${review.score}"></p>
+        <p th:field="${review.review_time}" th:text="${review.review_time}"></p>
+        <p th:field="${review.review}" th:text="${review.review}"></p>
+        <img th:src="@{picture/review/{seq}(seq=${review.picture_location})}">
+        <div th:if="${review.owner_comment} != null">
+            <p th:field="${review.owner_id}" th:text="${review.owner_id}"></p>
+            <p th:field="${review.owner_comment}" th:text="${review.owner_comment}"></p>
+        </div>
+    </div>
+</div>
+</div>
+<script src="/js/quick_menu.js"></script>
+<th:block>
+<div class="reservation"><!--예약메뉴-->
+    <table class="Calendar">
+        <thead>
+        <tr>
+            <td onClick="prevCalendar();" style="cursor:pointer;">&#60;</td>
+            <td colspan="5">
+                <span id="calYear"></span>년
+                <span id="calMonth"></span>월
+            </td>
+            <td onClick="nextCalendar();" style="cursor:pointer;">&#62;</td>
+        </tr>
+        <tr>
+            <td>일</td>
+            <td>월</td>
+            <td>화</td>
+            <td>수</td>
+            <td>목</td>
+            <td>금</td>
+            <td>토</td>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <input type="text" name="날짜" id="2" value="selectedDay">
+    <input type="text" name="시간" id="1">
+    <input type="text" name="인원" id="3">
+    <input type="text" name="쿠폰" id="4">
+    <input type="text" name="남길말" id="5">
+    <button type="submit" onclick="onDisplay()">예약</button>
+</div>
+<div id="reservation_confirm" style="display: none;">
+    <form th:action="@{/restaurant/{seq}(seq=${store.seq})}" method="post">
+    <p>날짜</p>
+    <p>시간</p>
+    <p>인원</p>
+    <p>쿠폰</p>
+    <p>남길말 </p>
+        <button type="submit" onclick="kakaoTalk()">확인 먹풍(-5)</button>
+        <button onclick="offDisplay()">취소</button>
+    </form>
+</div>
+</th:block>
 </body>
 </html>

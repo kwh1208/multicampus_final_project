@@ -22,7 +22,27 @@ public class Store {
 
     String tel_number;
 
+    String location;
 
+    String comment;
+
+    String open_time;
+
+    String close_time;
+
+    String how_to_come;
+
+    boolean parking;
+
+    boolean wifi;
+
+    boolean animal;
+
+    boolean group_customer;
+
+    boolean playroom;
+
+    boolean disabled;
     public int compareScore(Store o) {
         if(this.score.equals(o.score))
         return 0;

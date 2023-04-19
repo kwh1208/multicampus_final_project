@@ -35,3 +35,6 @@ build/
 /src/main/java/eat_schedule/dto/
 /src/main/java/eat_schedule/service/
 /src/main/resources/templates/notification/
+/package.json
+/package-lock.json
+/src/main/resources/lofty-layout-371715-firebase-adminsdk-lkgbt-2072e3e238.json
