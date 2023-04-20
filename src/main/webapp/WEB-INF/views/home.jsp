@@ -54,8 +54,8 @@
 		outline:none;
 	}
 	#foodImg{
-		margin-left:150px;
-		margin-top:-100px;
+		margin-left:120px;
+		margin-top:-140px;
 	}
 </style>
 <script>
@@ -102,7 +102,7 @@
 			</p>
 		</div>
 		<div id="foodImg">
-			<img src="/img/wel.png" style="width:200px; height:400px;">
+			<img src="/img/pizza.png" style="width:400px; height:400px;">
 		</div>
 	</div>
 </div>
