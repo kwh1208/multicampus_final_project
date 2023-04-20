@@ -1,10 +1,15 @@
 package eat_schedule.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import eat_schedule.dto.StoreDTO;
+import eat_schedule.dto.CouponDTO;
 import eat_schedule.dto.RegisterDTO;
+import eat_schedule.dto.ReservationDTO;
+import eat_schedule.dto.ReviewDTO;
 import eat_schedule.mapper.OwnerDAO;
 
 @Service
@@ -16,16 +21,12 @@ public class OwnerSeriviceImpl implements OwnerService {
 		return dao.storeRegisterOk(store);
 	}
 	@Override
-	public StoreDTO storeInfoEdit(String owner_id) {
-		return dao.storeInfoEdit(owner_id);
+	public StoreDTO storeInfoEdit(Integer store_seq) {
+		return dao.storeInfoEdit(store_seq);
 	}
 	@Override
 	public int storeInfoEditOk(StoreDTO store) {
 		return dao.storeInfoEditOk(store);
-	}
-	@Override
-	public StoreDTO storeSelect(String ownerId) {
-		return dao.storeSelect(ownerId);
 	}
 	@Override
 	public RegisterDTO userInfoEdit(String ownerId) {
@@ -34,5 +35,53 @@ public class OwnerSeriviceImpl implements OwnerService {
 	@Override
 	public int userInfoEditOk(RegisterDTO user) {
 		return dao.userInfoEditOk(user);
+	}
+	@Override
+	public List<StoreDTO> storeSelect(String ownerId) {
+		return dao.storeSelect(ownerId);
+	}
+	@Override
+	public List<ReservationDTO> reservationSelect(Integer store_seq) {
+		return dao.reservationSelect(store_seq);
+	}
+	@Override
+	public List<ReviewDTO> reviewSelect(Integer store_seq) {
+		return dao.reviewSelect(store_seq);
+	}
+	@Override
+	public int couponGift(CouponDTO coupon) {
+		return dao.couponGift(coupon);
+	}
+	@Override
+	public int ownerCommentAdd(ReviewDTO review) {
+		return dao.ownerCommentAdd(review);
+	}
+	@Override
+	public int reservationCheck(ReservationDTO reservation) {
+		return dao.reservationCheck(reservation);
+	}
+	@Override
+	public ReviewDTO reviewSelectDetail(Integer review_seq) {
+		return dao.reviewSelectDetail(review_seq);
+	}
+	@Override
+	public ReservationDTO reservationSelectDetail(Integer reservation_seq) {
+		return dao.reservationSelectDetail(reservation_seq);
+	}
+	@Override
+	public int reservationNoCheck(int store_seq) {
+		return dao.reservationNoCheck(store_seq);
+	}
+	@Override
+	public int showCheck(ReservationDTO reservation) {
+		return dao.showCheck(reservation);
+	}
+	@Override
+	public int balloonGive(String user_id, int balloon) {
+		return dao.balloonGive(user_id, balloon);
+	}
+	@Override
+	public int balloonNowNumber(String user_id) {
+		return dao.balloonNowNumber(user_id);
 	}
 }

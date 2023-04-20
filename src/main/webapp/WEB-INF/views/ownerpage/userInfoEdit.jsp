@@ -191,10 +191,10 @@
                 </div>
 			</li>
 			<li>
-				<input type="text" id="address" name="address"  placeholder="주소" onkeyup="keyevent(this)" autocomplete='off'/>
+				<input type="text" id="address" name="address"  value="${user.address }" placeholder="주소" onkeyup="keyevent(this)" autocomplete='off'/>
 			</li>
 			<li>
-				<input type="text" id="phone_number" name="phone_number"  placeholder="휴대폰번호( - 없이 입력)" onkeyup="keyevent(this)" value="phone_number" readonly autocomplete='off'/>
+				<input type="text" id="phone_number" name="phone_number"  placeholder="휴대폰번호( - 없이 입력)" onkeyup="keyevent(this)" value="${user.phone_number }" readonly autocomplete='off'/>
 				<input type="button" value="휴대번호변경" onclick="phone_chk()"/>
 				<div class="login_param_check" id="login_pass_param_check">
                 	<span id="login_param_check_txt_phone" class="login_param_check_txt" ></span>

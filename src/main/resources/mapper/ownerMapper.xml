@@ -3,13 +3,19 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="eat_schedule.mapper.OwnerDAO">
+<select id="storeSelect" resultType="eat_schedule.dto.StoreDTO">
+	select * from store where owner_id=#{param1}
+</select>
+<select id="reservationNoCheck" resultType="int">
+	select count(seq) from reservation where store_seq=${param1} and reservation_status="예약 대기";
+</select>
 <insert id="storeRegisterOk">
 	insert into store(owner_id, store_name, location, tel_number, owner_comment, open_time, close_time, how_to_come, parking, wifi, animal, group_customer, playroom, disabled, district)
 	values(#{owner_id}, #{store_name}, #{location}, #{tel_number}, #{owner_comment}, #{open_time}, #{close_time}, #{how_to_come}, #{parking}, #{wifi}, #{animal}, #{group_customer}, #{playroom}, #{disabled}, #{district})
 </insert>
 <select id="storeInfoEdit" resultType="eat_schedule.dto.StoreDTO">
 	select seq, owner_id, store_name, location, tel_number, owner_comment, open_time, close_time, how_to_come, parking, wifi, animal, group_customer, playroom, disabled from store
-	where owner_id=#{param1}
+	where seq=${param1}
 </select>
 <update id="storeInfoEditOk" parameterType="eat_schedule.dto.StoreDTO">
 	update store set store_name=#{store_name}, location=#{location}, tel_number=#{tel_number}, owner_comment=#{owner_comment}, open_time=#{open_time}, close_time=#{close_time}
@@ -23,4 +29,41 @@
 	update user set user_name=#{user_name}, nickname=#{nickname}, phone_number=#{phone_number}, address=#{address}
 	, email=#{email} where user_id=#{user_id} and user_password=#{user_password}
 </update>
+<select id="reviewSelect" resultType="eat_schedule.dto.ReviewDTO">
+	select seq, store_seq, user_id, owner_id, score, review, review_time, owner_comment, comment_time from review where store_seq=${param1}
+</select>
+<select id="reservationSelect" resultType="eat_schedule.dto.ReservationDTO">
+	select r.seq ,r.reservation_time, r.number_of_people, r.user_id, u.user_name, r.coupon, u.phone_number, u.email, r.reservation_status, r.reservation_comment
+		from reservation r
+		join user u on u.user_id=r.user_id
+		where r.store_seq=${param1};
+</select>
+<insert id="couponGift">
+	insert into coupon(user_id, expired_period, discount_rate, store_seq)
+	values(#{user_id}, #{expired_period}, ${discount_rate}, ${store_seq})
+</insert>
+<update id="ownerCommentAdd">
+	update review set owner_comment=#{owner_comment}, comment_time=now() where seq=${seq}
+</update>
+<update id="reservationCheck">
+	update reservation set reservation_status=#{reservation_status} where seq=${seq}
+</update>
+<select id="reviewSelectDetail" resultType="eat_schedule.dto.ReviewDTO">
+	select seq, store_seq, user_id, owner_id, score, review, review_time, owner_comment, comment_time from review where seq=${param1}
+</select>
+<select id="reservationSelectDetail" resultType="eat_schedule.dto.ReservationDTO">
+	select r.seq ,r.reservation_time, r.number_of_people, r.user_id, u.user_name, r.coupon, u.phone_number, u.email, r.reservation_status, r.reservation_comment, r.visit_status
+		from reservation r
+		join user u on u.user_id=r.user_id
+		where r.seq=${param1};
+</select>
+<update id="showCheck">
+	update reservation set visit_status=#{visit_status} where seq=${seq}
+</update>
+<update id="balloonGive">
+	update user set balloon=${param2} where user_id=#{param1}
+</update>
+<select id="balloonNowNumber" resultType="int">
+	select balloon from user where user_id=#{param1}
+</select>
 </mapper>

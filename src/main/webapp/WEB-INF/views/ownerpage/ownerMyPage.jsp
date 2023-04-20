@@ -15,72 +15,84 @@ body{
       div{
         box-sizing: border-box;
       }
-      
-      /* alert badge */
-      .circle{
-        display: inline-block;
-        width: 5px;
-        height: 5px;
-        border-radius: 2.5px;
-        background-color: #ff0000;
-        position: absolute;
-        top: -5px;
-        left: 110%;
-      }
-      
-      /* 녹색 텍스트 */
-      .green{
-        color: #000;
+ 
+      /* 오렌지 텍스트 */
+      .orange{
+        color: #FF7100;
       }
       
       .all-menu{
+      	background-color: #F8F8F8;
         max-width: 1200px;
         margin: 0 auto; 
       }
       .wrap{
         background-color: #F8F8F8; 
+        margin-top: 60px;
       }
-      /* 녹색배경 */
-      .orangeContainer{  
+      /*이름있는박스*/
+      .topContainer{  
         height: 132px;
-        background-color: #FF9139;    
-        
+        background-color: #fff;    
         display: flex;
         align-items: flex-end;
         padding: 16px;
       }
       
-      .orangeContainer .name{
-        font-size: 20px;
+      .topContainer .name{
+        font-size: 30px;
         font-weight: bold;
-        color: #ffffff;
-      } 
-      .orangeContainer .modify{
-        margin-left: auto;
+        color: #FF7100;
       }
       
+      .topContainer .text{
+      	font-size: 30px;
+      	font-weight: bold;
+      	color: #000;
+      } 
+      .topContainer .modify{
+        margin-left: 20px;
+        font-size:17px;
+        font-weight:bold;
+        color:#FF9139;
+        text-decoration:none;
+      }
+      .delete{
+      	text-decoration: none;
+      }
       /* 단골상점 , 상품후기 , 적립금 박스 */
     .summaryContainer{
-    background-color: white;  
-    display: flex;  
+    background-color: #FF7100;  
+    display: flex; 
     padding: 21px 16px;  
-    height: 90px;
+    height: 80px;
     margin-bottom: 10px;
     }
     /* 단골상점 , 상품후기 , 적립금 */
     .summaryContainer .item{
-    flex-grow: 1
+    flex-grow: 1;
     }
     /* 녹색 숫자 */
     .summaryContainer .number{
     font-size: 19px;
     font-weight: bold;
-    color: #000;
+    color: #fff;
+    }
+     .summaryContainer .reservationCheck{
+    font-size: 19px;
+    font-weight: bold;
+    color: #fff;
     }
     /* 텍스트 */
-    .summaryContainer .item > div:nth-child(2){
-    font-size: 13px;
-    }
+    .summaryContainer .item > div:nth-child(1){
+  		font-size: 13px;
+  		color:white;
+	}
+    .summaryContainer .v-line{
+    border-left : thin solid #fff;
+     height : 45px;
+     margin-right:10px;
+	}
       
       /*=================== 주문목록 ~ 찜한상품 리스트 ==================*/
       .listContainer{  
@@ -97,31 +109,12 @@ body{
         height: 56px;
         box-sizing: border-box;
       }
-      .listContainer .icon{  
-        margin-right: 14px;
-      }
       .listContainer .text{
         font-size: 16px;
         position: relative;
       }
       .listContainer .right{
         margin-left: auto;
-      }
-      
-      
-      /*=================== 내지갑의 보유 적립금 들어가는 부분 ================*/
-      .listContainer .smallLight{
-        font-size: 14px;
-        color: #c2c2c2;  
-      }
-      .listContainer .smallLight > span{
-        margin-left: 10px;
-      }
-      
-      .listContainer .right .blct{
-        font-size: 14px;
-        font-weight: bold;
-        margin-right: 5px;
       }
       
       /*  */
@@ -136,58 +129,51 @@ body{
 <body>	
   <div class="all-menu">
     <div class="wrap">
-        <div class="orangeContainer">
-          <div>
-            <div class="name">${logName }</div>
-          </div>    
+        <div class="topContainer">
+            <div class="name">${logName }</div><div class="text">님 안녕하세요!</div>
+            <div class="modify"><a href="/ownerpage/userInfoEdit">정보 수정 ></a></div>   
         </div>
         <div class="summaryContainer">
             <div class="item">
-                <div class="number">15</div>
-                <div>예약미확인</div>
+            	<div>예약미확인 ></div>
+                <div class="number"><a class="reservationCheck" href="/ownerpage/reservation">${reservationNoCheck }</a></div>
               </div>
+              <div class="v-line"></div>
               <div class="item">
+                <div>방문미확인 ></div>
                 <div class="number">5</div>
-                <div>방문미확인</div>
               </div>
           </div>  
           
         </div>  
         <div class="listContainer">
           <a href="/ownerpage/storeRegister" class="item">
-              <div class="icon">ii</div>
-              <div class="text">가게등록<span class="circle"></span></div>
+              <div class="text">가게등록</div>
               <div class="right"> > </div>
           </a>
           <a href="/ownerpage/storeInfoEdit" class="item">
-              <div class="icon">ii</div>
               <div class="text">가게정보수정</div>
               <div class="right"> > </div>
           </a>
           <a href="#information" class="item">
-              <div class="icon">ii</div>
               <div class="text">가게정보보기</div>
               <div class="right"> > </div>
           </a>
           <a href="/ownerpage/reservation" class="item">
-              <div class="icon">ii</div>
               <div class="text">예약확인</div>
               <div class="right"> > </div>
           </a>
           <a href="/ownerpage/commentManager" class="item">
-              <div class="icon">ii</div>
               <div class="text">댓글관리 및 쿠폰주기</div>
               <div class="right"> > </div>
           </a>
           <a href="/ownerpage/advApply" class="item">
-            <div class="icon">ii</div>
             <div class="text">먹풍리스트 신청</div>
             <div class="right"> > </div>
         </a>
         </div>
         <div class="listContainer">
           <a href="/ownerpage/userInfoEdit" class="item">
-              <div class="icon">ii</div>
               <div class="text">회원정보수정</div>
               <div class="right"> > </div>
           </a>   

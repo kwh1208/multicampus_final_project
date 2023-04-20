@@ -9,6 +9,17 @@
     <title>예약확인페이지</title>
 </head>
 <body>
-	예약확인페이지
+	<c:forEach var="reservation" items="${reservation }">
+	<li>예약번호: ${reservation.seq }</li>
+	<li><a href="reservationDetail?no=${reservation.seq}">예약자 아이디: ${reservation.user_id }</a></li>
+	<li>예약자 성함: ${reservation.user_name }</li>
+	<li>예약자 전화번호: ${reservation.phone_number }</li>
+	<li>예약자 이메일: ${reservation.email }</li>
+	<li>예약인원: ${reservation.number_of_people}명</li>
+	<li>쿠폰사용여부: ${reservation.coupon}</li>
+	<li>예약시간: ${reservation.reservation_time}</li>
+	<li>예약상태: ${reservation.reservation_status}</li>
+	<li>예약코멘트: ${reservation.reservation_comment}</li>
+	</c:forEach>
 </body>
 </html>
