@@ -5,38 +5,89 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="/style/style.css" type="text/css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-<link type="text/css" rel="stylesheet" href="/style/style.css"/>
+
+
 </head>
+
+
+<script>
+	$(document).ready(function(){ 
+		$("#board").click(function() {
+			  $(this).next(".menu").stop().slideToggle(300);
+			  $(this).toggleClass('on').siblings().removeClass('on');
+			  $(this).next(".menu").siblings(".menu").slideUp(300);
+			});
+	});
+	$(document).ready(function(){ 
+		$("#person_img").click(function() {
+			  $(this).next(".menu").stop().slideToggle(300);
+			  $(this).toggleClass('on').siblings().removeClass('on');
+			  $(this).next(".menu").siblings(".menu").slideUp(300);
+			});
+	});
+</script>
 <body>
-	<nav class="nav_bar">
-	
-		<div class="nav_logo"> 
-			<a href="/">로고</a>
+
+	<div id="nav_bar">
+		<div id="logo">
+			<a href="/"><img src="/img/logo.png" style="width:130px; height:60px;"/></a>
 		</div>
 		
-		<ul class="nav_middle">
-			<li><a href="/shopAndEvent/shop">상점 및 이벤트</a></li>
-			<li class="dropdown"><a href="">게시판</a>
-				<ul class="submenu">
-					<li><a href="">FAQ</a></li>
-					<li><a href="">1:1문의</a></li>
-				</ul>
-			</li>
-		</ul>
-		
-		<ul class="nav_right">
-			<c:if test="${logStatus!='Y' }">
-				<li><a href="/register/loginForm">로그인</a></li>
-				<li><a href="/register/joinForm">회원가입</a></li>
-			</c:if>
-			<c:if test="${logStatus=='Y'  && isOwner==1 }">
-						<li><a href="/register/logout">로그아웃</a></li>
-						<li><a href="/register/ownerMyPage">마이페이지</a></li>
-			</c:if>
-			<c:if test="${logStatus=='Y'  && isOwner==0 }">
-				<li><a href="/register/logout">로그아웃</a></li>
-				<li><a href="/register/userMyPage">마이페이지</a></li>
-			</c:if>
-		</ul>
-	</nav>
+		<div id="without_logo">
+			<div id="inner">
+				<div id="shop">
+					<a href="/shopAndEvent/shop">상점</a>
+				</div>
+				
+				<div id="drop">
+					<div id="board">
+						게시판
+					</div>
+					<div class="menu">
+						<span>
+							<a href="/board/FAQ">FAQ</a><br/>
+							<a href="/board/inquiry">1:1문의</a>
+						</span>
+					</div>
+				</div>
+				
+				<div id="login_logout">
+					<c:if test="${logStatus!='Y' }">
+						<div><a href="/register/loginForm">로그인</a></div>
+					</c:if>
+					<c:if test="${logStatus=='Y'  && isOwner==1 }">
+						<img src="/img/person.png" style="width:30px; height:30px;" id="person_img"/>
+						<div class="menu">
+							<span>
+								<a href="/register/logout">로그아웃</a><br/>
+								<a href="/register/ownerMyPage">마이페이지</a>
+							</span>
+						</div>
+					</c:if>
+					<c:if test="${logStatus=='Y'  && isOwner==0 }">
+						<img src="/img/person.png" style="width:30px; height:30px;" id="person_img"/>
+						<div class="menu">
+							<span>
+								<a href="/register/logout">로그아웃</a><br/>
+								<a href="/register/userMyPage">마이페이지</a>
+							</span>
+						 </div>
+					</c:if>
+				</div>
+	
+				<div id="join_balloon">
+					<c:if test="${logStatus!='Y' }">
+						<div><a href="/register/joinForm">회원가입</a></div>
+					</c:if>
+					<c:if test="${logStatus=='Y'  && isOwner==1 }">
+						<img src="/img/balloons.png" style="width:30px; height:30px; margin:0 auto;"/>
+					</c:if>
+					<c:if test="${logStatus=='Y'  && isOwner==0 }">
+						<img src="/img/balloons.png" style="width:30px; height:30px; margin:0 auto;"/>
+					</c:if>
+				</div>
+			</div>
+		</div>
+	</div>

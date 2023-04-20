@@ -15,8 +15,6 @@ public class RegisterDTO {
     private String phone_number;
     private String address;
     private String email;
-    private int last_month_balloon;
     private int balloon;
-    private String grade;
     private String joindate;
 }

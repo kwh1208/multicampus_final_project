@@ -11,4 +11,5 @@ public interface RegisterDAO {
 	public int nicknameCheckCount(String nickname);
 	public int registerInsert(RegisterDTO dto);
 	public int phoneCheckCount(String phone_number);
+	public String idSearch(String username, String email);
 }

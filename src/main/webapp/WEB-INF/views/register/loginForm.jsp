@@ -9,7 +9,7 @@
 	}
 	.all{
 		font-size:15px;
-		margin-top:100px;
+		margin-top:180px;
 	}
 	.login{
 		width:400px;
@@ -62,11 +62,11 @@
 			<input type="submit" value="로그인"/>
 	</form>
 	<div style="margin:0 auto; padding:0;" id="find">
-		<a href="idSearchForm">아이디찾기</a>
+		<a href="/register/idSearchForm">아이디찾기</a>
 		<span>/</span>
-		<a href="">비밀번호찾기</a>
+		<a href="/register/passwordSearchForm">비밀번호찾기</a>
 		<span>/</span>
-		<a href="join">회원가입</a>
+		<a href="/register/joinForm">회원가입</a>
 	</div>
 </div>
 </div>

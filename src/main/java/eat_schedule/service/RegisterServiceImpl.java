@@ -41,6 +41,11 @@ public class RegisterServiceImpl implements RegisterService {
 	public int phoneCheckCount(String phone_number) {
 		return dao.phoneCheckCount(phone_number);
 	}
+
+	@Override
+	public String idSearch(String username, String email) {
+		return dao.idSearch(username, email);
+	}
 	
 
 

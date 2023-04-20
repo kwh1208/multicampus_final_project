@@ -16,7 +16,10 @@
  		select count(phone_number) cnt from user where phone_number=#{param1}
  	</select>
  	<insert id="registerInsert">
- 		insert into user(user_id, user_password, user_name, nickname, email, address, gender, is_owner, phone_number, last_month_balloon, balloon, grade, join_date)
- 		values(#{user_id}, #{user_password}, #{user_name}, #{nickname}, #{email}, #{address}, ${gender}, ${is_owner}, #{phone_number}, 15, 15, "브론즈", NOW())
+ 		insert into user(user_id, user_password, user_name, nickname, email, address, gender, is_owner, phone_number, balloon, join_date)
+ 		values(#{user_id}, #{user_password}, #{user_name}, #{nickname}, #{email}, #{address}, ${gender}, ${is_owner}, #{phone_number}, 15,  NOW())
  	</insert>
+ 	<select id="idSearch" resultType="string">
+ 		select rpad(substr(user_id,1,length(user_id)/2),length(user_id),'*') user_id from user where user_name=#{param1} and email=#{param2}
+ 	</select>
 </mapper>

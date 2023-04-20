@@ -237,12 +237,12 @@
 				<input type="text" id="address" name="address" class="" placeholder="주소" onkeyup="keyevent(this)" autocomplete='off'/>
 			</li>
 			<li>성별</li>
-			<li>
+			<li style="margin-top:10px; margin-bottom:30px;">
 				<input type="radio" name="gender" value="1"/>남
 				<input type="radio" name="gender" value="0"/>여
 			</li>
 			<li>계정 유형 선택</li>
-			<li>
+			<li style="margin-top:10px; margin-bottom:10px;">
 				<input type="radio" name="is_owner" value="1"/>사장님
 				<input type="radio" name="is_owner" value="0"/>고객
 			</li>

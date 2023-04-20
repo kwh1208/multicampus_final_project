@@ -2,17 +2,22 @@ package eat_schedule.controller;
 
 
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import eat_schedule.dto.RegisterDTO;
@@ -25,6 +30,10 @@ public class RegisterController {
 	@Autowired
 	RegisterService service;
 	
+	/*
+	@Autowired
+	JavaMailSender mailSender;
+	*/
 	
 	// 로그인
 	@GetMapping("loginForm")
@@ -33,7 +42,8 @@ public class RegisterController {
 	}
 	
 	@PostMapping("loginOk")
-	public ModelAndView loginOk(String user_id, String user_password, HttpServletRequest request, HttpSession session ,HttpServletResponse res) {
+	public ModelAndView loginOk(@RequestParam("user_id")String user_id, @RequestParam("user_password")String user_password, HttpServletRequest request, HttpSession session ,HttpServletResponse res) {
+		
 		//System.out.println(user_id);
 		//System.out.println(user_password);
 		
@@ -125,5 +135,52 @@ public class RegisterController {
 		return mav;
 	}
 
+	// 아이디 찾기
+	@GetMapping("idSearchForm")
+	public String idSearchForm() {
+		return "register/idSearchForm";
+	}
+	// 비밀번호 찾기
+	@GetMapping("passwordSearchForm")
+	public String passwordSearchForm() {
+		return "register/passwordSearchForm";
+	}
+	/* 아이디 찾기
+	@PostMapping("idSearchEmailSend")
+	@ResponseBody
+	public String idSearchEmailSend(RegisterDTO dto) {
+		String user_id = service.idSearch(dto.getUser_name(), dto.getEmail());
+		
+		if(user_id==null || user_id.equals("")){
+			return "N";
+		}else{
+			String emailSubject = "아이디 찾기 결과";
+			String emailContent = "<div style=background:pink; margin:50px; padding:50px; border:2px solid gray; font-size:2em; text-align:center;>";
+			emailContent += "검색한 아이디입니다.";
+			emailContent += "아이디: "+user_id;
+			emailContent += "</div>"; 
+			
+			try {
+				// mimeMessage -> mimeMessageHelper
+				MimeMessage message = mailSender.createMimeMessage();
+				MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+				
+				// 보내는 메일주소
+				messageHelper.setFrom("guswldbs98@gmail.com");
+				// 받는 쪽
+				messageHelper.setTo(dto.getEmail());
+				messageHelper.setSubject(emailSubject);
+				messageHelper.setText("text/html; charset=UTF-8", emailContent);
+				
+				mailSender.send(message); // 보내기
+				
+				return "Y";
+			}catch(Exception e) {
+				e.printStackTrace();
+				return "N";
+			}
+		}
+	}
+	*/
 
 }
