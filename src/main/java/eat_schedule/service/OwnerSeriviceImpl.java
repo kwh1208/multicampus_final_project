@@ -84,4 +84,12 @@ public class OwnerSeriviceImpl implements OwnerService {
 	public int balloonNowNumber(String user_id) {
 		return dao.balloonNowNumber(user_id);
 	}
+	@Override
+	public int couponStatus(Integer review_seq) {
+		return dao.couponStatus(review_seq);
+	}
+	@Override
+	public int noShowCheckNum(int store_seq) {
+		return dao.noShowCheckNum(store_seq);
+	}
 }

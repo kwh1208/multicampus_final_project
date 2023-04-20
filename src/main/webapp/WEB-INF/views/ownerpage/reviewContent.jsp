@@ -23,8 +23,12 @@
 	</ul>
 	<ul>
 		<c:if test="${reviewDetail.owner_comment!=null }"> 
-		<li>사장님 코멘트</li>
-		<li>${reviewDetail.owner_comment }</li>
+		<form id="comment-form" ModelAttribute="ReviewDTO" action="ownerCommentAdd" method="post">
+		<input type="hidden" name="seq" value="${reviewDetail.seq }">
+		<label for="owner_comment">사장님 코멘트:</label>
+      	<textarea id="owner_comment" name="owner_comment">${reviewDetail.owner_comment }</textarea>
+      	<button type="submit">댓글수정</button>
+	</form>
 		<li>사장님 코멘트 시간</li>
 		<li>${reviewDetail.comment_time }</li>
 		</c:if>
@@ -37,10 +41,13 @@
       	<button type="submit">댓글작성</button>
 	</form>
 	</c:if>
+	<c:if test="${reviewDetail.coupon_status==0 }">
 	<form id="coupon-form" ModelAttribute="CouponDTO" action="couponGift" method="post">
 		<input type="hidden" name="user_id" value="${reviewDetail.user_id }">
 		<input type="hidden" name="store_seq" value="${reviewDetail.store_seq }">
+		<input type="hidden" name="review_seq" value="${reviewDetail.seq}">
 		<button type="submit">쿠폰 선물하기</button>
 	</form>
+	</c:if>
 </body>
 </html>

@@ -16,6 +16,8 @@ public interface OwnerDAO {
 	public List<StoreDTO> storeSelect(String ownerId);
 	//예약 미확인 개수 구하기
 	public int reservationNoCheck(int store_seq);
+	//방문 미확인 개수 구하기
+	public int noShowCheckNum(int store_seq);
 	//가게등록
 	public int storeRegisterOk(StoreDTO store);
 	//가게정보수정시 원래 데이터 불러오기
@@ -46,4 +48,6 @@ public interface OwnerDAO {
 	public int balloonGive(String user_id, int balloon);
 	//풍선개수확인
 	public int balloonNowNumber(String user_id);
+	//쿠폰지급여부
+	public int couponStatus(Integer review_seq);
 }

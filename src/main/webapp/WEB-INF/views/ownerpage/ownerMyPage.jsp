@@ -141,7 +141,7 @@ body{
               <div class="v-line"></div>
               <div class="item">
                 <div>방문미확인 ></div>
-                <div class="number">5</div>
+                <div class="number"><a class="reservationCheck" href="/ownerpage/reservation">${noShowCheckNum }</a></div>
               </div>
           </div>  
           

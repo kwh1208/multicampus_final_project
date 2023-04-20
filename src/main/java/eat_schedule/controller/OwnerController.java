@@ -46,7 +46,9 @@ public class OwnerController {
 		StoreDTO store=service.storeInfoEdit(no);
 		session.setAttribute("storeSeq", store.getSeq());
 		int reservationNoCheck=service.reservationNoCheck(store.getSeq());
+		int noShowCheckNum=service.noShowCheckNum(store.getSeq());
 		model.addAttribute("reservationNoCheck", reservationNoCheck);
+		model.addAttribute("noShowCheckNum", noShowCheckNum);
 		return "ownerpage/ownerMyPage";
 	}
 	@GetMapping("reservation")
@@ -68,7 +70,9 @@ public class OwnerController {
 		int result=service.storeRegisterOk(store);
 		if(result>0) {//가게등록 성공
 		    int reservationNoCheck=service.reservationNoCheck(store.getSeq());
+		    int noShowCheckNum=service.noShowCheckNum(store.getSeq());
 		    mav.addObject("reservationNoCheck", reservationNoCheck);
+		    mav.addObject("noShowCheckNum", noShowCheckNum);
 			mav.setViewName("ownerpage/ownerMyPage");
 		}else {//가게등록 실패
 			mav.addObject("msg","가게등록실패!!");
@@ -89,6 +93,7 @@ public class OwnerController {
 	int result=service.storeInfoEditOk(store);
 	if(result>0) {//가게정보수정 성공
 	mav.addObject("reservationNoCheck", service.reservationNoCheck(store.getSeq())); // 모델에 reservationNoCheck 추가
+	mav.addObject("noShowCheckNum", service.noShowCheckNum(store.getSeq()));
 	mav.setViewName("ownerpage/ownerMyPage");
 	}else {//가게등록 실패
 	mav.addObject("msg","가게수정실패!!");
@@ -110,8 +115,10 @@ public class OwnerController {
 		ModelAndView mav=new ModelAndView();
 		if(cnt>0){// 수정성공시 -> db에서 수정된 내용을 보여주고
 			StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
-		    int reservationNoCheck=service.reservationNoCheck(store.getSeq());
+			int reservationNoCheck=service.reservationNoCheck(store.getSeq());
+		    int noShowCheckNum=service.noShowCheckNum(store.getSeq());
 		    mav.addObject("reservationNoCheck", reservationNoCheck);
+		    mav.addObject("noShowCheckNum", noShowCheckNum);
 			mav.setViewName("ownerpage/ownerMyPage");
 		}else{// 수정실패시 -> 이전페이지 (알림)
 			mav.addObject("msg","회원정보수정 실패!!");
@@ -161,10 +168,13 @@ public class OwnerController {
 		coupon.setExpired_period(expired_period);
         coupon.setDiscount_rate(0);
         int cnt=service.couponGift(coupon);
-        if(cnt>0){// 수정성공
+        int cnt2=service.couponStatus(coupon.getReview_seq());
+        if(cnt>0 && cnt2>0){// 수정성공
         	StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
-		    int reservationNoCheck=service.reservationNoCheck(store.getSeq());
+        	int reservationNoCheck=service.reservationNoCheck(store.getSeq());
+		    int noShowCheckNum=service.noShowCheckNum(store.getSeq());
 		    mav.addObject("reservationNoCheck", reservationNoCheck);
+		    mav.addObject("noShowCheckNum", noShowCheckNum);
 			mav.setViewName("ownerpage/ownerMyPage");
 		}else{// 수정실패시 -> 이전페이지 (알림)
 			mav.addObject("msg","쿠폰주기 실패!!");
@@ -178,8 +188,10 @@ public class OwnerController {
         int cnt=service.ownerCommentAdd(review);
         if(cnt>0){// 수정성공
         	StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
-		    int reservationNoCheck=service.reservationNoCheck(store.getSeq());
+        	int reservationNoCheck=service.reservationNoCheck(store.getSeq());
+		    int noShowCheckNum=service.noShowCheckNum(store.getSeq());
 		    mav.addObject("reservationNoCheck", reservationNoCheck);
+		    mav.addObject("noShowCheckNum", noShowCheckNum);
 			mav.setViewName("ownerpage/ownerMyPage");
 		}else{// 수정실패시 -> 이전페이지 (알림)
 			mav.addObject("msg","댓글달기 실패!!");
@@ -227,8 +239,10 @@ public class OwnerController {
         int cnt2=service.balloonGive(reservation.getUser_id(), new_balloon);
         if(cnt2>0 && cnt>0){// 예약확인 완료
         	StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
-		    int reservationNoCheck=service.reservationNoCheck(store.getSeq());
+        	int reservationNoCheck=service.reservationNoCheck(store.getSeq());
+		    int noShowCheckNum=service.noShowCheckNum(store.getSeq());
 		    mav.addObject("reservationNoCheck", reservationNoCheck);
+		    mav.addObject("noShowCheckNum", noShowCheckNum);
 			mav.setViewName("ownerpage/ownerMyPage");
 		}else{// 수정실패시 -> 이전페이지 (알림)
 			mav.addObject("msg","방문확인 실패!!");

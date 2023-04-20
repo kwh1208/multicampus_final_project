@@ -49,7 +49,7 @@
 	update reservation set reservation_status=#{reservation_status} where seq=${seq}
 </update>
 <select id="reviewSelectDetail" resultType="eat_schedule.dto.ReviewDTO">
-	select seq, store_seq, user_id, owner_id, score, review, review_time, owner_comment, comment_time from review where seq=${param1}
+	select seq, store_seq, user_id, owner_id, score, review, review_time, owner_comment, comment_time, coupon_status from review where seq=${param1}
 </select>
 <select id="reservationSelectDetail" resultType="eat_schedule.dto.ReservationDTO">
 	select r.seq ,r.reservation_time, r.number_of_people, r.user_id, u.user_name, r.coupon, u.phone_number, u.email, r.reservation_status, r.reservation_comment, r.visit_status
@@ -65,5 +65,11 @@
 </update>
 <select id="balloonNowNumber" resultType="int">
 	select balloon from user where user_id=#{param1}
+</select>
+<update id="couponStatus">
+	update review set coupon_status=1 where seq=${param1}
+</update>
+<select id="noShowCheckNum" resultType="int">
+	select count(seq) from reservation where store_seq=${param1} and reservation_status="예약 완료" and visit_status="방문 미확인";
 </select>
 </mapper>
