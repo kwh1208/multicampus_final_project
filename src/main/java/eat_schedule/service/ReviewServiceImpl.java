@@ -24,4 +24,12 @@ public class ReviewServiceImpl implements ReviewService {
 		return dao.ReviewInsert(dto);
 	}
 
+	public ReviewDTO ReviewEdit(int no) {
+		return dao.ReviewEdit(no);
+	}
+	
+	public int ReviewEditOk(ReviewDTO dto) {
+		return dao.ReviewEditOk(dto);
+	}
+
 }

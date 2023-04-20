@@ -17,4 +17,8 @@ public class CouponServiceImpl implements CouponService {
 	public List<CouponDTO> CouponSelect(String user_id) {
 		return dao.CouponSelect(user_id);
 	}
+	
+	public int CouponCount(String user_id) {
+		return dao.CouponCount(user_id);
+	}
 }

@@ -9,4 +9,8 @@
 	 	join store s on s.seq=c.store_seq -->
 		where user_id=#{param1}
 	</select>
+	<select id="CouponCount" resultType="int">
+		select count(*) from coupon
+		where user_id=#{param1}
+	</select>
 </mapper>

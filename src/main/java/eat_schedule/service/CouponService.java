@@ -6,4 +6,5 @@ import eat_schedule.dto.CouponDTO;
 
 public interface CouponService {
 	public List<CouponDTO> CouponSelect(String user_id);
+	public int CouponCount(String user_id);
 }

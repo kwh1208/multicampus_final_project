@@ -60,7 +60,7 @@
 
 <h1>회원정보수정폼</h1>
 <div class="joinEdit">
-	<form method="post" id="joinEditForm">
+	<form method="post" id="joinEditForm" action="joinEditOk">
 		<ul>
 			<li>아이디</li>
 			<li>
@@ -73,7 +73,7 @@
 			<li>닉네임</li>
 			<li><input type="text" name="nickname" id="nickname" minlength="3" maxlength="15" value="${dto.nickname }"/></li>
 			<li>연락처</li>
-			<li><input type="text" name="phone_number" id="phone_number" minlength="10" maxlength="11"></li>
+			<li><input type="text" name="phone_number" id="phone_number" minlength="10" maxlength="11" value="${dto.phone_number }"></li>
 			<li>이메일</li>
 			<li><input type="text" name="email" id="email" value="${dto.email }"/></li>
 			<li>주소</li>

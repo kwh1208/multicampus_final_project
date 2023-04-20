@@ -27,5 +27,17 @@ public class UserDTO {
 	}
 
 
+	public Object getUser_id() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public Object getIs_owner() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 	
 }

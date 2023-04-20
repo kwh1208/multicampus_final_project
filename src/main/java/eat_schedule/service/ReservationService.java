@@ -6,4 +6,5 @@ import eat_schedule.dto.ReservationDTO;
 
 public interface ReservationService {
 	public List<ReservationDTO> ReservationSelect(String user_id);
+	public ReservationDTO ReviewWrite(String user_id);
 }

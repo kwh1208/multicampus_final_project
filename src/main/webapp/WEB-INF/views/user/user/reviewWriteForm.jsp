@@ -4,21 +4,24 @@
   <style>
   	/* 창 여분 없애기 */
   	body{
-  		margin : 0;
+  		margin : 0 auto;
   	}
   	/* 전체 배경화면 색상 */
   	.wrapper_div{
 		background-color: #FCFCFC;
 	    height: 100%;  	
+	    max-width: 1200px;
+	    margin : 0 auto;
   	}
  	/* 팝업창 제목 */
   	.subject_div{
-	    width: 100%;
 	    background-color: #FF7100;
 	    color: #fff;
 	    padding: 10px;
 	    font-weight: bold;
 	    text-align: center;
+	    max-width: 1200px;
+	    margin : 0 auto;
   	}
   	
   	/* 컨텐츠, 버튼 영역 padding */
@@ -31,28 +34,29 @@
   		text-align: center;
   	}
   	
-  	/* 버튼 영역 */
+  	/* 취소 버튼 */
   	.cancel_btn{
   		margin-right:5px;
   	    display: inline-block;
-	    width: 130px;
+  	   	height:40px;
+	    width: 150px;
 	    background-color: #fff;
-	    padding-top: 10px;
-	    height: 27px;
 	    color: #7d7d7d;
 	    font-size: 14px;
-	    line-height: 18px; 
+	    line-height: 20px; 
 	    border: 1px solid #dadada;
   	}
+  	
+  	/* 등록 버튼 */
   	.enroll_btn{
    	    display: inline-block;
-	    width: 130px;
+   	    line-height:20px;
+   	    height:40px;
+	    width: 150px;
 	    background-color: #FF7100;
-	    padding-top: 10px;
-	    height: 27px;
 	    color: #fff;
 	    font-size: 14px;
-	    line-height: 18px;   	
+	    border:none; 	
   	}
 
 	/* 파일 영역 */
@@ -72,7 +76,7 @@
     height: 40px;
     text-align: center;
     font-size: 16px;
-    font-weight: 600;  	
+    font-weight: 600;
   	}
   	/* 리뷰 작성 영역 */
   	.content_div{
@@ -87,26 +91,33 @@
 	    border: 1px solid #dadada;
 	    padding: 12px 8px 12px 8px;
 	    font-size: 15px;
-	    color: #a9a9a9;
+	    color: #99999;
 	    resize: none;
 	    margin-top: 10px;  	
   	}
   
   </style>
 <script>
+function cancelCheck(){
+	if(confirm("정말 취소하시겠습니까 ?")==true){
+		history.back();
+	}else{
+		return false;
+	}
 	
-	/* 취소 버튼 */
-	$(".cancel_btn").on("click", function(e){
-		window.close();
-	});	
-	
+}
+
+/*function sendData(){
+	document.review.submit();
+}*/
+
 </script>
 <body>
-
-<form method="post" name="myform" id="myform" action="reviewWriteOk" id="reviewForm">
+<form method="post" name="myform" id="myform" action="ReviewWriteOk">
 	<div class="wrapper_div">
 		<div class="subject_div">
-			리뷰 등록
+			${dto.store_name }에 대한 리뷰를 써주세요
+			<input type="hidden" name="store_seq" value="${dto.store_seq}"/>
 		</div>
 		
 		<div class="input_wrap">
@@ -137,15 +148,10 @@
 		</div>
 		
 		<div class="btn_wrap">
-		<a class="cancel_btn">취소</a><a class="enroll_btn">등록</a>
+			<input type="button" value="취소" class="cancel_btn" onclick="cancelCheck()"/>
+			<input type="submit" value="등록" class="enroll_btn"/>
 		</div>
 	</div>
-
-		<!--  
-		<li>
-			<input type="submit" value="등록"/>
-		</li>
-		-->
 </form>
 </body>
 
