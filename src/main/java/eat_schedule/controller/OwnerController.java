@@ -1,11 +1,18 @@
 package eat_schedule.controller;
 
 import java.util.List;
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +24,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 
 import eat_schedule.dto.StoreDTO;
 import eat_schedule.dto.CouponDTO;
+import eat_schedule.dto.FilenameDTO;
+import eat_schedule.dto.MenuDTO;
 import eat_schedule.dto.RegisterDTO;
 import eat_schedule.dto.ReservationDTO;
 import eat_schedule.dto.ReviewDTO;
@@ -65,21 +76,186 @@ public class OwnerController {
 		return "ownerpage/storeRegister";
 	}
 	@PostMapping("storeRegisterOk")
-	public ModelAndView storeRegisterOk(@ModelAttribute("StoreDTO") StoreDTO store, HttpSession session){
-		ModelAndView mav=new ModelAndView();
+	public ModelAndView storeRegisterOk(HttpServletRequest req,@ModelAttribute("StoreDTO") StoreDTO store, HttpSession session){
 		int result=service.storeRegisterOk(store);
-		if(result>0) {//가게등록 성공
-		    int reservationNoCheck=service.reservationNoCheck(store.getSeq());
-		    int noShowCheckNum=service.noShowCheckNum(store.getSeq());
-		    mav.addObject("reservationNoCheck", reservationNoCheck);
-		    mav.addObject("noShowCheckNum", noShowCheckNum);
-			mav.setViewName("ownerpage/ownerMyPage");
+		System.out.println(store.toString());
+		
+		//request: 폼의 데이터들과 첨부파일이 있다.
+		
+		//MultiPartHttpServletRequest <- request이용하여 구한다.
+		
+		//1. 파일업로드
+		MultipartHttpServletRequest mr=(MultipartHttpServletRequest)req;
+		
+		//2. mr에서 MultipartFile 객체를 얻어오기 (업로드한 파일의 수만큼 있다.)
+		List<MultipartFile> files= mr.getFiles("filename");
+		
+		//3. 파일을 서버에 업로드할 위치의 절대주소가 필요하다.
+		String folderName="/storeuploadfile/store"+store.getSeq()+"/storepicture"; //여기서 알아서 경로 바꾸면 됨
+		String path=req.getSession().getServletContext().getRealPath(folderName);
+		System.out.println("path->"+path);
+		
+		Path directoryPath = Paths.get(path);
+		 
+        try {
+            // 디렉토리 생성
+            Files.createDirectories(directoryPath);
+ 
+            System.out.println(directoryPath + " 디렉토리가 생성되었습니다.");
+ 
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+		
+		//-------업로드 시자 -> 같은 파일이 존재할 때 파일명을 만들어 주어야 한다. ------
+		List<FilenameDTO> fileList = new ArrayList<FilenameDTO>();
+		if(files!=null){//업로드 파일이 있을때
+		
+			for(int i=0; i<files.size(); i++){//업로드한 파일의 수만큼 반복수행
+				MultipartFile mf = files.get(i);
+				
+				String orgFilename = mf.getOriginalFilename();//클라이언트가 업로드한 원래 파일명을 구한다.
+				if(orgFilename !=null && !orgFilename.equals("")) {
+					//파일객체가 있는지 확인후 같은 파일이 있으면 파일명을 변경한다.
+					File f = new File(path, orgFilename);
+					
+					if(f.exists()) {// file 있으면 true, 없으면 false
+						//    a.gif -> a(1).gif ->a(2).gif -> ...
+						for(int renameNum=1;;renameNum++) {// 1,2,3,4......
+							// 파일명, 확장자를 나눈다.
+							// 마지막 .의 위치구한다.
+							int point = orgFilename.lastIndexOf(".");
+							String orgFile = orgFilename.substring(0, point);// 확장자 뺀 파일명
+							String orgExt = orgFilename.substring(point+1);// 확장자 gif
+							
+							String newFilename= orgFile+" ("+renameNum+")."+orgExt; //새로만드는 파일명
+							f = new File(path, newFilename);
+							if(!f.exists()) {// 새로만들 파일이 존재하지 않으면 반복문 중단
+								orgFilename= newFilename;
+								break;
+							}
+						}//for
+						//새로운 파일명을 찾았을때
+						//업로드 수행, 파일명보관
+						
+					}// if -> f.exists()
+					try {
+						mf.transferTo(new File(path, orgFilename));
+					} catch(Exception e) {}
+					
+					FilenameDTO fnDTO=new FilenameDTO();
+					fnDTO.setFilename(orgFilename);
+					fileList.add(fnDTO);
+				}//if->rename
+			}
+		}//if 업로드 파일이 있을때
+		//----------------------------------------------------------------
+		ModelAndView mav=new ModelAndView();
+		store.setPicture_location(path);
+		System.out.println(store.getPicture_location());
+		int result2=service.pictureDirInsert(store);
+		if(result>0 && result2>0) {//가게등록 성공
+			List<StoreDTO> store1=service.storeSelect((String)session.getAttribute("logId"));
+			mav.addObject("store", store1);
+			mav.setViewName("ownerpage/ownerStart");
 		}else {//가게등록 실패
 			mav.addObject("msg","가게등록실패!!");
 			mav.setViewName("ownerpage/failResult");
 		}		
 		return mav;
 	}
+	@PostMapping("menuRegisterOk")
+	public ModelAndView menuRegisterOk(HttpServletRequest req,@ModelAttribute("MenuDTO") MenuDTO menu, HttpSession session){
+		//request: 폼의 데이터들과 첨부파일이 있다.
+		
+		//MultiPartHttpServletRequest <- request이용하여 구한다.
+		
+		//1. 파일업로드
+		MultipartHttpServletRequest mr=(MultipartHttpServletRequest)req;
+		
+		//2. mr에서 MultipartFile 객체를 얻어오기 (업로드한 파일의 수만큼 있다.)
+		List<MultipartFile> files= mr.getFiles("filename");
+		
+		//3. 파일을 서버에 업로드할 위치의 절대주소가 필요하다.
+		String folderName="/storeuploadfile/store"+(Integer)session.getAttribute("storeSeq")+"/menupicture";
+		String path=req.getSession().getServletContext().getRealPath(folderName);
+		System.out.println("path->"+path);
+		
+		Path directoryPath = Paths.get(path);
+		
+		try {
+            // 디렉토리 생성
+            Files.createDirectories(directoryPath);
+ 
+            System.out.println(directoryPath + " 디렉토리가 생성되었습니다.");
+ 
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+		
+		//-------업로드 시자 -> 같은 파일이 존재할 때 파일명을 만들어 주어야 한다. ------
+		List<FilenameDTO> fileList = new ArrayList<FilenameDTO>();
+		if(files!=null){//업로드 파일이 있을때
+		
+			for(int i=0; i<files.size(); i++){//업로드한 파일의 수만큼 반복수행
+				MultipartFile mf = files.get(i);
+				
+				String orgFilename = mf.getOriginalFilename();//클라이언트가 업로드한 원래 파일명을 구한다.
+				if(orgFilename !=null && !orgFilename.equals("")) {
+					//파일객체가 있는지 확인후 같은 파일이 있으면 파일명을 변경한다.
+					File f = new File(path, orgFilename);
+					
+					if(f.exists()) {// file 있으면 true, 없으면 false
+						//    a.gif -> a(1).gif ->a(2).gif -> ...
+						for(int renameNum=1;;renameNum++) {// 1,2,3,4......
+							// 파일명, 확장자를 나눈다.
+							// 마지막 .의 위치구한다.
+							int point = orgFilename.lastIndexOf(".");
+							String orgFile = orgFilename.substring(0, point);// 확장자 뺀 파일명
+							String orgExt = orgFilename.substring(point+1);// 확장자 gif
+							
+							String newFilename= orgFile+" ("+renameNum+")."+orgExt; //새로만드는 파일명
+							f = new File(path, newFilename);
+							if(!f.exists()) {// 새로만들 파일이 존재하지 않으면 반복문 중단
+								orgFilename= newFilename;
+								break;
+							}
+						}//for
+						//새로운 파일명을 찾았을때
+						//업로드 수행, 파일명보관
+						
+					}// if -> f.exists()
+					try {
+						mf.transferTo(new File(path, orgFilename));
+					} catch(Exception e) {}
+					
+					FilenameDTO fnDTO=new FilenameDTO();
+					fnDTO.setFilename(orgFilename);
+					fileList.add(fnDTO);
+				}//if->rename
+			}
+		}//if 업로드 파일이 있을때
+		//----------------------------------------------------------------
+		//4. 메인 글 insert 구현하기 - 생성된 시퀀스를 구해오기
+
+		// 원글의 시퀀스를 번호를 파일명이 있는 dto에 셋팅하기
+//		for(FilenameDTO fDTO:fileList) {
+//			fDTO.setSeq(menu.getSeq());
+//		}
+		//5. 원글 시퀀스, 파일명 DB에 추가
+		
+		ModelAndView mav= new ModelAndView();
+		
+		StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
+		int reservationNoCheck=service.reservationNoCheck(store.getSeq());
+	    int noShowCheckNum=service.noShowCheckNum(store.getSeq());
+	    mav.addObject("reservationNoCheck", reservationNoCheck);
+	    mav.addObject("noShowCheckNum", noShowCheckNum);
+		mav.setViewName("ownerpage/ownerMyPage");
+		
+		return mav;
+	}
+	
 	@GetMapping("storeInfoEdit")
 	public String storeInfoEdit(Model model,HttpSession session) {
 		StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));		
@@ -88,18 +264,18 @@ public class OwnerController {
 	}
 	@PostMapping("storeInfoEditOk")
 	public ModelAndView storeInfoEditOk(@ModelAttribute("StoreDTO") StoreDTO store, HttpSession session){
-	store.setSeq((Integer)session.getAttribute("logStoreSeq"));
-	ModelAndView mav=new ModelAndView();
-	int result=service.storeInfoEditOk(store);
-	if(result>0) {//가게정보수정 성공
-	mav.addObject("reservationNoCheck", service.reservationNoCheck(store.getSeq())); // 모델에 reservationNoCheck 추가
-	mav.addObject("noShowCheckNum", service.noShowCheckNum(store.getSeq()));
-	mav.setViewName("ownerpage/ownerMyPage");
-	}else {//가게등록 실패
-	mav.addObject("msg","가게수정실패!!");
-	mav.setViewName("ownerpage/failResult");
-	}
-	return mav;
+		store.setSeq((Integer)session.getAttribute("logStoreSeq"));
+		ModelAndView mav=new ModelAndView();
+		int result=service.storeInfoEditOk(store);
+		if(result>0) {//가게정보수정 성공
+		mav.addObject("reservationNoCheck", service.reservationNoCheck(store.getSeq())); // 모델에 reservationNoCheck 추가
+		mav.addObject("noShowCheckNum", service.noShowCheckNum(store.getSeq()));
+		mav.setViewName("ownerpage/ownerMyPage");
+		}else {//가게등록 실패
+		mav.addObject("msg","가게수정실패!!");
+		mav.setViewName("ownerpage/failResult");
+		}
+		return mav;
 	}
 	@GetMapping("userInfoEdit")
 	public String userInfoEdit(Model model,HttpSession session) {

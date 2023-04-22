@@ -38,8 +38,6 @@ form {
     display: block;
     margin-bottom: 5px;
   }
-  
-  input,
   textarea {
     width: 95%;
     padding: 10px;
@@ -49,6 +47,29 @@ form {
     /*background-color: #f5f5f5;*/
     border-style:solid;
   }
+  
+  #owner_id,
+  #store_name, 
+  #location, 
+  #district, 
+  #tel_number, 
+  #open_time, 
+  #close_time, 
+  #how_to_come, 
+  #playroom, 
+  #parking, 
+  #wifi, 
+  #animal, 
+  #group_customer, 
+  #disabled{
+		width: 95%;
+		padding: 10px;
+		border: 1px;
+		border-radius: 5px;
+		margin-bottom: 20px;
+		/*background-color: #f5f5f5;*/
+		border-style:solid;
+	}
   
   input[type="checkbox"] {
     margin-right: 5px;
@@ -75,12 +96,22 @@ form {
     background-color: #fff;
   }
 </style>
+<script>
+	$(document).on('click', '#registerForm input[value=" + "]', function(){
+		$(this).parent().parent().append('<div><input type="file" id="filename" name="filename"><input type="button" value=" + "></div>');
+		$(this).val(" - ");
+	});
+	
+	$(document).on('click', '#registerForm input[value=" - "]',function(){
+		$(this).parent().remove();
+	});
+</script>
 </head>
 <body>
 	<div class="main-title">
   <h1>가게 등록</h1>
   </div>
-  <form action="storeRegisterOk" ModelAttribute="StoreDTO" method="post">
+  <form action="storeRegisterOk" ModelAttribute="StoreDTO" id="registerForm" method="post" enctype="multipart/form-data">
     <fieldset>
       <legend>기본 정보</legend>
       <label for="owner_id">사장님 ID:</label>
@@ -118,14 +149,15 @@ form {
       <label for="disabled">장애인 시설 유무:</label>
       <input type="checkbox" id="disabled" name="disabled">
     </fieldset>
-<!--  
-	<form action="ownerpage/registerOk" method="post" enctype="multipart/form-data"> 파일업로드시 작성할 폼 태그
+
     <fieldset>
       <legend>사진 업로드</legend>
-      <label for="picture_location">가게 사진:</label>
-      <input type="file" id="picture_location" name="picture_location">
+      <label for="filename">가게 사진:</label>
+      <div>
+      <input type="file" id="filename" name="filename"><input type="button" value=" + ">
+      </div>
     </fieldset>
--->
+
     <input type="submit" value="가게 등록">
   </form>
 </body>

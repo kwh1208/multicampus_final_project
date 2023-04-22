@@ -151,6 +151,10 @@ body{
               <div class="text">가게등록</div>
               <div class="right"> > </div>
           </a>
+          <a href="/ownerpage/menuRegister" class="item">
+              <div class="text">메뉴등록</div>
+              <div class="right"> > </div>
+          </a>
           <a href="/ownerpage/storeInfoEdit" class="item">
               <div class="text">가게정보수정</div>
               <div class="right"> > </div>

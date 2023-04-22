@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import eat_schedule.dto.StoreDTO;
 import eat_schedule.dto.CouponDTO;
+import eat_schedule.dto.MenuDTO;
 import eat_schedule.dto.RegisterDTO;
 import eat_schedule.dto.ReservationDTO;
 import eat_schedule.dto.ReviewDTO;
@@ -91,5 +92,13 @@ public class OwnerSeriviceImpl implements OwnerService {
 	@Override
 	public int noShowCheckNum(int store_seq) {
 		return dao.noShowCheckNum(store_seq);
+	}
+	@Override
+	public int menuInsert(MenuDTO menu) {
+		return dao.menuInsert(menu);
+	}
+	@Override
+	public int pictureDirInsert(StoreDTO store) {
+		return dao.pictureDirInsert(store);
 	}
 }
