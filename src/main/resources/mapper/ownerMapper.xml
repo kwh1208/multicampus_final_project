@@ -73,8 +73,8 @@
 	select count(seq) from reservation where store_seq=${param1} and reservation_status="예약 완료" and visit_status="방문 미확인";
 </select>
 <insert id="menuInsert" parameterType="eat_schedule.dto.MenuDTO" useGeneratedKeys="true" keyProperty="seq">
-	insert into menu(store_seq, menu_name, price, category, information)
-	values(${store_seq}, #{menu_name}, ${price}, #{category}, #{information})
+	insert into menu(store_seq, menu_name, price, category, information, picture_location)
+	values(${store_seq}, #{menu_name}, ${price}, #{category}, #{information}, #{picture_location})
 </insert>
 <update id="pictureDirInsert">
 	update store set picture_location=#{picture_location} where seq=${seq}

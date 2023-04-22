@@ -193,7 +193,7 @@ public class OwnerController {
             e.printStackTrace();
         }
 		
-		//-------업로드 시자 -> 같은 파일이 존재할 때 파일명을 만들어 주어야 한다. ------
+		//-------업로드 시작 -> 같은 파일이 존재할 때 파일명을 만들어 주어야 한다. ------
 		List<FilenameDTO> fileList = new ArrayList<FilenameDTO>();
 		if(files!=null){//업로드 파일이 있을때
 		
@@ -236,22 +236,23 @@ public class OwnerController {
 			}
 		}//if 업로드 파일이 있을때
 		//----------------------------------------------------------------
-		//4. 메인 글 insert 구현하기 - 생성된 시퀀스를 구해오기
-
-		// 원글의 시퀀스를 번호를 파일명이 있는 dto에 셋팅하기
-//		for(FilenameDTO fDTO:fileList) {
-//			fDTO.setSeq(menu.getSeq());
-//		}
-		//5. 원글 시퀀스, 파일명 DB에 추가
+		String fileName=fileList.get(0).getFilename();
+		menu.setPicture_location(path+"/"+fileName);
+		menu.setStore_seq((Integer)session.getAttribute("storeSeq"));
+		int result=service.menuInsert(menu);
 		
 		ModelAndView mav= new ModelAndView();
-		
-		StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
-		int reservationNoCheck=service.reservationNoCheck(store.getSeq());
-	    int noShowCheckNum=service.noShowCheckNum(store.getSeq());
-	    mav.addObject("reservationNoCheck", reservationNoCheck);
-	    mav.addObject("noShowCheckNum", noShowCheckNum);
-		mav.setViewName("ownerpage/ownerMyPage");
+		if(result>0) {
+			StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
+			int reservationNoCheck=service.reservationNoCheck(store.getSeq());
+		    int noShowCheckNum=service.noShowCheckNum(store.getSeq());
+		    mav.addObject("reservationNoCheck", reservationNoCheck);
+		    mav.addObject("noShowCheckNum", noShowCheckNum);
+			mav.setViewName("ownerpage/ownerMyPage");
+		}else {
+			mav.addObject("msg","가게등록실패!!");
+			mav.setViewName("ownerpage/failResult");
+		}
 		
 		return mav;
 	}
