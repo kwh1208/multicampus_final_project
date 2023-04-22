@@ -16,4 +16,5 @@ public class Reservation {
     private String reservation_time;
     private String reservation_status;
     private String reservation_comment;
+
 }

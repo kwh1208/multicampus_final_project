@@ -1,0 +1,16 @@
+#about-login{
+    float: right;
+    margin-right: 100px;
+}
+.login{
+    display: inline-block;
+}
+#logo{
+    float: left;
+    margin-left: 100px;
+}
+#nav-bar{
+    width: 5%;
+    margin: auto;
+    display: block;
+}

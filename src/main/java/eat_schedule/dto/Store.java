@@ -32,6 +32,8 @@ public class Store {
 
     String how_to_come;
 
+    Integer picture_number;
+
     boolean parking;
 
     boolean wifi;

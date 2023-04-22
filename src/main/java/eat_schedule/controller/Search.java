@@ -1,9 +1,9 @@
 package eat_schedule.controller;
 
 import eat_schedule.dto.Store;
+import eat_schedule.mapper.CommonMapper;
 import eat_schedule.service.FindPromotion;
 import eat_schedule.service.FindStore;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,13 +12,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 
+
 @Controller
 @RequestMapping
-@RequiredArgsConstructor
 public class Search {
     FindPromotion findPromotion;
 
     FindStore findStore;
+
+    CommonMapper CommonMapper;
+
+    public Search(FindPromotion findPromotion, FindStore findStore, CommonMapper CommonMapper) {
+        this.findPromotion = findPromotion;
+        this.findStore = findStore;
+        this.CommonMapper = CommonMapper;
+    }
 
     @GetMapping("search")
     public String searchDistrict(@RequestParam("district") String district,
@@ -31,8 +39,9 @@ public class Search {
 
         model.addAttribute("promotionList", findPromotion(district));
 
-//        model.addAttribute("area", area);
-//        model.addAttribute("AllCategory", Common.category);
+        model.addAttribute("region", CommonMapper.findArea());
+
+        model.addAttribute("AllCategory", CommonMapper.findCategory());
 
 
         if(sort.isEmpty()){
@@ -44,7 +53,7 @@ public class Search {
             model.addAttribute("storeList", sortStore(district, category, sort));
         }
 
-        return "search/find-location";
+        return "find-location";
     }
     ArrayList<Store> findPromotion(String district){
         return findPromotion.findPromotionList(district);

@@ -2,33 +2,42 @@ package eat_schedule.controller;
 
 import eat_schedule.dto.Reservation;
 import eat_schedule.dto.Store;
+import eat_schedule.mapper.CouponMapper;
 import eat_schedule.mapper.MenuMapper;
+import eat_schedule.mapper.ReservationMapper;
 import eat_schedule.mapper.ReviewMapper;
 import eat_schedule.service.FindStore;
 import eat_schedule.service.UpdateReservation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RequestMapping("/restaurant")
 @Controller
+@Slf4j
 @RequiredArgsConstructor
 public class Restaurant {
-    FindStore findStore;
-    MenuMapper menuMapper;
-    ReviewMapper reviewMapper;
-    UpdateReservation updateReservation;
+
+    private final FindStore findStore;
+    private final MenuMapper menuMapper;
+    private final ReviewMapper reviewMapper;
+    private final UpdateReservation updateReservation;
+    private final ReservationMapper reservationMapper;
+    private final CouponMapper couponMapper;
+
+
+
     @GetMapping("/{seq}")
+
     public String showRestaurant(@PathVariable int seq,
+                                 @RequestParam("user_id") String user_id,
                                  Model model){
 
         Store store = findStore.findStoreBySeq(seq);
+
         StringBuilder facility = facility(store);
-
-
 
 
         model.addAttribute("facility", facility);
@@ -43,7 +52,11 @@ public class Restaurant {
 
         model.addAttribute("store", store);
 
-        return "/search/store";
+        model.addAttribute("left", reservationMapper.findReservationLeft(seq));
+
+        model.addAttribute("coupon", couponMapper.findCoupon(user_id));
+
+        return "store";
     }
 
     //예약임.
@@ -51,6 +64,7 @@ public class Restaurant {
     public String showRestaurant(@PathVariable int seq,
                                  @SessionAttribute("logStatus") boolean login,
                                  @RequestParam("reservation") Reservation reservation,
+                                 String code,
                                  Model model){
         if(!login){
             return "WEB-INF/views/register/loginForm";//로그인페이지 url
@@ -59,6 +73,7 @@ public class Restaurant {
         model.addAttribute("reservation", reservation);
 
         updateReservation.updateReservation(reservation);
+
 
         return "redirect:/store/"+seq;
     }
