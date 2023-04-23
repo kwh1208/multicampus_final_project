@@ -397,7 +397,7 @@ public class OwnerController {
 	public ModelAndView reservationFailOk(@ModelAttribute("ReservationDTO") ReservationDTO reservation, HttpSession session) {
 		ModelAndView mav= new ModelAndView();
         int cnt=service.reservationCheck(reservation);
-        if(cnt>0){// 예약확인 완료
+        if(cnt>0){// 예약거절(취소) 완료
         	StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
 		    int reservationNoCheck=service.reservationNoCheck(store.getSeq());
 		    mav.addObject("reservationNoCheck", reservationNoCheck);
@@ -436,7 +436,7 @@ public class OwnerController {
         bDTO.setTotal_balloon(new_balloon);
         int cnt2=service.balloonGive(reservation.getUser_id(), new_balloon);
         int cnt3=service.balloonListUpdate(bDTO);
-        if(cnt2>0 && cnt>0 && cnt3>0){// 예약확인 완료
+        if(cnt2>0 && cnt>0 && cnt3>0){// 확인 완료
         	StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
         	int reservationNoCheck=service.reservationNoCheck(store.getSeq());
 		    int noShowCheckNum=service.noShowCheckNum(store.getSeq());
@@ -453,7 +453,7 @@ public class OwnerController {
 	public ModelAndView noShowCheckOk(@ModelAttribute("ReservationDTO") ReservationDTO reservation, HttpSession session) {
 		ModelAndView mav= new ModelAndView();
         int cnt=service.showCheck(reservation);
-        if(cnt>0){// 예약확인 완료
+        if(cnt>0){// 노쇼확인 완료
         	StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
         	int reservationNoCheck=service.reservationNoCheck(store.getSeq());
 		    int noShowCheckNum=service.noShowCheckNum(store.getSeq());
