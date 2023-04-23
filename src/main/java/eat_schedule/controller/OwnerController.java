@@ -392,6 +392,22 @@ public class OwnerController {
 		}
 		return mav;
 	}
+	
+	@PostMapping("reservationFailOk")
+	public ModelAndView reservationFailOk(@ModelAttribute("ReservationDTO") ReservationDTO reservation, HttpSession session) {
+		ModelAndView mav= new ModelAndView();
+        int cnt=service.reservationCheck(reservation);
+        if(cnt>0){// 예약확인 완료
+        	StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
+		    int reservationNoCheck=service.reservationNoCheck(store.getSeq());
+		    mav.addObject("reservationNoCheck", reservationNoCheck);
+			mav.setViewName("ownerpage/ownerMyPage");
+		}else{// 수정실패시 -> 이전페이지 (알림)
+			mav.addObject("msg","예약확인 실패!!");
+			mav.setViewName("register/failResult");
+		}
+		return mav;
+	}
 	@GetMapping("reviewContent")
 	public ModelAndView reviewContent(Integer no) {
 		ModelAndView mav= new ModelAndView();
@@ -421,6 +437,23 @@ public class OwnerController {
         int cnt2=service.balloonGive(reservation.getUser_id(), new_balloon);
         int cnt3=service.balloonListUpdate(bDTO);
         if(cnt2>0 && cnt>0 && cnt3>0){// 예약확인 완료
+        	StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
+        	int reservationNoCheck=service.reservationNoCheck(store.getSeq());
+		    int noShowCheckNum=service.noShowCheckNum(store.getSeq());
+		    mav.addObject("reservationNoCheck", reservationNoCheck);
+		    mav.addObject("noShowCheckNum", noShowCheckNum);
+			mav.setViewName("ownerpage/ownerMyPage");
+		}else{// 수정실패시 -> 이전페이지 (알림)
+			mav.addObject("msg","방문확인 실패!!");
+			mav.setViewName("register/failResult");
+		}
+		return mav;
+	}
+	@PostMapping("noShowCheckOk")
+	public ModelAndView noShowCheckOk(@ModelAttribute("ReservationDTO") ReservationDTO reservation, HttpSession session) {
+		ModelAndView mav= new ModelAndView();
+        int cnt=service.showCheck(reservation);
+        if(cnt>0){// 예약확인 완료
         	StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
         	int reservationNoCheck=service.reservationNoCheck(store.getSeq());
 		    int noShowCheckNum=service.noShowCheckNum(store.getSeq());

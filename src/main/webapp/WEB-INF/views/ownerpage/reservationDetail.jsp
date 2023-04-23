@@ -37,17 +37,28 @@
 		<input type="hidden" name="reservation_status" value="예약 완료">
 		<button type="submit">예약 확정</button>
 	</form>
+	<form id="reservationCheck-form" ModelAttribute="ReservationDTO" action="reservationFailOk" method="post">
+		<input type="hidden" name="seq" value="${reservationDetail.seq }">
+		<input type="hidden" name="reservation_status" value="예약 취소">
+		<button type="submit">예약 취소</button>
+	</form>
 	</c:if>
 	<ul>
 		<c:if test="${reservationDetail.reservation_status eq '예약 완료' && reservationDetail.visit_status eq '방문 미확인'}">
 		<li>예약 상태</li>
 		<li>${reservationDetail.visit_status }</li>
 		<form id="reservationCheck-form" ModelAttribute="ReservationDTO" action="showCheckOk" method="post">
-		<input type="hidden" name="seq" value="${reservationDetail.seq }">
-		<input type="hidden" name="user_id" value="${reservationDetail.user_id }">
-		<input type="hidden" name="visit_status" value="방문 확인">
-		<button type="submit">방문 확인</button>
-	</form>
+			<input type="hidden" name="seq" value="${reservationDetail.seq }">
+			<input type="hidden" name="user_id" value="${reservationDetail.user_id }">
+			<input type="hidden" name="visit_status" value="방문 확인">
+			<button type="submit">방문 확인</button>
+		</form>
+		<form id="reservationCheck-form" ModelAttribute="ReservationDTO" action="noShowCheckOk" method="post">
+			<input type="hidden" name="seq" value="${reservationDetail.seq }">
+			<input type="hidden" name="user_id" value="${reservationDetail.user_id }">
+			<input type="hidden" name="visit_status" value="노쇼">
+			<button type="submit">노쇼</button>
+		</form>
 		</c:if>
 	</ul>
 </body>
