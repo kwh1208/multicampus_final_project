@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import eat_schedule.dto.StoreDTO;
+import eat_schedule.dto.BalloonDTO;
 import eat_schedule.dto.CouponDTO;
 import eat_schedule.dto.MenuDTO;
 import eat_schedule.dto.RegisterDTO;
@@ -47,7 +48,9 @@ public interface OwnerDAO {
 	public int showCheck(ReservationDTO reservation);
 	//먹풍지급
 	public int balloonGive(String user_id, int balloon);
-	//풍선개수확인
+	//먹풍지급내역 업데이트
+	public int balloonListUpdate(BalloonDTO balloon);
+	//풍선내역불러오기
 	public int balloonNowNumber(String user_id);
 	//쿠폰지급여부
 	public int couponStatus(Integer review_seq);

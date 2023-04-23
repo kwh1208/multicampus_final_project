@@ -151,12 +151,16 @@ body{
               <div class="text">가게등록</div>
               <div class="right"> > </div>
           </a>
+          <a href="/ownerpage/storeInfoEdit" class="item">
+              <div class="text">가게정보수정</div>
+              <div class="right"> > </div>
+          </a>
           <a href="/ownerpage/menuRegister" class="item">
               <div class="text">메뉴등록</div>
               <div class="right"> > </div>
           </a>
-          <a href="/ownerpage/storeInfoEdit" class="item">
-              <div class="text">가게정보수정</div>
+          <a href="#menuedit" class="item">
+              <div class="text">메뉴정보수정</div>
               <div class="right"> > </div>
           </a>
           <a href="#information" class="item">
@@ -168,7 +172,7 @@ body{
               <div class="right"> > </div>
           </a>
           <a href="/ownerpage/commentManager" class="item">
-              <div class="text">댓글관리 및 쿠폰주기</div>
+              <div class="text">댓글관리 및 쿠폰증정</div>
               <div class="right"> > </div>
           </a>
           <a href="/ownerpage/advApply" class="item">

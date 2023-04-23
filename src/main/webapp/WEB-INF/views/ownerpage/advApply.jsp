@@ -5,87 +5,48 @@
 <head>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
     <!-- iamport.payment.js -->
-	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
+	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 	<script>
 	// 주문번호 만들기
-	function createOrderNum(){
-		const date = new Date();
-		const year = date.getFullYear();
-		const month = String(date.getMonth() + 1).padStart(2, "0");
-		const day = String(date.getDate()).padStart(2, "0");
-		
-		let orderNum = year + month + day;
-		for(let i=0;i<10;i++) {
-			orderNum += Math.floor(Math.random() * 8);	
-		}
-		return orderNum;
-	}
-
-
-	// 카드 결제
-	function paymentCard(data) {
-		// 모바일로 결제시 이동페이지
-		const pathName = location.pathname;
-		const href = location.href;
-		const m_redirect = href.replaceAll(pathName, "");
-			
-		IMP.init("가맹점 식별코드"); 
-			
-		IMP.request_pay({ // param
-			pg: "html5_inicis",
-		  	pay_method: data.payMethod,
-		  	merchant_uid: data.orderNum,
-		  	name: data.name,
-		  	amount: data.amount,
-		   	buyer_email: "",
-		   	buyer_name: "",
-		  	buyer_tel: data.phone,
-		  	buyer_addr: data.deleveryAddress2 + " " + data.deleveryAddress3,
-		  	buyer_postcode: data.deleveryAddress1,
-		  	m_redirect_url: m_redirect, 
-	  	}, 
-		function (rsp) { // callback
-			if (rsp.success) {
-	         // 결제 성공 시 로직,
-		        data.impUid = rsp.imp_uid;
-		        data.merchant_uid = rsp.merchant_uid;
-		        paymentComplete(data);  
-				
-			} else {
-	          // 결제 실패 시 로직,
-			}
-		});
-	}
-
-	// 계산 완료
-	function paymentComplete(data) {
-		
-		 $.ajax({
-			url: "/api/order/payment/complete",
-	        method: "POST",
-	        data: data,
-		})
-		.done(function(result) {
-			messageSend();
-	        swal({
-				text: result,
-				closeOnClickOutside : false
-			})
-			.then(function(){
-				location.replace("/orderList");
-			})
-		}) // done 
-	    .fail(function() {
-			alert("에러");
-			location.replace("/");
-		}) 
-	}  
+	const IMP=window.IMP;
+	IMP.init("imp23255514");
+	
+	var today = new Date();   
+    var hours = today.getHours(); // 시
+    var minutes = today.getMinutes();  // 분
+    var seconds = today.getSeconds();  // 초
+    var milliseconds = today.getMilliseconds();
+    var makeMerchantUid = hours +  minutes + seconds + milliseconds;
+	
+    function requestPay() {
+        IMP.request_pay({
+            pg : 'html5_inicis',
+            pay_method : 'card',
+            merchant_uid: "IMP"+makeMerchantUid, 
+            name : '당근 10kg',
+            amount : 1004,
+            buyer_email : 'kyt10192006@naver.com',
+            buyer_name : '김용태',
+            buyer_tel : '010-5377-2273',
+            buyer_addr : '서울특별시 강남구 삼성동',
+            buyer_postcode : '123-456'
+        }, function (rsp) { // callback
+            if (rsp.success) {
+                console.log(rsp);
+            } else {
+                console.log(rsp);
+            }
+        });
+    }
 	</script>
     <title>광고리스트신청페이지</title>
     
 </head>
 <body>
 	관고리스트신청
+	 <button onclick="requestPay()">결제하기</button> <!-- 결제하기 버튼 생성 -->
 </body>
 </html>

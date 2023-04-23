@@ -4,6 +4,7 @@ import eat_schedule.dto.StoreDTO;
 
 import java.util.List;
 
+import eat_schedule.dto.BalloonDTO;
 import eat_schedule.dto.CouponDTO;
 import eat_schedule.dto.MenuDTO;
 import eat_schedule.dto.RegisterDTO;
@@ -45,6 +46,8 @@ public interface OwnerService {
 	public int showCheck(ReservationDTO reservation);
 	//먹풍지급
 	public int balloonGive(String user_id, int balloon);
+	//먹풍지급내역 업데이트
+	public int balloonListUpdate(BalloonDTO balloon);
 	//풍선정보 불러오기
 	public int balloonNowNumber(String user_id);
 	//쿠폰지급여부

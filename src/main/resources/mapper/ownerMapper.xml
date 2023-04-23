@@ -79,4 +79,8 @@
 <update id="pictureDirInsert">
 	update store set picture_location=#{picture_location} where seq=${seq}
 </update>
+<insert id="balloonListUpdate">
+	insert into balloon(user_id, store_seq, use_get, use_get_time, balloon, total_balloon, content)
+	values(#{user_id}, ${store_seq}, 1, now(), 8, ${total_balloon}, "적립(방문 확인)")
+</insert>
 </mapper>

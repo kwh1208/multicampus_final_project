@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import eat_schedule.dto.StoreDTO;
+import eat_schedule.dto.BalloonDTO;
 import eat_schedule.dto.CouponDTO;
 import eat_schedule.dto.MenuDTO;
 import eat_schedule.dto.RegisterDTO;
@@ -100,5 +101,9 @@ public class OwnerSeriviceImpl implements OwnerService {
 	@Override
 	public int pictureDirInsert(StoreDTO store) {
 		return dao.pictureDirInsert(store);
+	}
+	@Override
+	public int balloonListUpdate(BalloonDTO balloon) {
+		return dao.balloonListUpdate(balloon);
 	}
 }

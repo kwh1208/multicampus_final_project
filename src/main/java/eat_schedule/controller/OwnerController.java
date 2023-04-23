@@ -30,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import eat_schedule.dto.StoreDTO;
+import eat_schedule.dto.BalloonDTO;
 import eat_schedule.dto.CouponDTO;
 import eat_schedule.dto.FilenameDTO;
 import eat_schedule.dto.MenuDTO;
@@ -410,11 +411,16 @@ public class OwnerController {
 	@PostMapping("showCheckOk")
 	public ModelAndView showCheckOk(@ModelAttribute("ReservationDTO") ReservationDTO reservation, HttpSession session) {
 		ModelAndView mav= new ModelAndView();
+		BalloonDTO bDTO = new BalloonDTO();
         int cnt=service.showCheck(reservation);
         int balloon=service.balloonNowNumber(reservation.getUser_id());
         int new_balloon=balloon+8;
+        bDTO.setUser_id(reservation.getUser_id());
+        bDTO.setStore_seq((Integer)session.getAttribute("storeSeq"));
+        bDTO.setTotal_balloon(new_balloon);
         int cnt2=service.balloonGive(reservation.getUser_id(), new_balloon);
-        if(cnt2>0 && cnt>0){// 예약확인 완료
+        int cnt3=service.balloonListUpdate(bDTO);
+        if(cnt2>0 && cnt>0 && cnt3>0){// 예약확인 완료
         	StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
         	int reservationNoCheck=service.reservationNoCheck(store.getSeq());
 		    int noShowCheckNum=service.noShowCheckNum(store.getSeq());
