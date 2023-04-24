@@ -1,16 +1,65 @@
-#about-login{
-    float: right;
-    margin-right: 100px;
-}
-.login{
-    display: inline-block;
+*{
+    position: fixed;
 }
 #logo{
+    width: 150px;
     float: left;
-    margin-left: 100px;
+    display: flex;
+    padding-left: 8%;
+    padding-top: 0.5%;
 }
-#nav-bar{
-    width: 5%;
-    margin: auto;
-    display: block;
+#about_login{
+    padding-left: 78%;
+    padding-top: 3%;
+}
+#about_login>li{
+    position:relative;
+    float:left;
+    list-style: none;
+}
+#mypage{
+    padding-left: 70px;
+}
+#balloon{
+    padding-left: 160px;
+}
+#coupon{
+    padding-left: 200px;
+}
+#login{
+    padding-top: 1%;
+}
+#join{
+    padding-left: 60px;
+    padding-top: 1%;
+}
+#nav-bar_ul{
+    list-style:none;
+    padding-left: 45%;
+    padding-top: 3%;
+}
+#slide_wrap{
+    padding-top:15%;
+}
+#item1{
+    padding-top: 0%;
+    padding-left: 16%;
+    width: 500px;
+}
+#item2{
+    padding-top: 0%;
+    padding-left: 41%;
+}
+#item3{
+    padding-top: 0%;
+    padding-left: 67%;
+}
+.slide_button{
+    padding-top: 5%;
+}
+.slide_prev_button{
+    padding-left: 10%;
+}
+.slide_next_button{
+    padding-left: 90%;
 }

@@ -3,26 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <title th:text="${store.store_name}"></title>
-  <script src="../js/calendar.js"></script>
+  <script src="../static/js/calendar.js"></script>
   <link rel="stylesheet" href="/css/store.css">
 </head>
 <body>
-<div id="header">
-<span id="logo">logo</span>
-<div id="nav-bar">nav-bar</div>
-<div id="about-login">
-  <ul>
-    <li class="login"><a th:if="${session.logStatus != null} " th:href="logout" th:text="로그아웃" href="login" id="logout"></a></li>
-    <li class="login"><a th:if="${session.logStatus != null} " th:href="mypage" th:text="마이페이지" href="join" id="mypage"></a></li>
-    <li class="login"><a th:if="${session.logStatus != null} " th:href="logout" id="balloon">먹풍</a></li>
-    <li class="login"><a th:if="${session.logStatus != null} " th:href="logout" id="coupon">쿠폰</a></li>
-    <li class="login"><a th:if="${session.logStatus == null} " th:href="logout" id="login">로그인</a></li>
-    <li class="login"><a th:if="${session.logStatus == null} " th:href="logout" id="join">회원가입</a></li>
+<div class="header">
+<a href="http://localhost:8080"><img src="/picture/logo.jpg" id="logo"></a>
+  <ul id="nav-bar_ul">
+    <li id="store" style="float: left">상점</li>
+    <li id="qna" style="float: left; padding-left: 40px">문의사항</li>
+  </ul>
+  <ul id="about_login">
+    <li><a th:if="${session.logStatus != null} " th:href="logout" th:text="로그아웃" href="login" id="logout">로그아웃</a></li>
+    <li><a th:if="${session.logStatus != null} " th:href="mypage" th:text="마이페이지" href="join" id="mypage">마이페이지</a></li>
+    <li><a th:if="${session.logStatus != null} " th:href="logout" id="balloon">먹풍</a></li>
+    <li><a th:if="${session.logStatus != null} " th:href="logout" id="coupon">쿠폰</a></li>
+    <li><a th:if="${session.logStatus == null} " th:href="logout" id="login">로그인</a></li>
+    <li><a th:if="${session.logStatus == null} " th:href="logout" id="join">회원가입</a></li>
   </ul>
 </div>
-</div>
-<th:block id="store_seq" th:value="${store.seq}"></th:block>
-<div class="slide slide_wrap">
+<div id="slide_wrap">
+  <div class="slide_item" id="item1">
+    <img src="/picture/test.jpg">
+  </div>
+  <div class="slide_item" id="item2">
+    <img src="/picture/test.jpg">
+  </div>
+  <div class="slide_item" id="item3">
+    <img src="/picture/test.jpg">
+  </div>
 <!--  <div class="slide_item item1" th:each="fileInfo: ${fileInfos}">-->
 <!--    <img th:src="@{/src/main/webapp/storeuploadfile/store__${store.seq}/storepicture/${fileInfo}}">-->
 <!--  </div>-->
@@ -35,7 +44,7 @@
   <div th:object="${store}"><!--/* 음식점정보 */-->
     <div id="map" style="width:100%;height:350px;"></div><!--/* 지도 */-->
       <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bf51c8be3f9bf6ff5d80d7217305cd1b&libraries=services"></script>
-      <script type="text/javascript" src="../js/map.js"></script>
+      <script type="text/javascript" src="../static/js/map.js" th:value="*{location}" id="store_location_map"></script>
     <table>
       <tr th:field="*{store_name}" th:text="*{store_name}"></tr>
       <tr th:field="*{location}" th:text="*{location}"></tr>
@@ -95,7 +104,7 @@
       <option value="">쿠폰 사용</option>
       <option th:each="coupon:${coupon}" th:value="${coupon.discount_rate}" th:text="${coupon.discount_rate}"></option>
     </select>
-    <button onclick="onDisplay()">예약</button>
+    <button onclick="onDisplay()" id="reservation_button">예약</button>
   </div>
   <script>
     /*<![CDATA[*/

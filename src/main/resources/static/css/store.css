@@ -1,0 +1,21 @@
+#logo{
+    width: 150px;
+    float: left;
+    display: flex;
+}
+.login, .logout{
+    float: right;
+    list-style:none;
+}
+#about_login{
+
+}
+#nav-bar_ul{
+    list-style:none;
+    text-align: center;
+    width: 200px;
+    float: left;
+    margin: auto;
+    display: flex;
+    padding-left: 0px;
+}

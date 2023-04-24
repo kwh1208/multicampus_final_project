@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 @Component
 @Getter
 @Setter
-public class Menu {
-    private String menu_name;
-    private Integer price;
-    private String category;
+public class Common {
+    private String[] area = {"강남역", "가로수길"};
+
+    private String[] category = {"한식", "일식"};
 }

@@ -1,0 +1,63 @@
+<!--<!DOCTYPE html>-->
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/slide.css"/>
+    <title th:text="${district}"></title>
+</head>
+<body>
+<span>logo</span>
+<div>nav-bar</div>
+<div>
+    <a th:if="${session.logStatus != null} " th:href="logout" th:text="로그아웃" href="login"></a>
+    <a th:if="${session.logStatus != null} " th:href="mypage" th:text="마이페이지" href="join"></a>
+    <a th:if="${session.logStatus != null} " href="logout">먹풍</a>
+    <a th:if="${session.logStatus != null} " href="logout">쿠폰</a>
+    <a th:if="${session.logStatus == null} " href="logout">로그인</a>
+    <a th:if="${session.logStatus == null} " href="logout">회원가입</a>
+</div>
+<form action="./search" method="get">
+    <th:block th:each="area:${area}">
+    <select name="district" th:field="*{area}">
+        <option th:selected="${area}==${district}" th:text="${area}"></option>
+    </select>
+    </th:block>
+<select name="category" th:label="category">
+    <option th:value="">--선택--</option>
+    <option th:each="val:${category}" th:value="${category}" th:id="${category}" th:text="${category}" ></option>
+</select>
+    <button type="submit">수정 버튼</button>
+</form>
+<div class="slide slide_wrap">
+    <div class="slide_item item1" th:each="List:${promotionList}">
+        <a th:href="@{/restaurant/{seq}(seq=${List.seq})}">
+        <img th:src="@{/picture/store/{seq}(seq=${List.seq})}">
+        <table>
+                <tr th:text="${List.store_name}"></tr>
+                <tr th:text="${List.tel_number}"></tr>
+                <tr th:text="${List.category}"></tr>
+                <tr th:text="${List.review}"></tr>
+                <tr th:text="${List.score}"></tr>
+        </table>
+        </a>
+    </div>
+    <div class="slide_prev_button slide_button">◀</div>
+    <div class="slide_next_button slide_button">▶</div>
+    <ul class="slide_pagination"></ul>
+</div>
+<script th:inline="javascript" th:src="@{/js/slide.js}"></script>
+<form action="" method="get">
+    <button class="sort_btn" value="score">평점순</button>
+    <button class="sort_btn" value="review">리뷰많은순</button>
+    <button class="sort_btn" value="wish">찜목록 많은순</button>
+</form>
+<div th:each="store:${storeList}" th:if="${store.category}==${category}">
+    <a th:href="@{/restaurant/{seq}(seq=${store.seq})}">
+    <img th:src="@{/picture/store/{seq}.jpg(seq=${store.seq})}">
+    <h3 th:text="${store.store_name}">가게이름</h3>
+    <img src="/picture/star.jpg" alt="별 사진">
+    <p th:text="${store.score}">평점</p>
+    </a>
+</div>
+</body>
+</html>

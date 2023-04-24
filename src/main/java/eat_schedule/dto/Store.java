@@ -8,43 +8,43 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 public class Store {
-    Integer seq;
+    private Integer seq;
 
-    String category;
+    private String category;
 
-    Integer score;
+    private Integer score;
 
-    Integer review;
+    private Integer review;
 
-    Integer wish;
+    private Integer wish;
 
-    String store_name;
+    private String store_name;
 
-    String tel_number;
+    private String tel_number;
 
-    String location;
+    private String location;
 
-    String comment;
+    private String comment;
 
-    String open_time;
+    private String open_time;
 
-    String close_time;
+    private String close_time;
 
-    String how_to_come;
+    private String how_to_come;
 
-    Integer picture_number;
+    private Integer picture_number;
 
-    boolean parking;
+    private boolean parking;
 
-    boolean wifi;
+    private boolean wifi;
 
-    boolean animal;
+    private boolean animal;
 
-    boolean group_customer;
+    private boolean group_customer;
 
-    boolean playroom;
+    private boolean playroom;
 
-    boolean disabled;
+    private boolean disabled;
     public int compareScore(Store o) {
         if(this.score.equals(o.score))
             return 0;

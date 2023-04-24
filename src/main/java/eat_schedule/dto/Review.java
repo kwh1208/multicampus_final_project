@@ -8,22 +8,21 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 public class Review {
-    String user_id;
-    Integer store_seq;
+    private String user_id;
+    private Integer store_seq;
+    private String owner_id;
 
-    String owner_id;
+    private Integer score;
 
-    Integer score;
+    private String review;
 
-    String review;
+    private String review_time;
 
-    String review_time;
+    private String owner_comment;
 
-    String owner_comment;
+    private String comment_time;
 
-    String comment_time;
-
-    String picture_location;
+    private String picture_location;
 
 
 }

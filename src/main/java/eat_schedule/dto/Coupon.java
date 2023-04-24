@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class Coupon {
-    String user_id;
-    LocalDateTime expired_period;
-    int discount_rate;
-    int store_seq;
+    private String user_id;
+    private LocalDateTime expired_period;
+    private int discount_rate;
+    private int store_seq;
 }

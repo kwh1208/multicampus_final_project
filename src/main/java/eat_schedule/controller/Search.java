@@ -1,9 +1,10 @@
 package eat_schedule.controller;
 
-import eat_schedule.dto.Store;
 import eat_schedule.mapper.CommonMapper;
+import eat_schedule.dto.Store;
 import eat_schedule.service.FindPromotion;
 import eat_schedule.service.FindStore;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,18 +16,13 @@ import java.util.ArrayList;
 
 @Controller
 @RequestMapping
+@RequiredArgsConstructor
 public class Search {
-    FindPromotion findPromotion;
+    private final FindPromotion findPromotion;
 
-    FindStore findStore;
+    private final FindStore findStore;
 
-    CommonMapper CommonMapper;
-
-    public Search(FindPromotion findPromotion, FindStore findStore, CommonMapper CommonMapper) {
-        this.findPromotion = findPromotion;
-        this.findStore = findStore;
-        this.CommonMapper = CommonMapper;
-    }
+    private final CommonMapper CommonMapper;
 
     @GetMapping("search")
     public String searchDistrict(@RequestParam("district") String district,

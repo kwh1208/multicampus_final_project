@@ -1,8 +1,8 @@
 package eat_schedule.mapper;
 
-import eat_schedule.dto.Coupon;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
+import eat_schedule.dto.Coupon;
 
 import java.util.List;
 

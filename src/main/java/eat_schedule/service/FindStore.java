@@ -1,18 +1,16 @@
 package eat_schedule.service;
 
-import eat_schedule.dto.Store;
 import eat_schedule.mapper.StoreMapper;
+import eat_schedule.dto.Store;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
 @Service
+@RequiredArgsConstructor
 public class FindStore {
-    StoreMapper StoreMapper;
-
-    public FindStore(StoreMapper storeMapper) {
-        StoreMapper = storeMapper;
-    }
+    private final StoreMapper StoreMapper;
 
     public ArrayList<Store> findAllStore(String district, String category){
 

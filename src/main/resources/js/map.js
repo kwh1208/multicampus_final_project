@@ -10,8 +10,10 @@ var map = new kakao.maps.Map(mapContainer, mapOption);
 // 주소-좌표 변환 객체를 생성합니다
 var geocoder = new kakao.maps.services.Geocoder();
 
+var location = document.getElementById(store_location_map);
+
 // 주소로 좌표를 검색합니다
-geocoder.addressSearch('[[${store.location}]]', function(result, status) {
+geocoder.addressSearch(location, function(result, status) {
 
     // 정상적으로 검색이 완료됐으면
     if (status === kakao.maps.services.Status.OK) {
