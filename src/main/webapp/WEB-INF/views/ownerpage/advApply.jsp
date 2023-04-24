@@ -12,7 +12,7 @@
 	<script>
 	// 주문번호 만들기
 	const IMP=window.IMP;
-	IMP.init("imp23255514");
+	IMP.init("imp");
 	
 	var today = new Date();   
     var hours = today.getHours(); // 시
@@ -28,9 +28,9 @@
             merchant_uid: "IMP"+makeMerchantUid, 
             name : '당근 10kg',
             amount : 1004,
-            buyer_email : 'kyt10192006@naver.com',
-            buyer_name : '김용태',
-            buyer_tel : '010-5377-2273',
+            buyer_email : '',
+            buyer_name : '',
+            buyer_tel : '',
             buyer_addr : '서울특별시 강남구 삼성동',
             buyer_postcode : '123-456'
         }, function (rsp) { // callback
