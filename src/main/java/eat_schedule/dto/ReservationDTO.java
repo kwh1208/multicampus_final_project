@@ -20,5 +20,4 @@ public class ReservationDTO {
 	
 	private String user_name;
 	private String phone_number;
-	
 }

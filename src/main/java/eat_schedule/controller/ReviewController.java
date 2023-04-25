@@ -26,53 +26,79 @@ public class ReviewController {
 	ReviewService service;
 	
 	// 리뷰 목록 불러오기
-		@GetMapping("user/myReview")
-		public ModelAndView myReview(HttpSession session) { 
-			ModelAndView mav = new ModelAndView();
-			
-			List<ReviewDTO> list = service.ReviewSelect((String)session.getAttribute("logId"));
-			mav.addObject("list", list);
-			mav.setViewName("user/user/myReview");	
-			return mav;
-		}
+	@GetMapping("user/myReview")
+	public ModelAndView myReview(HttpSession session) { 
+		ModelAndView mav = new ModelAndView();
+		
+		List<ReviewDTO> list = service.ReviewSelect((String)session.getAttribute("logId"));
+		mav.addObject("list", list);
+		mav.setViewName("user/user/myReview");	
+		return mav;
+	}
 
-		// 리뷰 저장 (DB)
-		@RequestMapping(value="user/ReviewWriteOk", method=RequestMethod.POST)
-		public ModelAndView ReviewWriteOk(ReviewDTO dto, HttpSession session) {
-			ModelAndView mav = new ModelAndView();
-			
-			dto.setUser_id((String)session.getAttribute("logId"));
-			
-			int result = service.ReviewInsert(dto);
-			
-			if(result>0) {
-				mav.setViewName("redirect:/user/user/myReview"); //리뷰등록 성공
-			}else {
-				mav.addObject("msg", "리뷰 등록 실패");
-				mav.setViewName("user/user/joinOkResult");	// 리뷰 등록 실패
-			}
-			// joinOkResult -> msg알림, 이전페이지
-			return mav;
-		}
+	// 리뷰 저장 (DB)
+	@RequestMapping(value="user/ReviewWriteOk", method=RequestMethod.POST)
+	public ModelAndView ReviewWriteOk(ReviewDTO dto, HttpSession session) {
+		ModelAndView mav = new ModelAndView();
 		
-		// 리뷰 수정
-		@GetMapping("user/reviewEdit")
-		public ModelAndView ReviewEditForm(Integer no) {
-			ModelAndView mav = new ModelAndView();
-			
-			ReviewDTO dto = service.ReviewEdit(no);
-			mav.addObject("dto", dto);
-			mav.setViewName("user/user/ReviewEditForm");
-			
-			return mav;
-		}
+		dto.setUser_id((String)session.getAttribute("logId"));
 		
-		// 리뷰 수정 저장(DB)
-		@RequestMapping(value="user/reviewEditOk", method=RequestMethod.POST)
-		public ModelAndView ReviewEditOk(ReviewDTO dto, HttpSession session) {
-			ModelAndView mav = new ModelAndView();
-			dto.setUser_id((String)session.getAttribute("logId"));
-			
-			return mav;
+		int result = service.ReviewInsert(dto);
+		
+		if(result>0) {
+			mav.setViewName("redirect:/user/user/myReview"); //리뷰등록 성공
+		}else {
+			mav.addObject("msg", "리뷰 등록 실패");
+			mav.setViewName("user/user/joinOkResult");	// 리뷰 등록 실패
 		}
+		// joinOkResult -> msg알림, 이전페이지
+		return mav;
+	}
+	
+	// 리뷰 수정
+	@GetMapping("user/reviewEdit")
+	public ModelAndView ReviewEditForm(Integer no) {
+		ModelAndView mav = new ModelAndView();
+		
+		ReviewDTO dto = service.ReviewEdit(no);
+		mav.addObject("dto", dto);
+		mav.setViewName("user/user/reviewEditForm");
+		
+		return mav;
+	}
+	                
+	// 리뷰 수정 저장(DB)
+	@RequestMapping(value="user/reviewEditOk", method=RequestMethod.POST)
+	public ModelAndView ReviewEditOk(ReviewDTO dto, HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		
+		dto.setUser_id((String)session.getAttribute("logId"));
+		
+		int result = service.ReviewEditOk(dto);
+		
+		if(result>0) {
+			mav.setViewName("redirect:/user/user/myReview"); //리뷰등록 성공
+		}else {
+			mav.addObject("msg", "리뷰 등록 실패");
+			mav.setViewName("user/user/joinOkResult");	// 리뷰 등록 실패
+		}
+		// joinOkResult -> msg알림, 이전페이지
+		return mav;
+	}
+	
+	// 리뷰 삭제
+	@GetMapping("user/reviewDel")
+	public ModelAndView reviewDel(int no, HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		
+		int result = service.ReviewDelete(no);
+		
+		if(result>0) {
+			mav.setViewName("redirect:/user/user/myReview"); //리뷰등록 성공
+		}else {
+			mav.addObject("msg", "리뷰 삭제 실패");
+			mav.setViewName("user/user/joinOkResult");	// 리뷰 등록 실패
+		}
+		return mav;
+	}
 }

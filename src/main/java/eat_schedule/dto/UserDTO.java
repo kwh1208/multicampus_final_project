@@ -11,33 +11,27 @@ public class UserDTO {
 	private String user_password;
 	private String user_name;
 	private String nickname;
-	private int isowner;
+	private int is_owner;
 	private String phone_number;
 	private String address;
 	private int gender;
 	private String email;
-	private int last_month_balloon;
-	private int now_balloon;
-	private String grade;
+	private int balloon;
 	private String join_date;
-
-
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setUser_id(String attribute) {
+		// TODO Auto-generated method stub
+		
 	}
-
-
 	public Object getUser_id() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
+	public Object getUser_name() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	public Object getIs_owner() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
-	
 }

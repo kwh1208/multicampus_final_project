@@ -18,9 +18,12 @@ public class ReservationServiceImpl implements ReservationService {
 	public List<ReservationDTO> ReservationSelect(String user_id) {
 		return dao.ReservationSelect(user_id);
 	}
-	
 	@Override
-	public ReservationDTO ReviewWrite(String user_id) {
-		return dao.ReviewWrite(user_id);
+	public ReservationDTO ReviewWrite(int no) {
+		return dao.ReviewWrite(no);
+	}
+	@Override
+	public int ReservationDelete(int no) {
+		return dao.ReservationDelete(no);
 	}
 }

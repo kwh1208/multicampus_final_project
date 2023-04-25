@@ -39,7 +39,7 @@ public class UserController {
 			
 		if(dto!=null) {
 			session.setAttribute("logId", dto.getUser_id());
-			session.setAttribute("logName", dto.getUser_id());
+			session.setAttribute("logName", dto.getUser_name());
 			session.setAttribute("logStatus", "Y");
 			session.setAttribute("isOwner", dto.getIs_owner());
 			mav.setViewName("redirect:/");

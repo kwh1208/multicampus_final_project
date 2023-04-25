@@ -21,4 +21,9 @@ public class CouponServiceImpl implements CouponService {
 	public int CouponCount(String user_id) {
 		return dao.CouponCount(user_id);
 	}
+	
+	public int CouponDelete(int no) {
+		return dao.CouponDelete(no);
+	}
+	
 }

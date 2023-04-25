@@ -9,4 +9,5 @@ public interface ReviewService {
 	public int ReviewInsert(ReviewDTO dto);
 	public ReviewDTO ReviewEdit(int no);
 	public int ReviewEditOk(ReviewDTO dto);
+	public int ReviewDelete(int no);
 }

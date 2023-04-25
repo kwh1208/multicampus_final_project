@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="eat_schedule.dao.BalloonDAO">
+	<select id ="BalloonSelect" resultType="eat_schedule.dto.BalloonDTO">
+		select store_seq, use_get, use_get_time, balloon, total_balloon, content from balloon
+		where user_id=#{param1}
+	</select>
+		<!--  
+	<update id="BalloonUpdate">
+		Update user set
+		balloon = #{balloon(풍선결과값)}
+		where user_id={param1}
+	</update>
+	-->
+	
+
+</mapper>

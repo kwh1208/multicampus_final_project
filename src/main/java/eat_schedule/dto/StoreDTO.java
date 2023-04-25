@@ -6,7 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class StoreDTO {
-	
 	private int seq;
 	private String picture_location;
 	private String owner_id;
@@ -23,5 +22,6 @@ public class StoreDTO {
 	private int group_customer;
 	private int playroom;
 	private int disabled;
-	
+	private String district;
+	private String category;
 }

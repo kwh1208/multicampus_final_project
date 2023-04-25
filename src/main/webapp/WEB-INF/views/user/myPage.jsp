@@ -15,7 +15,9 @@
 	<div class="summaryContainer">
 		<div class="item">
 			<div>총 먹풍 > </div>
-			<div class="number">${dto.balloon } 개</div>	
+			<a href="user/myBalloon" class="delete">
+				<div class="number">${dto.balloon } 개</div>	
+			</a>
 		</div>
 		<div class="v-line"></div>
 		<div class="item">

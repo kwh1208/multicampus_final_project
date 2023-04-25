@@ -10,6 +10,6 @@ public class CouponDTO {
 	private int store_seq;
 	private String expired_period;
 	private int discount_rate;
-	
-	private String store_name;
+	private int seq;
+	private String store_name;	
 }

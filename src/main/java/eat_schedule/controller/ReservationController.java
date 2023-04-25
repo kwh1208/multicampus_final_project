@@ -30,14 +30,29 @@ public class ReservationController {
 		return mav;
 	}
 	
-	
 	// 리뷰 쓰기 폼
 	@GetMapping("user/reviewWrite")
-	public ModelAndView reviewWrite(HttpSession session){
+	public ModelAndView reviewWrite(int no, HttpSession session){
 		ModelAndView mav = new ModelAndView();
-		ReservationDTO dto = service.ReviewWrite((String)session.getAttribute("logId"));
-		mav.addObject("dto", dto);
+		ReservationDTO dto = service.ReviewWrite(no);
+		mav.addObject("dto", dto); 
 		mav.setViewName("user/user/reviewWriteForm");
 		return mav;
-	}	
+	}
+	
+	// 예약 삭제 (예약 취소)
+	@GetMapping("user/reservationDel")
+	public ModelAndView reservationDel(int no) {
+		ModelAndView mav = new ModelAndView();
+		
+		int result = service.ReservationDelete(no);
+		
+		if(result>0) {
+			mav.setViewName("redirect:/user/user/myReservation"); // 성공
+		}else {
+			mav.addObject("msg", "예약 삭제 실패");
+			mav.setViewName("user/user/joinOkResult");	// 실패
+		}
+		return mav;
+	}
 }

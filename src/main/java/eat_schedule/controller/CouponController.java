@@ -31,6 +31,7 @@ public class CouponController {
 		mav.addObject("list", list);
 		mav.setViewName("user/user/myCoupon");	
 		return mav;
+
 	}
 	
 	// 쿠폰 개수 확인
@@ -42,6 +43,22 @@ public class CouponController {
 		mav.addObject("dto", dto);
 		mav.addObject("cnt", cnt);
 		mav.setViewName("user/myPage");
+		return mav;
+	}
+	
+	// 쿠폰 삭제
+	@GetMapping("user/user/couponDel")
+	public ModelAndView couponDel(int no) {
+		ModelAndView mav = new ModelAndView();
+		
+		int result = service.CouponDelete(no);
+		
+		if(result>0) {
+			mav.setViewName("redirect:/user/user/myCoupon");
+		}else {
+			mav.addObject("msg", "쿠폰 삭제 실패");
+			mav.setViewName("user/user/joinOkResult");	// 실패
+		}
 		return mav;
 	}
 }

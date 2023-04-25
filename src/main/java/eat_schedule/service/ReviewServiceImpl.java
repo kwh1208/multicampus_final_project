@@ -18,18 +18,21 @@ public class ReviewServiceImpl implements ReviewService {
 	public List<ReviewDTO> ReviewSelect(String user_id) {
 		return dao.ReviewSelect(user_id);
 	}
-	
 	@Override
 	public int ReviewInsert(ReviewDTO dto) {
 		return dao.ReviewInsert(dto);
 	}
-
+	@Override
 	public ReviewDTO ReviewEdit(int no) {
 		return dao.ReviewEdit(no);
 	}
-	
+	@Override
 	public int ReviewEditOk(ReviewDTO dto) {
 		return dao.ReviewEditOk(dto);
 	}
-
+	@Override
+	public int ReviewDelete(int no) {
+		return dao.ReviewDelete(no);
+	}
 }
+
