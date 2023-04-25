@@ -493,7 +493,7 @@ public class OwnerController {
 		}
 		return mav;
 	}
-<<<<<<< HEAD
+
 	@PostMapping("/payment/callback_receive")
 	public ResponseEntity<?> callback_recieve(@RequestBody Map<String, Object> model, HttpSession session){
 		
@@ -532,8 +532,8 @@ public class OwnerController {
 				//db select ( select amount from oder_table where merchant_uid = ?)
 				
 				//step5
-				String api_key ="발급받은 키 입력";
-				String api_secret ="발급받은 키 입력";
+				String api_key ="0768415534736602";
+				String api_secret ="qwDxOfUXWEt5zkWOFM2xm8rtTq8DTnhuB2jrFlfxEdwzozXOUlWSvblcmC3pHOnZq48OPRyyVYTycFtU";
 				
 				IamportClient ic=new IamportClient(api_key, api_secret);
 				IamportResponse<Payment> response = ic.paymentByImpUid(imp_uid);
@@ -558,6 +558,7 @@ public class OwnerController {
 		}
 		return new ResponseEntity<String>(responseObj.toString(), responseHeaders, HttpStatus.OK);
 	}
+	
 	
 //	//웹훅 수신 처리
 //	@PostMapping("/payment/webhook_receive")
@@ -601,6 +602,3 @@ public class OwnerController {
 //		return new ResponseEntity<String>("결과반영 성공", responseHeaders, HttpStatus.OK);
 //	}
 }
-=======
-}
->>>>>>> refs/remotes/origin/yongtae

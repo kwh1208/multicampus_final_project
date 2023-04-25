@@ -18,7 +18,7 @@ form {
     border-radius: 10px;
   }
   
-  h1 {
+  #main-subject {
     text-align: center;
     margin-top: 100px;
     margin-bottom: 20px;
@@ -40,7 +40,9 @@ form {
     display: block;
     margin-bottom: 5px;
   }
-  textarea {
+  #owner_comment,
+  #how_to_come
+   {
     width: 95%;
     padding: 10px;
     border: 1px;
@@ -91,11 +93,17 @@ form {
     background-color: #C65800;
   }
 
-  div{
+  #main-title,
+  #file-upload
+  {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
     background-color: #fff;
+  }
+  #map{
+  	width: 800px;
+  	height: 800px;
   }
 
 </style>
@@ -112,9 +120,10 @@ form {
     
     // 주소-좌표 변환 객체를 생성합니다
     var geocoder = new kakao.maps.services.Geocoder();
-    
+    var store_location=document.getElementById('location').value;
+    map.relayout();
     // 주소로 좌표를 검색합니다
-    geocoder.addressSearch(document.getElementById('location'), function(result, status) {
+    geocoder.addressSearch(store_location, function(result, status) {
     
         // 정상적으로 검색이 완료됐으면
         if (status === kakao.maps.services.Status.OK) {
@@ -127,12 +136,11 @@ form {
                 position: coords
             });
     
-            // 인포윈도우로 장소에 대한 설명을 표시합니다
+       // 인포윈도우로 장소에 대한 설명을 표시합니다
             var infowindow = new kakao.maps.InfoWindow({
-                content: '<div style="width:150px;text-align:center;padding:6px 0;">[[${store.store_name}]]</div>'
+                content: '<div style="width:150px;text-align:center;padding:6px 0;">가게 위치</div>'
             });
             infowindow.open(map, marker);
-    
             // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
             map.setCenter(coords);
         }
@@ -172,8 +180,8 @@ form {
 </script>
 </head>
 <body>
-	<div class="main-title">
-  <h1>가게 등록</h1>
+	<div id="main-title" class="main-title">
+  <h1 id="main-subject">가게 등록</h1>
   </div>
   <form action="storeRegisterOk" ModelAttribute="StoreDTO" id="registerForm" method="post" enctype="multipart/form-data">
     <fieldset>
@@ -184,7 +192,7 @@ form {
       <input type="text" id="store_name" name="store_name" required>
       <label for="location">위치:</label>
       <input type="text" id="location" name="location" onkeyup="locationCheck()" required>
-      <div id="map" style="width:500px;height:400px;"></div>
+      <div id="map" style="width:500px; height:400px;"></div>
       <label for="district">구역:</label>
       <input type="text" id="district" name="district" required>
       <label for="tel_number">전화번호:</label>
@@ -218,7 +226,7 @@ form {
     <fieldset>
       <legend>사진 업로드</legend>
       <label for="filename">가게 사진:</label>
-      <div>
+      <div id="file-upload">
       <input type="file" id="filename" name="filename"><input type="button" value=" + ">
       </div>
     </fieldset>
