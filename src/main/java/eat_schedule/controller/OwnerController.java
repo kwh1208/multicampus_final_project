@@ -1,8 +1,10 @@
 package eat_schedule.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,15 +14,21 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,12 +36,16 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.siot.IamportRestClient.IamportClient;
+import com.siot.IamportRestClient.response.IamportResponse;
+import com.siot.IamportRestClient.response.Payment;
 
 import eat_schedule.dto.StoreDTO;
 import eat_schedule.dto.BalloonDTO;
 import eat_schedule.dto.CouponDTO;
 import eat_schedule.dto.FilenameDTO;
 import eat_schedule.dto.MenuDTO;
+import eat_schedule.dto.PromotionListDTO;
 import eat_schedule.dto.RegisterDTO;
 import eat_schedule.dto.ReservationDTO;
 import eat_schedule.dto.ReviewDTO;
@@ -54,9 +66,12 @@ public class OwnerController {
 	
 	@GetMapping("ownerMyPage")
 	public String ownerPage(Integer no, Model model, HttpSession session) {
-		//사장님 마이페이지(기본)접속
+		//사장님 마이페이지 가게 선택시
+		List<StoreDTO> storeList=service.storeSelect((String)session.getAttribute("logId"));
+		model.addAttribute("store", storeList);
 		StoreDTO store=service.storeInfoEdit(no);
 		session.setAttribute("storeSeq", store.getSeq());
+		session.setAttribute("storeStatus", "Y");
 		int reservationNoCheck=service.reservationNoCheck(store.getSeq());
 		int noShowCheckNum=service.noShowCheckNum(store.getSeq());
 		model.addAttribute("reservationNoCheck", reservationNoCheck);
@@ -75,6 +90,12 @@ public class OwnerController {
 	public String storeRegister() {
 		//사장님 마이페이지 중 가게등록 페이지
 		return "ownerpage/storeRegister";
+	}
+	@GetMapping("menuRegister")
+	public String menuRegister() {
+		//사장님 마이페이지 중 가게등록 페이지
+		
+		return "ownerpage/menuRegister";
 	}
 	@PostMapping("storeRegisterOk")
 	public ModelAndView storeRegisterOk(HttpServletRequest req,@ModelAttribute("StoreDTO") StoreDTO store, HttpSession session){
@@ -312,12 +333,12 @@ public class OwnerController {
 		return "ownerpage/commentManager";
 	}
 	@GetMapping("advApply")
-	public String advapply() {
+	public String advapply(HttpSession session, Model model) {
+		StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
+		model.addAttribute("store", store);
+		RegisterDTO user=service.userInfoEdit((String)session.getAttribute("logId"));
+		model.addAttribute("user", user);
 		return "ownerpage/advApply";
-	}
-	@GetMapping("menuRegister")
-	public String menuRegister() {
-		return "ownerpage/menuRegister";
 	}
 	@PostMapping("couponGift")
 	public ModelAndView couponGift(@ModelAttribute("CouponDTO") CouponDTO coupon, HttpSession session) throws ParseException {
@@ -466,4 +487,110 @@ public class OwnerController {
 		}
 		return mav;
 	}
+	@PostMapping("/payment/callback_receive")
+	public ResponseEntity<?> callback_recieve(@RequestBody Map<String, Object> model, HttpSession session){
+		
+		PromotionListDTO promotion = new PromotionListDTO();
+		String process_result="결제 성공!";
+		//응답 header 생성
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "application/json; charset=UTF-8");
+		JSONObject responseObj=new JSONObject();
+		
+		try {
+			String imp_uid = (String)model.get("imp_uid");
+			String merchant_uid = (String)model.get("merchant_uid");
+			boolean success = (Boolean)model.get("success");
+			String error_msg = (String)model.get("error_msg");
+			promotion.setStore_seq((Integer)session.getAttribute("storeSeq"));
+			promotion.setOwner_id((String)session.getAttribute("logId"));
+			promotion.setDistrict((String)model.get("district"));
+			promotion.setList_date((String)model.get("list_date"));
+			
+			System.out.println("---callback receive---");
+			System.out.println("----------------------");
+			System.out.println("imp_uid : " + imp_uid);
+			System.out.println("merchant_uid : " + merchant_uid);
+			System.out.println("success : " + success);
+			
+			System.out.println("---insert promotion---");
+			System.out.println("----------------------");
+			System.out.println("store_seq : " + promotion.getStore_seq());
+			System.out.println("owner_id : " + promotion.getOwner_id());
+			System.out.println("district : " + promotion.getDistrict());
+			System.out.println("list_date : " + promotion.getList_date());
+			
+			if(success == true) {
+				
+				//db select ( select amount from oder_table where merchant_uid = ?)
+				
+				//step5
+				String api_key ="발급받은 키 입력";
+				String api_secret ="발급받은 키 입력";
+				
+				IamportClient ic=new IamportClient(api_key, api_secret);
+				IamportResponse<Payment> response = ic.paymentByImpUid(imp_uid);
+				
+				BigDecimal iamport_amount = response.getResponse().getAmount();
+				//compare db_amount and api_amount
+				//if(db_amount==api_amount)
+				
+				responseObj.put("process_result", "결제성공");
+				//db save (Update oder_table set pay_result = 'success', imp_uid=? where merchant_uid=?)
+				//responseObj.put("process_result", "결제위변조");
+				//else{ result = "fail"; cancel API}
+				
+				int cnt=service.promotionInsert(promotion);
+			}else {
+				System.out.println("error_msg : "+ error_msg);
+				responseObj.put("process_result", "결제실패 : " + error_msg);
+			}			
+		}catch(Exception e) {
+			e.printStackTrace();
+			responseObj.put("process_result", "결제실패 : 관리자에게 문의해 주세요.");
+		}
+		return new ResponseEntity<String>(responseObj.toString(), responseHeaders, HttpStatus.OK);
+	}
+	
+//	//웹훅 수신 처리
+//	@PostMapping("/payment/webhook_receive")
+//	public ResponseEntity<?> webhook_recieve(@RequestBody Map<String, Object> model){
+//		
+//		//응답 header 생성
+//		HttpHeaders responseHeaders = new HttpHeaders();
+//		responseHeaders.add("Content-Type", "application/json; charset=UTF-8");
+//		
+//		try {
+//			String imp_uid = (String)model.get("imp_uid");
+//			String merchant_uid = (String)model.get("merchant_uid");
+//			boolean success = (Boolean)model.get("success");
+//			
+//			System.out.println("---callback receive---");
+//			System.out.println("----------------------");
+//			System.out.println("imp_uid : " + imp_uid);
+//			System.out.println("merchant_uid" + merchant_uid);
+//			System.out.println("success : " + success);
+//			
+//				
+//			//db select ( select amount from oder_table where merchant_uid = ?)
+//				
+//			//step5
+//			String api_key ="발급받은 키 입력";
+//			String api_secret ="발급받은 키 입력";
+//				
+//			IamportClient ic=new IamportClient(api_key, api_secret);
+//			IamportResponse<Payment> response = ic.paymentByImpUid(imp_uid);
+//				
+//			BigDecimal iamport_amount = response.getResponse().getAmount();
+//			//compare db_amount and api_amount
+//			//if(db_amount==api_amount)
+//				
+//			//db save (Update oder_table set pay_result = 'success', imp_uid=? where merchant_uid=?)
+//			//responseObj.put("process_result", "결제위변조");
+//			//else{ result = "fail"; cancel API}		
+//		}catch(Exception e) {
+//			e.printStackTrace();
+//		}
+//		return new ResponseEntity<String>("결과반영 성공", responseHeaders, HttpStatus.OK);
+//	}
 }

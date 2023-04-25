@@ -60,6 +60,48 @@ body{
       .delete{
       	text-decoration: none;
       }
+      
+       /* ================== 주문/배송조회 박스 시작 ==================== */
+    .shippingStatusContainer{
+      padding: 21px 16px;
+      background-color: white;
+      margin-bottom: 10px;
+    }
+
+    /* 주문/배송조회 타이틀 */
+    .shippingStatusContainer .title{
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    /* 장바구니 결제완료 배송중 구매확정 [로우] */
+    .shippingStatusContainer .status{
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 21px;
+    }
+    /* 장바구니 결제완료 배송중 구매확정 [아이템]  */
+    .shippingStatusContainer .item{
+      display: flex;
+    }
+
+    .shippingStatusContainer .number{
+      font-size: 15px;
+      font-weight: 500;
+      text-align: center;
+    }
+    .shippingStatusContainer .text{
+      font-size: 12px;
+      font-weight: normal;
+      color: #c2c2c2;
+      text-align: center;
+    }
+    .shippingStatusContainer .v-line{
+    border-left : thin solid #000;
+     height : 45px;
+     margin-right:10px;
+	}
       /* 단골상점 , 상품후기 , 적립금 박스 */
     .summaryContainer{
     background-color: #FF7100;  
@@ -133,6 +175,24 @@ body{
             <div class="name">${logName }</div><div class="text">님 안녕하세요!</div>
             <div class="modify"><a href="/ownerpage/userInfoEdit">정보 수정 ></a></div>   
         </div>
+        <div class="shippingStatusContainer">
+          <div class="title">
+            가게선택
+          </div>
+          <div class="status">
+	          	<c:if test="${store!=null }">
+	          	<c:forEach var="store" items="${store }">
+	            <div class="item">
+	              <div>
+	                <div class="green number"><a href="ownerMyPage?no=${store.seq }">${store.store_name}</a></div>
+	                <div class="text">${store.district }</div>
+	              </div>
+	            </div>
+	            <div class="v-line"></div>
+	            </c:forEach>
+	            </c:if> 
+            </div>
+            </div>
         <div class="summaryContainer">
             <div class="item">
             	<div>예약미확인 ></div>
@@ -151,6 +211,7 @@ body{
               <div class="text">가게등록</div>
               <div class="right"> > </div>
           </a>
+          <c:if test="${storeStatus=='Y' }">
           <a href="/ownerpage/storeInfoEdit" class="item">
               <div class="text">가게정보수정</div>
               <div class="right"> > </div>
@@ -179,6 +240,7 @@ body{
             <div class="text">먹풍리스트 신청</div>
             <div class="right"> > </div>
         </a>
+        </c:if>
         </div>
         <div class="listContainer">
           <a href="/ownerpage/userInfoEdit" class="item">

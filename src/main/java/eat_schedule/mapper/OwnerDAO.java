@@ -8,6 +8,7 @@ import eat_schedule.dto.StoreDTO;
 import eat_schedule.dto.BalloonDTO;
 import eat_schedule.dto.CouponDTO;
 import eat_schedule.dto.MenuDTO;
+import eat_schedule.dto.PromotionListDTO;
 import eat_schedule.dto.RegisterDTO;
 import eat_schedule.dto.ReservationDTO;
 import eat_schedule.dto.ReviewDTO;
@@ -58,4 +59,6 @@ public interface OwnerDAO {
 	public int menuInsert(MenuDTO menu);
 	//사진 주소 저장
 	public int pictureDirInsert(StoreDTO store);
+	//광고리스트 저장
+	public int promotionInsert(PromotionListDTO promotion);
 }

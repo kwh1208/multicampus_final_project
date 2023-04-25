@@ -9,6 +9,7 @@ import eat_schedule.dto.StoreDTO;
 import eat_schedule.dto.BalloonDTO;
 import eat_schedule.dto.CouponDTO;
 import eat_schedule.dto.MenuDTO;
+import eat_schedule.dto.PromotionListDTO;
 import eat_schedule.dto.RegisterDTO;
 import eat_schedule.dto.ReservationDTO;
 import eat_schedule.dto.ReviewDTO;
@@ -105,5 +106,9 @@ public class OwnerSeriviceImpl implements OwnerService {
 	@Override
 	public int balloonListUpdate(BalloonDTO balloon) {
 		return dao.balloonListUpdate(balloon);
+	}
+	@Override
+	public int promotionInsert(PromotionListDTO promotion) {
+		return dao.promotionInsert(promotion);
 	}
 }

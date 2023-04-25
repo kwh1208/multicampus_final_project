@@ -14,7 +14,7 @@
 	values(#{owner_id}, #{store_name}, #{location}, #{tel_number}, #{owner_comment}, #{open_time}, #{close_time}, #{how_to_come}, #{parking}, #{wifi}, #{animal}, #{group_customer}, #{playroom}, #{disabled}, #{district})
 </insert>
 <select id="storeInfoEdit" resultType="eat_schedule.dto.StoreDTO">
-	select seq, owner_id, store_name, location, tel_number, owner_comment, open_time, close_time, how_to_come, parking, wifi, animal, group_customer, playroom, disabled from store
+	select seq, owner_id, store_name, location, tel_number, owner_comment, open_time, close_time, how_to_come, parking, wifi, animal, group_customer, playroom, disabled, district from store
 	where seq=${param1}
 </select>
 <update id="storeInfoEditOk" parameterType="eat_schedule.dto.StoreDTO">
@@ -82,5 +82,9 @@
 <insert id="balloonListUpdate">
 	insert into balloon(user_id, store_seq, use_get, use_get_time, balloon, total_balloon, content)
 	values(#{user_id}, ${store_seq}, 1, now(), 8, ${total_balloon}, "적립(방문 확인)")
+</insert>
+<insert id="promotionInsert">
+	insert into promotion_list(store_seq, owner_id, list_date, district)
+	values(${store_seq}, #{owner_id}, #{list_date}, #{district})
 </insert>
 </mapper>

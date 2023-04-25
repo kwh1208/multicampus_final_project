@@ -16,6 +16,12 @@
 	<properties>
 		<java.version>11</java.version>
 	</properties>
+	<repositories>
+		<repository>
+	    	<id>jitpack.io</id>
+	    	<url>https://jitpack.io</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 		<groupId>org.apache.maven.plugins</groupId>
@@ -88,9 +94,19 @@
 		    <artifactId>commons-io</artifactId>
 		    <version>2.11.0</version>
 		</dependency>
-		
-		
-		
+		<!-- 아임포트 결제 구현시 필요한 의존성 주입 -->
+		<dependency>
+			<groupId>com.github.iamport</groupId>
+	    	<artifactId>iamport-rest-client-java</artifactId>
+	    	<version>0.2.22</version>
+		</dependency>
+		<!-- json사용 의존성 주입 -->
+		<dependency>
+    		<groupId>com.googlecode.json-simple</groupId>
+   	 		<artifactId>json-simple</artifactId>
+    		<version>1.1.1</version>
+		</dependency>
+			
 	</dependencies>
 
 	<build>

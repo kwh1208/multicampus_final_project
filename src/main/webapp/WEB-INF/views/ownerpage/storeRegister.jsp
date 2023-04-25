@@ -5,6 +5,8 @@
 <html>
 <head>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ad43dcaa341623983b20d5ee0fc28465&libraries=services"></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>가게등록페이지</title>
 <style>
@@ -95,7 +97,69 @@ form {
     padding: 20px;
     background-color: #fff;
   }
+
 </style>
+<script>
+    function locationCheck(){
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+            center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
+        };
+    
+    // 지도를 생성합니다
+    var map = new kakao.maps.Map(mapContainer, mapOption);
+    
+    // 주소-좌표 변환 객체를 생성합니다
+    var geocoder = new kakao.maps.services.Geocoder();
+    
+    // 주소로 좌표를 검색합니다
+    geocoder.addressSearch(document.getElementById('location'), function(result, status) {
+    
+        // 정상적으로 검색이 완료됐으면
+        if (status === kakao.maps.services.Status.OK) {
+    
+            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+    
+            // 결과값으로 받은 위치를 마커로 표시합니다
+            var marker = new kakao.maps.Marker({
+                map: map,
+                position: coords
+            });
+    
+            // 인포윈도우로 장소에 대한 설명을 표시합니다
+            var infowindow = new kakao.maps.InfoWindow({
+                content: '<div style="width:150px;text-align:center;padding:6px 0;">[[${store.store_name}]]</div>'
+            });
+            infowindow.open(map, marker);
+    
+            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+            map.setCenter(coords);
+        }
+        function zoomIn() {
+            // 현재 지도의 레벨을 얻어옵니다
+            var level = map.getLevel();
+    
+            // 지도를 1레벨 내립니다 (지도가 확대됩니다)
+            map.setLevel(level - 1);
+    
+            // 지도 레벨을 표시합니다
+            displayLevel();
+        }
+    
+        function zoomOut() {
+            // 현재 지도의 레벨을 얻어옵니다
+            var level = map.getLevel();
+    
+            // 지도를 1레벨 올립니다 (지도가 축소됩니다)
+            map.setLevel(level + 1);
+    
+            // 지도 레벨을 표시합니다
+            displayLevel();
+        }
+    });
+}
+</script>
 <script>
 	$(document).on('click', '#registerForm input[value=" + "]', function(){
 		$(this).parent().parent().append('<div><input type="file" id="filename" name="filename"><input type="button" value=" + "></div>');
@@ -119,7 +183,8 @@ form {
       <label for="store_name">가게 이름:</label>
       <input type="text" id="store_name" name="store_name" required>
       <label for="location">위치:</label>
-      <input type="text" id="location" name="location" required>
+      <input type="text" id="location" name="location" onkeyup="locationCheck()" required>
+      <div id="map" style="width:500px;height:400px;"></div>
       <label for="district">구역:</label>
       <input type="text" id="district" name="district" required>
       <label for="tel_number">전화번호:</label>
