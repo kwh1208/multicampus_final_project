@@ -30,10 +30,10 @@ public class RegisterController {
 	@Autowired
 	RegisterService service;
 	
-	/*
+	
 	@Autowired
 	JavaMailSender mailSender;
-	*/
+
 	
 	// 로그인
 	@GetMapping("loginForm")
@@ -42,7 +42,8 @@ public class RegisterController {
 	}
 	
 	@PostMapping("loginOk")
-	public ModelAndView loginOk(@RequestParam("user_id")String user_id, @RequestParam("user_password")String user_password, HttpServletRequest request, HttpSession session ,HttpServletResponse res) {
+	public ModelAndView loginOk(@RequestParam("user_id")String user_id, @RequestParam("user_password")String user_password,
+								HttpServletRequest request, HttpSession session ,HttpServletResponse res) {
 		
 		//System.out.println(user_id);
 		//System.out.println(user_password);
@@ -54,6 +55,7 @@ public class RegisterController {
 		if(dto!=null) {
 			session.setAttribute("logId", dto.getUser_id());
 			session.setAttribute("logName", dto.getUser_name());
+			session.setAttribute("balloon", dto.getBalloon());
 			session.setAttribute("logStatus", "Y");
 			session.setAttribute("isOwner", dto.getIs_owner());
 			mav.setViewName("redirect:/");
@@ -135,28 +137,33 @@ public class RegisterController {
 		return mav;
 	}
 
+	
 	// 아이디 찾기
 	@GetMapping("idSearchForm")
 	public String idSearchForm() {
 		return "register/idSearchForm";
 	}
-	// 비밀번호 찾기
-	@GetMapping("passwordSearchForm")
-	public String passwordSearchForm() {
-		return "register/passwordSearchForm";
-	}
-	/* 아이디 찾기
+
+	//아이디 찾기
 	@PostMapping("idSearchEmailSend")
 	@ResponseBody
 	public String idSearchEmailSend(RegisterDTO dto) {
+		
+		
+		
+		System.out.println("dto : " + dto.getUser_name());
+		System.out.println("dtoo : " + dto.getEmail());
+		
 		String user_id = service.idSearch(dto.getUser_name(), dto.getEmail());
+		
+		System.out.println("user_id : " + user_id);
 		
 		if(user_id==null || user_id.equals("")){
 			return "N";
 		}else{
 			String emailSubject = "아이디 찾기 결과";
-			String emailContent = "<div style=background:pink; margin:50px; padding:50px; border:2px solid gray; font-size:2em; text-align:center;>";
-			emailContent += "검색한 아이디입니다.";
+			String emailContent = "<div style=margin:50px; padding:50px; border:2px solid gray; font-size:2em; text-align:center;>";
+			emailContent += "<b>MUKSCHEDULE</b><br/>아이디찾기 검색결과입니다.<br/>";
 			emailContent += "아이디: "+user_id;
 			emailContent += "</div>"; 
 			
@@ -166,7 +173,7 @@ public class RegisterController {
 				MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 				
 				// 보내는 메일주소
-				messageHelper.setFrom("guswldbs98@gmail.com");
+				messageHelper.setFrom("guswldbs98@naver.com");
 				// 받는 쪽
 				messageHelper.setTo(dto.getEmail());
 				messageHelper.setSubject(emailSubject);
@@ -181,6 +188,49 @@ public class RegisterController {
 			}
 		}
 	}
-	*/
+	
+	// 비밀번호 찾기
+	@GetMapping("passwordSearchForm")
+	public String passwordSearchForm() {
+		return "register/passwordSearchForm";
+	}
+	
+	//비밀번호 찾기
+		@PostMapping("passwordSearchEmailSend")
+		@ResponseBody
+		public String passwordSearchEmailSend(RegisterDTO dto) {
+			
+			String user_password = service.passwordSearch(dto.getUser_name(), dto.getEmail(), dto.getUser_id());
+				
+			if(user_password==null || user_password.equals("")){
+				return "N";
+			}else{
+				String emailSubject = "비밀번호 찾기 결과";
+				String emailContent = "<div style=margin:50px; padding:50px; border:2px solid gray; font-size:2em; text-align:center;>";
+				emailContent += "<b>MUKSCHEDULE</b><br/>비밀번호찾기 검색결과입니다.<br/>";
+				emailContent += "비밀번호: "+user_password;
+				emailContent += "</div>"; 
+				
+				try {
+					// mimeMessage -> mimeMessageHelper
+					MimeMessage message = mailSender.createMimeMessage();
+					MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+					
+					// 보내는 메일주소
+					messageHelper.setFrom("guswldbs98@naver.com");
+					// 받는 쪽
+					messageHelper.setTo(dto.getEmail());
+					messageHelper.setSubject(emailSubject);
+					messageHelper.setText("text/html; charset=UTF-8", emailContent);
+					
+					mailSender.send(message); // 보내기
+					
+					return "Y";
+				}catch(Exception e) {
+					e.printStackTrace();
+					return "N";
+				}
+			}
+		}
 
 }

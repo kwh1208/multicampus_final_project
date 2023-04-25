@@ -1,5 +1,7 @@
 package eat_schedule.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +23,7 @@ import eat_schedule.service.ShopAndEventService;
 public class ShopAndEventController {
 	@Autowired
 	ShopAndEventService service;
+
 	
 	@RequestMapping("shop")
 	public String getData(Model model, HttpSession session) {
@@ -67,9 +70,27 @@ public class ShopAndEventController {
 			//System.out.println("S_ID : " + sDTO.getUser_id());
 			
 			int sResult = service.couponInsertOk(sDTO);
-			int rResult = service.userUpdateOk(rDTO);
+					
+			HashMap<String , Object> map = new HashMap<String , Object>();
+			
+			map.put("id", rDTO.getUser_id());
+			map.put("seq", sDTO.getSeq());
+			
+			int rResult = service.userUpdateOk(map);
 			
 			if(sResult>0 && rResult>0) {
+				
+				List<RegisterDTO> arr = new ArrayList<RegisterDTO>();
+				
+				arr = service.selectUser(rDTO.getUser_id());
+				int a = 0;
+				
+				if ( arr != null && arr.size() > 0) {
+					for ( int idx =0 ; idx < arr.size() ; idx ++ ) {
+						a = arr.get(idx).getBalloon();
+					}
+					session.setAttribute("balloon", a);
+				}
 				mav.setViewName("redirect:/shopAndEvent/shop");
 			}else {
 				mav.addObject("msg", "쿠폰구매에 실패하였습니다.\n문의사항은 1:1문의를 이용해주세요.");

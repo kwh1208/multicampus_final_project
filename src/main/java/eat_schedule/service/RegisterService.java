@@ -11,4 +11,5 @@ public interface RegisterService {
 	public int registerInsert(RegisterDTO dto);
 	public int phoneCheckCount(String phone_number);
 	public String idSearch(String username, String email);
+	public String passwordSearch(String username, String email, String user_id);
 }

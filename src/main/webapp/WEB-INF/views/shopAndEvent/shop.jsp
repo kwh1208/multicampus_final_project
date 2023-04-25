@@ -43,16 +43,20 @@
 		text-align:center;
 		color:#696969;
 	}
+	#useBalloon:hover{
+		background-color:#FFA964;
+	}
 </style>
 <script>
 
 	var balloon = "${balloon}";
 		
-	function shopping(num, dc){
+	function shopping(num, dc, seq){
 		if(balloon<(num+5)){
 			alert("다음 예약을 이용하시기 위해 보유 먹풍선이" + (num+5) + "개 이상인 경우만 구매 가능합니다.\n문의사항은 1:1문의를 이용해주세요.");
 		}else if(balloon>=(num+5) && confirm("먹풍선 " + num + "개를 사용하여 쿠폰을 구매하시겠습니까?")){
 			$("#discountRate").attr("value", dc);
+			$("#seq").attr("value", seq);
 			$("#buyCoupon").attr("action", "buyCouponOk");
 			$("#buyCoupon").submit();
 			alert("구매 완료하였습니다.\n구매하신 쿠폰은 마이페이지에서 확인 가능합니다.");
@@ -70,9 +74,10 @@
 				<ul>
 					<li><img src="/img/coupon01.jpeg" style="width:200px; height:230px; border-radius:10%;"></li>
 					<li style="color:#696969; font-size:1.1em;">${sDTO.discount_rate}% 할인</li>
-					<li><input type="button" id="useBalloon" value="구매하기 먹풍선 - ${sDTO.balloon_number}개" onclick="shopping(${sDTO.balloon_number}, ${sDTO.discount_rate})"/></li>
+					<li><input type="button" id="useBalloon" value="구매하기 먹풍선 - ${sDTO.balloon_number}개" onclick="shopping(${sDTO.balloon_number}, ${sDTO.discount_rate}, ${sDTO.seq})"/></li>
 					
 					<li><input type="hidden" name="discount_rate" id="discountRate" value=""/></li>
+					<li><input type="hidden" name="seq" id="seq" value=""/></li>
 					<li><input type="hidden" id="shopBalloon" value="<c:out value="${sDTO.balloon_number}"/>"/></li>
 				</ul>
 			</div>	

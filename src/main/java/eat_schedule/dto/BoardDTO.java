@@ -1,5 +1,6 @@
 package eat_schedule.dto;
 
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,4 +13,6 @@ public class BoardDTO {
 	private String question_title;
 	private String question;
 	private String question_time;
+	private String answer;
+	//private String filename;
 }

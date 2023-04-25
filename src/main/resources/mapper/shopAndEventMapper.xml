@@ -14,8 +14,6 @@
 		values(#{user_id}, DATE_ADD(NOW(), INTERVAL 1 MONTH), ${discount_rate})
 	</insert>
 	<update id="userUpdateOk">
-		update user u join shop s
-		set u.balloon = u.balloon - s.balloon_number
-		where user_id = #{user_id}
+		update user set balloon = (balloon-(select balloon_number from shop where seq=${seq})) where user_id=#{id}
 	</update>
 </mapper>

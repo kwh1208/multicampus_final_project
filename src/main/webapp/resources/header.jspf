@@ -62,7 +62,7 @@
 						<div class="menu">
 							<span>
 								<a href="/register/logout">로그아웃</a><br/>
-								<a href="/register/ownerMyPage">마이페이지</a>
+								<a href="/ownerpage/ownerStart">마이페이지</a>
 							</span>
 						</div>
 					</c:if>
@@ -71,7 +71,7 @@
 						<div class="menu">
 							<span>
 								<a href="/register/logout">로그아웃</a><br/>
-								<a href="/register/userMyPage">마이페이지</a>
+								<a href="/user/myPage">마이페이지</a>
 							</span>
 						 </div>
 					</c:if>
@@ -83,9 +83,11 @@
 					</c:if>
 					<c:if test="${logStatus=='Y'  && isOwner==1 }">
 						<img src="/img/balloons.png" style="width:30px; height:30px; margin:0 auto;"/>
+						<p style="color:#FF7100">&nbsp;&nbsp; X ${balloon}</p>
 					</c:if>
 					<c:if test="${logStatus=='Y'  && isOwner==0 }">
 						<img src="/img/balloons.png" style="width:30px; height:30px; margin:0 auto;"/>
+						<p style="color:#FF7100">&nbsp;&nbsp; X ${balloon}</p>
 					</c:if>
 				</div>
 			</div>
