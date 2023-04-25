@@ -97,6 +97,12 @@ public class OwnerController {
 		
 		return "ownerpage/menuRegister";
 	}
+	@GetMapping("menuEdit")
+	public String menuEdit() {
+		//사장님 마이페이지 중 가게등록 페이지
+		
+		return "ownerpage/menuRegister";
+	}
 	@PostMapping("storeRegisterOk")
 	public ModelAndView storeRegisterOk(HttpServletRequest req,@ModelAttribute("StoreDTO") StoreDTO store, HttpSession session){
 		int result=service.storeRegisterOk(store);
