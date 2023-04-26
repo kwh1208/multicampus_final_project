@@ -32,8 +32,6 @@ public class Store {
 
     private String how_to_come;
 
-    private Integer picture_number;
-
     private boolean parking;
 
     private boolean wifi;
@@ -45,6 +43,11 @@ public class Store {
     private boolean playroom;
 
     private boolean disabled;
+
+    public void setLocation(String location) {
+        this.location = "\'"+location+"\'";
+    }
+
     public int compareScore(Store o) {
         if(this.score.equals(o.score))
             return 0;

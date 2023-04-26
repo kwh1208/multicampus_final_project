@@ -2,6 +2,7 @@ package eat_schedule.controller;
 
 import eat_schedule.mapper.CommonMapper;
 import eat_schedule.dto.Store;
+import eat_schedule.mapper.RegionMapper;
 import eat_schedule.service.FindPromotion;
 import eat_schedule.service.FindStore;
 import lombok.RequiredArgsConstructor;
@@ -24,14 +25,14 @@ public class Search {
 
     private final CommonMapper CommonMapper;
 
+    private final RegionMapper regionMapper;
+
     @GetMapping("search")
-    public String searchDistrict(@RequestParam("district") String district,
-                                 @RequestParam("category") String category,
-                                 @RequestParam("sort") String sort,
+    public String searchDistrict(@RequestParam(value = "district") String district,
+                                 @RequestParam(value = "category", required = false) String category,
+                                 @RequestParam(value = "sort", required = false) String sort,
                                  Model model){
         model.addAttribute("district", district);
-
-        model.addAttribute("category", category);
 
         model.addAttribute("promotionList", findPromotion(district));
 
@@ -39,10 +40,12 @@ public class Search {
 
         model.addAttribute("AllCategory", CommonMapper.findCategory());
 
+        model.addAttribute("area", regionMapper.findRegion());
 
-        if(sort.isEmpty()){
-            model.addAttribute("sort", "score");
+
+        if(sort==null){
             model.addAttribute("storeList", sortStore(district, category, "score"));
+            model.addAttribute("sort", "score");
         }
         else {
             model.addAttribute("sort", sort);
@@ -54,20 +57,14 @@ public class Search {
     ArrayList<Store> findPromotion(String district){
         return findPromotion.findPromotionList(district);
     }
-    ArrayList<Store> findAllStore(String district, String category){
-
-        return findStore.findAllStore(district, category);
+    ArrayList<Store> findAllStore(String district, String category, String sort){
+        return findStore.findAllStore(district, category, sort);
     }
 
     ArrayList<Store> sortStore(String district, String category, String sort){
-        ArrayList<Store> store = findAllStore(district, category);
-        if(sort.equals("score")){
-            store.sort(Store::compareScore);
-        } else if (sort.equals("review")) {
-            store.sort(Store::compareReview);
-        } else if (sort.equals("wish")) {
-            store.sort(Store::compareWish);
-        }
+
+        ArrayList<Store> store = findAllStore(district, category, sort);
+
         return store;
     }
 }

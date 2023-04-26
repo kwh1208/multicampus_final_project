@@ -4,16 +4,18 @@
 <mapper namespace="eat_schedule.mapper.StoreMapper">
 
     <select id="findAll" resultType="eat_schedule.dto.Store">
-        select *
+        select store.seq, picture_location, store.owner_id, store_name, location, tel_number, store.owner_comment, open_time, close_time, how_to_come, parking, wifi,animal, group_customer, playroom, disabled
         from store
+        right join review on store.seq=review.store_seq
         <where>
             <if test="district != null and district !=''">
-                and district = #{distritc}
+                and district = #{param1}
             </if>
             <if test="category != null and category !=''">
-                and category = #{category}
+                and category = #{param2}
             </if>
         </where>
+        order By ${sort}
     </select>
 
     <select id="findStore" resultType="eat_schedule.dto.Store">
@@ -21,5 +23,6 @@
         from store
         where seq = #{seq}
     </select>
+
 
 </mapper>

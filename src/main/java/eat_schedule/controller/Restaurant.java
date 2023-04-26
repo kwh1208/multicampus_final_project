@@ -1,11 +1,13 @@
 package eat_schedule.controller;
 
+import eat_schedule.dto.Menu;
 import eat_schedule.mapper.CouponMapper;
 import eat_schedule.mapper.MenuMapper;
 import eat_schedule.mapper.ReservationMapper;
 import eat_schedule.mapper.ReviewMapper;
 import eat_schedule.dto.Reservation;
 import eat_schedule.dto.Store;
+import eat_schedule.service.EmailService;
 import eat_schedule.service.FindStore;
 import eat_schedule.service.UpdateReservation;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("/restaurant")
 @Controller
@@ -27,12 +31,13 @@ public class Restaurant {
     private final ReservationMapper reservationMapper;
     private final CouponMapper couponMapper;
 
+    private final EmailService emailService;
+
 
 
     @GetMapping("/{seq}")
-
     public String showRestaurant(@PathVariable int seq,
-                                 @RequestParam("user_id") String user_id,
+                                 @SessionAttribute("user_id") String user_id,
                                  Model model){
 
         Store store = findStore.findStoreBySeq(seq);
@@ -65,7 +70,7 @@ public class Restaurant {
                                  @SessionAttribute("logStatus") boolean login,
                                  @RequestParam("reservation") Reservation reservation,
                                  String code,
-                                 Model model){
+                                 Model model) throws Exception {
         if(!login){
             return "WEB-INF/views/register/loginForm";//로그인페이지 url
         }
@@ -73,6 +78,10 @@ public class Restaurant {
         model.addAttribute("reservation", reservation);
 
         updateReservation.updateReservation(reservation);
+
+        emailService.sendEmail();
+
+        //이메일 보내기 세팅
 
 
         return "redirect:/store/"+seq;
