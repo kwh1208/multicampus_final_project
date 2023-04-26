@@ -59,4 +59,6 @@ public interface OwnerService {
 	public int pictureDirInsert(StoreDTO store);
 	//광고리스트 저장
 	public int promotionInsert(PromotionListDTO promotion);
+	//메뉴 리스트 불러오기
+	public List<MenuDTO> menuLoad(Integer store_seq);
 }

@@ -111,4 +111,8 @@ public class OwnerSeriviceImpl implements OwnerService {
 	public int promotionInsert(PromotionListDTO promotion) {
 		return dao.promotionInsert(promotion);
 	}
+	@Override
+	public List<MenuDTO> menuLoad(Integer store_seq) {
+		return dao.menuLoad(store_seq);
+	}
 }

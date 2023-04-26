@@ -97,11 +97,12 @@ public class OwnerController {
 		
 		return "ownerpage/menuRegister";
 	}
-	@GetMapping("menuEdit")
-	public String menuEdit() {
+	@GetMapping("menuSelect")
+	public String menuSelect(HttpSession session, Model model) {
 		//사장님 마이페이지 중 가게등록 페이지
-		
-		return "ownerpage/menuRegister";
+		List<MenuDTO> menuList=service.menuLoad((Integer)session.getAttribute("storeSeq"));
+		model.addAttribute("menuList", menuList);
+		return "ownerpage/menuSelect";
 	}
 	@PostMapping("storeRegisterOk")
 	public ModelAndView storeRegisterOk(HttpServletRequest req,@ModelAttribute("StoreDTO") StoreDTO store, HttpSession session){
@@ -179,7 +180,7 @@ public class OwnerController {
 		}//if 업로드 파일이 있을때
 		//----------------------------------------------------------------
 		ModelAndView mav=new ModelAndView();
-		store.setPicture_location(path);
+		store.setPicture_location(folderName);
 		System.out.println(store.getPicture_location());
 		int result2=service.pictureDirInsert(store);
 		if(result>0 && result2>0) {//가게등록 성공
@@ -192,6 +193,7 @@ public class OwnerController {
 		}		
 		return mav;
 	}
+	
 	@PostMapping("menuRegisterOk")
 	public ModelAndView menuRegisterOk(HttpServletRequest req,@ModelAttribute("MenuDTO") MenuDTO menu, HttpSession session){
 		//request: 폼의 데이터들과 첨부파일이 있다.
@@ -265,13 +267,15 @@ public class OwnerController {
 		}//if 업로드 파일이 있을때
 		//----------------------------------------------------------------
 		String fileName=fileList.get(0).getFilename();
-		menu.setPicture_location(path+"/"+fileName);
+		menu.setPicture_location(folderName+"/"+fileName);
 		menu.setStore_seq((Integer)session.getAttribute("storeSeq"));
 		int result=service.menuInsert(menu);
 		
 		ModelAndView mav= new ModelAndView();
 		if(result>0) {
 			StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
+			List<StoreDTO> storeList=service.storeSelect((String)session.getAttribute("logId"));
+			mav.addObject("store", storeList);
 			int reservationNoCheck=service.reservationNoCheck(store.getSeq());
 		    int noShowCheckNum=service.noShowCheckNum(store.getSeq());
 		    mav.addObject("reservationNoCheck", reservationNoCheck);
@@ -293,13 +297,16 @@ public class OwnerController {
 	}
 	@PostMapping("storeInfoEditOk")
 	public ModelAndView storeInfoEditOk(@ModelAttribute("StoreDTO") StoreDTO store, HttpSession session){
-		store.setSeq((Integer)session.getAttribute("logStoreSeq"));
+		store.setSeq((Integer)session.getAttribute("storeSeq"));
 		ModelAndView mav=new ModelAndView();
+		System.out.println(store.toString());
 		int result=service.storeInfoEditOk(store);
 		if(result>0) {//가게정보수정 성공
-		mav.addObject("reservationNoCheck", service.reservationNoCheck(store.getSeq())); // 모델에 reservationNoCheck 추가
-		mav.addObject("noShowCheckNum", service.noShowCheckNum(store.getSeq()));
-		mav.setViewName("ownerpage/ownerMyPage");
+			List<StoreDTO> storeList=service.storeSelect((String)session.getAttribute("logId"));
+			mav.addObject("store", storeList);
+			mav.addObject("reservationNoCheck", service.reservationNoCheck(store.getSeq())); // 모델에 reservationNoCheck 추가
+			mav.addObject("noShowCheckNum", service.noShowCheckNum(store.getSeq()));
+			mav.setViewName("ownerpage/ownerMyPage");
 		}else {//가게등록 실패
 		mav.addObject("msg","가게수정실패!!");
 		mav.setViewName("ownerpage/failResult");
@@ -322,6 +329,8 @@ public class OwnerController {
 			StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
 			int reservationNoCheck=service.reservationNoCheck(store.getSeq());
 		    int noShowCheckNum=service.noShowCheckNum(store.getSeq());
+			List<StoreDTO> storeList=service.storeSelect((String)session.getAttribute("logId"));
+			mav.addObject("store", storeList);
 		    mav.addObject("reservationNoCheck", reservationNoCheck);
 		    mav.addObject("noShowCheckNum", noShowCheckNum);
 			mav.setViewName("ownerpage/ownerMyPage");
@@ -380,6 +389,8 @@ public class OwnerController {
 		    int noShowCheckNum=service.noShowCheckNum(store.getSeq());
 		    mav.addObject("reservationNoCheck", reservationNoCheck);
 		    mav.addObject("noShowCheckNum", noShowCheckNum);
+			List<StoreDTO> storeList=service.storeSelect((String)session.getAttribute("logId"));
+			mav.addObject("store", storeList);
 			mav.setViewName("ownerpage/ownerMyPage");
 		}else{// 수정실패시 -> 이전페이지 (알림)
 			mav.addObject("msg","쿠폰주기 실패!!");
@@ -395,6 +406,8 @@ public class OwnerController {
         	StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
         	int reservationNoCheck=service.reservationNoCheck(store.getSeq());
 		    int noShowCheckNum=service.noShowCheckNum(store.getSeq());
+			List<StoreDTO> storeList=service.storeSelect((String)session.getAttribute("logId"));
+			mav.addObject("store", storeList);
 		    mav.addObject("reservationNoCheck", reservationNoCheck);
 		    mav.addObject("noShowCheckNum", noShowCheckNum);
 			mav.setViewName("ownerpage/ownerMyPage");
@@ -411,6 +424,8 @@ public class OwnerController {
         if(cnt>0){// 예약확인 완료
         	StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
 		    int reservationNoCheck=service.reservationNoCheck(store.getSeq());
+			List<StoreDTO> storeList=service.storeSelect((String)session.getAttribute("logId"));
+			mav.addObject("store", storeList);
 		    mav.addObject("reservationNoCheck", reservationNoCheck);
 			mav.setViewName("ownerpage/ownerMyPage");
 		}else{// 수정실패시 -> 이전페이지 (알림)
@@ -427,6 +442,8 @@ public class OwnerController {
         if(cnt>0){// 예약거절(취소) 완료
         	StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
 		    int reservationNoCheck=service.reservationNoCheck(store.getSeq());
+			List<StoreDTO> storeList=service.storeSelect((String)session.getAttribute("logId"));
+			mav.addObject("store", storeList);
 		    mav.addObject("reservationNoCheck", reservationNoCheck);
 			mav.setViewName("ownerpage/ownerMyPage");
 		}else{// 수정실패시 -> 이전페이지 (알림)
@@ -467,6 +484,8 @@ public class OwnerController {
         	StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
         	int reservationNoCheck=service.reservationNoCheck(store.getSeq());
 		    int noShowCheckNum=service.noShowCheckNum(store.getSeq());
+			List<StoreDTO> storeList=service.storeSelect((String)session.getAttribute("logId"));
+			mav.addObject("store", storeList);
 		    mav.addObject("reservationNoCheck", reservationNoCheck);
 		    mav.addObject("noShowCheckNum", noShowCheckNum);
 			mav.setViewName("ownerpage/ownerMyPage");
@@ -484,6 +503,8 @@ public class OwnerController {
         	StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
         	int reservationNoCheck=service.reservationNoCheck(store.getSeq());
 		    int noShowCheckNum=service.noShowCheckNum(store.getSeq());
+			List<StoreDTO> storeList=service.storeSelect((String)session.getAttribute("logId"));
+			mav.addObject("store", storeList);
 		    mav.addObject("reservationNoCheck", reservationNoCheck);
 		    mav.addObject("noShowCheckNum", noShowCheckNum);
 			mav.setViewName("ownerpage/ownerMyPage");

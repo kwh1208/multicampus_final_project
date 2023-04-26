@@ -6,6 +6,8 @@
 <head>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ad43dcaa341623983b20d5ee0fc28465&libraries=services"></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <title>가게수정페이지</title>
 <style>
 form {
@@ -16,9 +18,9 @@ form {
     border-radius: 10px;
   }
   
-  h1 {
-  	margin-top: 100px;
+  #main-subject {
     text-align: center;
+    margin-top: 100px;
     margin-bottom: 20px;
   }
   
@@ -38,9 +40,9 @@ form {
     display: block;
     margin-bottom: 5px;
   }
-  
-  input,
-  textarea {
+  #owner_comment,
+  #how_to_come
+   {
     width: 95%;
     padding: 10px;
     border: 1px;
@@ -49,6 +51,29 @@ form {
     /*background-color: #f5f5f5;*/
     border-style:solid;
   }
+  
+  #owner_id,
+  #store_name, 
+  #location, 
+  #district, 
+  #tel_number, 
+  #open_time, 
+  #close_time, 
+  #how_to_come, 
+  #playroom, 
+  #parking, 
+  #wifi, 
+  #animal, 
+  #group_customer, 
+  #disabled{
+		width: 95%;
+		padding: 10px;
+		border: 1px;
+		border-radius: 5px;
+		margin-bottom: 20px;
+		/*background-color: #f5f5f5;*/
+		border-style:solid;
+	}
   
   input[type="checkbox"] {
     margin-right: 5px;
@@ -68,13 +93,81 @@ form {
     background-color: #C65800;
   }
 
-  div{
+  #main-title,
+  #file-upload
+  {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
     background-color: #fff;
   }
+  #map{
+  	width: 800px;
+  	height: 800px;
+  }
+
 </style>
+<script>
+    function locationCheck(){
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+            center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
+        };
+    
+    // 지도를 생성합니다
+    var map = new kakao.maps.Map(mapContainer, mapOption);
+    
+    // 주소-좌표 변환 객체를 생성합니다
+    var geocoder = new kakao.maps.services.Geocoder();
+    var store_location=document.getElementById('location').value;
+    map.relayout();
+    // 주소로 좌표를 검색합니다
+    geocoder.addressSearch(store_location, function(result, status) {
+    
+        // 정상적으로 검색이 완료됐으면
+        if (status === kakao.maps.services.Status.OK) {
+    
+            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+    
+            // 결과값으로 받은 위치를 마커로 표시합니다
+            var marker = new kakao.maps.Marker({
+                map: map,
+                position: coords
+            });
+    
+       // 인포윈도우로 장소에 대한 설명을 표시합니다
+            var infowindow = new kakao.maps.InfoWindow({
+                content: '<div style="width:150px;text-align:center;padding:6px 0;">가게 위치</div>'
+            });
+            infowindow.open(map, marker);
+            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+            map.setCenter(coords);
+        }
+        function zoomIn() {
+            // 현재 지도의 레벨을 얻어옵니다
+            var level = map.getLevel();
+    
+            // 지도를 1레벨 내립니다 (지도가 확대됩니다)
+            map.setLevel(level - 1);
+    
+            // 지도 레벨을 표시합니다
+            displayLevel();
+        }
+    
+        function zoomOut() {
+            // 현재 지도의 레벨을 얻어옵니다
+            var level = map.getLevel();
+    
+            // 지도를 1레벨 올립니다 (지도가 축소됩니다)
+            map.setLevel(level + 1);
+    
+            // 지도 레벨을 표시합니다
+            displayLevel();
+        }
+    });
+}
+</script>
 </head>
 <body>
 	<div>
@@ -88,7 +181,8 @@ form {
       <label for="store_name">가게 이름:</label>
       <input type="text" id="store_name" name="store_name" value="${store.store_name }" required>
       <label for="location">위치:</label>
-      <input type="text" id="location" name="location" value="${store.location }" required>
+      <input type="text" id="location" name="location" onkeyup="locationCheck()" value="${store.location }" required>
+      <div id="map" style="width:500px; height:400px;"></div>
       <label for="district">구역:</label>
       <input type="text" id="district" name="district" value="${store.district }" required>
       <label for="tel_number">전화번호:</label>
@@ -119,14 +213,6 @@ form {
       <label for="disabled">장애인 시설 유무:</label>
       <input type="checkbox" id="disabled" name="disabled" value="${store.disabled }">
     </fieldset>
-<!--  
-	<form action="ownerpage/registerOk" method="post" enctype="multipart/form-data"> 파일업로드시 작성할 폼 태그
-    <fieldset>
-      <legend>사진 업로드</legend>
-      <label for="picture_location">가게 사진:</label>
-      <input type="file" id="picture_location" name="picture_location">
-    </fieldset>
--->
     <input type="submit" value="가게 정보 수정">
   </form>
 </body>

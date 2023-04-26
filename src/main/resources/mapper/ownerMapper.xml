@@ -87,4 +87,7 @@
 	insert into promotion_list(store_seq, owner_id, list_date, district)
 	values(${store_seq}, #{owner_id}, #{list_date}, #{district})
 </insert>
+<select id="menuLoad" resultType="eat_schedule.dto.MenuDTO">
+	select * from menu where store_seq=${param1}
+</select>
 </mapper>

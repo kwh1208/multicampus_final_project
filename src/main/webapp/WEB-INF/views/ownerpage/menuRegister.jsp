@@ -19,7 +19,7 @@
    			 margin-bottom: 20px;
  			 }
 		form {
-			max-width: 600px;
+			max-width: 800px;
 			margin: 0 auto;
 			padding: 20px;
 			background-color: #fff;
@@ -100,11 +100,11 @@
 	<div>
 	<ul>
 		<li>메뉴 이름:</li>
-		<li><input type="text" name="menu_name" id="menu_name"></li>
+		<li><input type="text" name="menu_name" id="menu_name" required></li>
 		<li>가격</li>
-		<li><input type="number" name="price" id="price" step="100"></li>
+		<li><input type="number" name="price" id="price" step="100" required></li>
 		<li>카테고리</li>
-		<li><input type="text" name="category" id="category"></li>
+		<li><input type="text" name="category" id="category" required></li>
 		<li>음식 정보</li>
 		<li><input type="text" name="information" id="information"></li>
 		<li><label for="filename">메뉴 사진:</label></li>

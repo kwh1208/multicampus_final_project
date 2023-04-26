@@ -220,7 +220,7 @@ body{
               <div class="text">메뉴등록</div>
               <div class="right"> > </div>
           </a>
-          <a href="#menuedit" class="item">
+          <a href="/ownerpage/menuSelect" class="item">
               <div class="text">메뉴정보수정</div>
               <div class="right"> > </div>
           </a>
