@@ -2,9 +2,11 @@ package eat_schedule.dao;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import eat_schedule.dto.CouponDTO;
 
-
+@Component
 public interface CouponDAO {
 	// 쿠폰 내역 확인
 	public List<CouponDTO> CouponSelect(String user_id);

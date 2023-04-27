@@ -26,4 +26,11 @@
 	<delete id="ReviewDelete">
 		delete from review where seq=${seq}
 	</delete>
+	
+	<insert id="saveData">
+		insert into reviewfile(filename) values(#{filename})
+	</insert>
+	<select id="ReviewFileSelect" resultType="com.eat.table.dto.ReviewFileDTO">
+		select * from reviewfile
+	</select>
 </mapper>

@@ -113,7 +113,7 @@ function cancelCheck(){
 
 </script>
 <body>
-<form method="post" name="myform" id="myform" action="ReviewWriteOk">
+<form method="post" name="myform" id="myform" action="ReviewWriteOk" enctype="multipart/form-data">
 	<div class="wrapper_div">
 		<div class="subject_div">
 			${dto.store_name }에 대한 리뷰를 써주세요
@@ -138,9 +138,9 @@ function cancelCheck(){
 			</div>
 			<div class="file_div">
 				<h4>사진업로드</h4>
-				<p>(사진첨부칸)</p>
+				<div><input type="file" name="filename"/></div>
 			</div>
-			<div class=content_div">
+			<div class="content_div">
 				<h4>리뷰 작성</h4>
 				<textarea name="review" id="review"
 						  placeholder="레스토랑과 유저들에게 도움이 되는 따뜻한 리뷰를 작성해주세요."></textarea>

@@ -1,7 +1,9 @@
 package eat_schedule.dao;
 
-import eat_schedule.dto.UserDTO;
+import org.springframework.stereotype.Component;
 
+import eat_schedule.dto.UserDTO;
+@Component
 public interface UserDAO {
 	// 로그인
 	public UserDTO loginOk(String user_id, String user_password);

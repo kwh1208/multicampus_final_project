@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import eat_schedule.dao.ReviewDAO;
 import eat_schedule.dto.ReviewDTO;
+import eat_schedule.dto.ReviewFileDTO;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
@@ -33,6 +34,14 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public int ReviewDelete(int no) {
 		return dao.ReviewDelete(no);
+	}
+	@Override
+	public int saveData(ReviewFileDTO dto) {
+		return dao.saveData(dto);
+	}
+	@Override
+	public List<ReviewFileDTO> ReviewFileSelect(){
+		return dao.ReviewFileSelect();
 	}
 }
 

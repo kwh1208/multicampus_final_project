@@ -2,9 +2,11 @@ package eat_schedule.dao;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import eat_schedule.dto.ReservationDTO;
 
-
+@Component
 public interface ReservationDAO {
 	// 예약 내역 확인
 	public List<ReservationDTO> ReservationSelect(String user_id);

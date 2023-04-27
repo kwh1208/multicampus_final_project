@@ -75,7 +75,7 @@
 	</div>
 	<div class="content_wrap">
 		<div class="content">${rev.review }</div>
-		<div class="right">사진</div>
+		<img src="${rf.filename}" width="100px" height="100px" class="right">
 	</div>
 	
 	</div>

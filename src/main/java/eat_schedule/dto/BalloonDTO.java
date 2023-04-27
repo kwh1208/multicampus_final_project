@@ -12,6 +12,6 @@ public class BalloonDTO {
 	private String use_get;
 	private String use_get_time;
 	private int balloon;
-	private int total_balloon;
+	private int total_balloon;		
 	private String content;
 }
