@@ -38,19 +38,41 @@
 		border:1.5px solid #ddd;
 		border-radius:5px;
 	}
-	input[type="button"]{
-		float:right;
+	#file_search{
+		border:none;
+		background-color:#FF7100;
+		color:white; 
+		width:100px;
+		height:30px;
+	}
+	input:focus, textarea:focus{
+		outline:none;
+	}
+	#btn1{
 		border:none;
 		background-color:#FF7100;
 		color:white; 
 		width:100px;
 		height:40px;
-		border-radius:30px;
+		border-radius:10px;
+		margin-right:20px;
 	}
-	input:focus, textarea:focus{
-		outline:none;
+	#btn2{
+		border:none;
+		background-color:#FF7100;
+		color:white; 
+		width:100px;
+		height:40px;
+		border-radius:10px;
 	}
-  
+	#file_search:hover, #btn1:hover, #btn2:hover{
+		background-color:#FFA964;
+		cursor:pointer;
+	}
+	.btn{
+		text-align:center;
+		margin-top:20px;
+	}
   /************ loding bar ***************/ 
   .maskPop {
     display: none;
@@ -186,6 +208,15 @@ $(document).ready(function() { // document ready function
 	         }
 	      }); 
 	    }
+	   
+	
+	   function cancel() {
+		   // alert 창 띄우기
+		   alert("작성을 취소하시겠습니까?");
+		   // 이전 페이지로 돌아가기
+		   window.location.href="/board/inquiry";
+	   }
+
 </script>
 <body>
 
@@ -211,12 +242,15 @@ $(document).ready(function() { // document ready function
 				<li>첨부파일</li>
 					<li>
 						<input type="file" name="filename" id="file_hidden" style="display: none;" />
-	            		<input type="text" name="file_show" id="file_show" style="width:350px; height:25px; border:solid 2px; padding-left:5px; padding-bottom:3px; font-weight:bold;" readonly="readonly"/>
-	            		<input type="button" class="searchBtn ml10" value="파일 찾기" onclick=document.all.file_hidden.click(); style="width:100px; height:50px; margin:10px; padding:10px;"> 
+	            		<input type="text" name="file_show" id="file_show" style="width:400px; height:25px; padding-left:5px; padding-bottom:3px; font-weight:bold;" readonly="readonly"/>
+	            		<input type="button" class="searchBtn ml10" id="file_search" value="파일 찾기" onclick=document.all.file_hidden.click();> 
 	
 					</li>
 				<li>
-					<input type="button" value="등록하기" id="btn" onclick="btnCommit()"/>
+					<div class="btn">
+						<input type="button" value="취소하기" id="btn1" onclick="cancel()"/>
+						<input type="button" value="등록하기" id="btn2" onclick="btnCommit()"/>
+					</div>
 				</li>
 			</ul>
 		</form>

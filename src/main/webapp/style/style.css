@@ -1,16 +1,5 @@
 @charset "UTF-8";
 
-body, ul, li{
-	padding:0;
-	margin:0;
-	list-style-type:none;
-}
-
-a{
-	text-decoration:none;
-	color:#FF7100;
-}
-
 	body, ul, li{
 		padding:0;
 		margin:0;
@@ -44,7 +33,7 @@ a{
 		align-items:center;
 	}
 	#logo{
-		margin-left:80px;
+		margin-left:7%;
 		margin-top:15px;
 	}
 	#without_logo{
@@ -52,18 +41,18 @@ a{
 		display:flex;
 	}
 	#inner{
+		width:1200px;
 		margin:0 auto;
 	}
 	#shop{
-		margin-right:100px;
+		margin-left:16.7%;
+		margin-right:16.7%;
 		line-height:80px;
 	}
 	#login_logout{
-		margin-left:600px;
-		margin-right:40px;
+		margin-left:35%;
+		margin-right:3.3%;
 	}
-	
-		  
 	#board{
 	  position: relative;
 	  cursor: pointer; 
@@ -109,3 +98,4 @@ a{
 	  color: #666;
 	  margin: 0 5px;
 	}
+

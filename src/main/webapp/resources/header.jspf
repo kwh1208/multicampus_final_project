@@ -7,7 +7,8 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="/style/style.css" type="text/css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-
+<script src="//cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
 
 </head>
 
@@ -38,7 +39,7 @@
 		<div id="without_logo">
 			<div id="inner">
 				<div id="shop">
-					<a href="/shopAndEvent/shop">상점</a>
+					<a href="/shopAndEvent/shop">쿠폰상점</a>
 				</div>
 				
 				<div id="drop">

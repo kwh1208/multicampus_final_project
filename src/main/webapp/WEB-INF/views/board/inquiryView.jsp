@@ -16,6 +16,9 @@
 	li>a{
 		padding:20px;
 	}
+	#file_name>a{
+		padding:0;
+	}
 </style>
 <script>
 	function inquiryDelCheck(seq){
@@ -38,7 +41,7 @@
 				<li>A. ${dto.answer}</li>
 			</c:if>
 			<c:if test="${not empty filename}">
-				<li><a href="/uploadfile/${filename}" download >첨부파일 : ${filename}</a></li>
+				<li id="file_name"><a href="/uploadfile/${filename}" download >첨부파일 : ${filename}</a></li>
 			</c:if>
 			<c:if test="${empty filename}">
 				<li>첨부된 파일이 없습니다.</li>

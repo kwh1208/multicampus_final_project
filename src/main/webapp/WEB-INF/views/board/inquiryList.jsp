@@ -27,23 +27,30 @@
 		text-align:center;
 		margin-top:200px;
 	}
+	#title_a{
+		color:black;
+	}
+	#title_a:hover{
+		color:#FF7100;
+		cursor:pointer;
+	}
 </style>
 <h1>나의 1:1문의목록</h1>
-<div class="c" style="margin:50px auto 0 200px;">
+<div class="c" style="margin:50px 10% 0 10%;">
 	<ul class="inquiryList">
 		<li>제목</li>
 		<li>등록일</li>
-		<li>진행상태</li>
+		<li style="padding-left:100px;">진행상태</li>
 		
 		
 		<c:forEach var="inquiry" items="${list}">
-			<li><a href="/board/inquiryView/${inquiry.seq }">${inquiry.question_title}</a></li>
+			<li><a href="/board/inquiryView/${inquiry.seq }" id="title_a">${inquiry.question_title}</a></li>
 			<li>${inquiry.question_time}</li>
 			<c:if test="${empty inquiry.answer}">
-				<li>답변대기</li>
+				<li style="padding-left:100px; color:gray;">답변대기</li>
 			</c:if>
 			<c:if test="${not empty inquiry.answer}">
-				<li>답변완료</li>
+				<li style="padding-left:100px;">답변완료</li>
 			</c:if>
 		</c:forEach>
 	</ul>

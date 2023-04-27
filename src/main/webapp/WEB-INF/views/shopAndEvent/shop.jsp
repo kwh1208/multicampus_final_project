@@ -45,6 +45,7 @@
 	}
 	#useBalloon:hover{
 		background-color:#FFA964;
+		cursor:pointer;
 	}
 </style>
 <script>

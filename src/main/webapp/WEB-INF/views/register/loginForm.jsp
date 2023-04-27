@@ -51,6 +51,10 @@
 	input:focus{
 		outline:none;
 	}
+	#login_btn:hover{
+		background-color:#FFA964;
+		cursor:pointer;
+	}
 </style>
 
 <div class="all">
@@ -59,7 +63,7 @@
 	<form method="post" action="loginOk" id="logFrm">
 			<input type="text" name="user_id" id="user_id" placeholder="아이디"/>
 			<input type="password" name="user_password" id="user_password" placeholder="비밀번호"/>
-			<input type="submit" value="로그인"/>
+			<input type="submit" id="login_btn" value="로그인"/>
 	</form>
 	<div style="margin:0 auto; padding:0;" id="find">
 		<a href="/register/idSearchForm">아이디찾기</a>

@@ -17,6 +17,7 @@
 		width:70%;
 		height:30px;
 		line-height:30px;
+		border: solid 1.5px #ddd;
 	}
 	h1{
 		text-align:center;
@@ -36,6 +37,10 @@
 		float:right;
 		margin-right:28%;
 		margin-top:10px;
+	}
+	#search_btn:hover{
+		background-color:#FFA964;
+		cursor:pointer;
 	}
 </style>
 <script>
@@ -88,7 +93,7 @@
 				<li><input type="text" name="email" id="email"/></li>
 				<li>아이디</li>
 				<li><input type="text" name="user_id" id="user_id"/></li>
-				<li><input type="submit" value="비밀번호찾기"/>
+				<li><input type="submit" id="search_btn" value="비밀번호찾기"/>
 			</ul>
 		</form>
 	</div>	
