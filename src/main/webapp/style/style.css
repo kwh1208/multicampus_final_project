@@ -1,0 +1,101 @@
+@charset "UTF-8";
+
+	body, ul, li{
+		padding:0;
+		margin:0;
+		list-style-type:none;
+	}
+	a{
+		text-decoration:none;
+		color:#FF7100;
+	}
+	#nav_bar{
+		background-color:white;
+		width:100%;
+		display:flex;
+		flex-direction:row;
+		height:60px;
+		line-height:60px;
+		align-items:center;
+		position:fixed;
+		box-shadow:0 7px 7px -7px #FF7100;
+		padding:10px 0 10px 10px;
+		top:0;
+	}
+	#logo, #shop, #board, #login_logout, #join_balloon, img{
+		height:80px;
+	}
+	#nav_bar div{
+		float:left;
+	}
+	#login_logout, #join_balloon{
+		display:flex;
+		align-items:center;
+	}
+	#logo{
+		margin-left:7%;
+		margin-top:15px;
+	}
+	#without_logo{
+		width:1200px;
+		display:flex;
+	}
+	#inner{
+		width:1200px;
+		margin:0 auto;
+	}
+	#shop{
+		margin-left:16.7%;
+		margin-right:16.7%;
+		line-height:80px;
+	}
+	#login_logout{
+		margin-left:35%;
+		margin-right:3.3%;
+	}
+	#board{
+	  position: relative;
+	  cursor: pointer; 
+	  line-height:80px;
+	  color:#FF7100; 
+	}
+	  
+	#board::before{
+	  display: inline-block;
+	  color: #006633;
+	}
+	
+	#board.on>span{
+	  color: #006633; 
+	}
+	 
+	#person_img{
+	  position: relative;
+	  cursor: pointer; 
+	  line-height:80px;
+	}
+	  
+	#person_img::before{
+	  display: inline-block;
+	  color: #006633;
+	}
+	
+	#person_img.on>span{
+	  color: #006633; 
+	}
+	.menu {
+	  display: none;
+	  overflow: hidden;
+	  background-color: #f4f4f2;
+	  line-height:30px;
+	  position: absolute; top: 50%; transform: translateY(-50%);
+	  margin-top:80px;
+	  padding:10px;
+	}
+	  
+	.menu::before {
+	  display: inline-block;
+	  color: #666;
+	  margin: 0 5px;
+	}
+
