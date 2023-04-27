@@ -12,6 +12,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 	interceptor처리 할 클래스
 	반드시 HandlerInterceptorAdapter를 상속받아 만든다. 
 */
+@SuppressWarnings("deprecation")
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 	// 컨트롤러 호출되기 전에 실행되는 메소드
 	@Override

@@ -2,11 +2,13 @@ package eat_schedule.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
 import eat_schedule.dto.ReservationDTO;
 
 @Component
+@Mapper
 public interface ReservationDAO {
 	// 예약 내역 확인
 	public List<ReservationDTO> ReservationSelect(String user_id);

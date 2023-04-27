@@ -2,11 +2,13 @@ package eat_schedule.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
 import eat_schedule.dto.WishDTO;
 
 @Component
+@Mapper
 public interface WishDAO {
 	// 위시리스트
 	public List<WishDTO> WishSelect(String user_id);

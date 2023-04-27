@@ -1,9 +1,11 @@
 package eat_schedule.dao;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
 import eat_schedule.dto.UserDTO;
 @Component
+@Mapper
 public interface UserDAO {
 	// 로그인
 	public UserDTO loginOk(String user_id, String user_password);

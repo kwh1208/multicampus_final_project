@@ -14,4 +14,5 @@ public class BalloonDTO {
 	private int balloon;
 	private int total_balloon;		
 	private String content;
+	private String store_name;
 }
