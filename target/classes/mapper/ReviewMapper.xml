@@ -30,7 +30,7 @@
 	<insert id="saveData">
 		insert into reviewfile(filename) values(#{filename})
 	</insert>
-	<select id="ReviewFileSelect" resultType="com.eat.table.dto.ReviewFileDTO">
+	<select id="ReviewFileSelect" resultType="eat_schedule.dto.ReviewFileDTO">
 		select * from reviewfile
 	</select>
 </mapper>

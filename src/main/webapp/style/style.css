@@ -37,11 +37,11 @@
 		margin-top:15px;
 	}
 	#without_logo{
-		width:1200px;
+		width:90vw;
 		display:flex;
 	}
 	#inner{
-		width:1200px;
+		width:90vw;
 		margin:0 auto;
 	}
 	#shop{

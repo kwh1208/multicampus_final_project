@@ -2,12 +2,14 @@ package eat_schedule.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
 import eat_schedule.dto.ReviewDTO;
 import eat_schedule.dto.ReviewFileDTO;
 
 @Component
+@Mapper
 public interface ReviewDAO {
 	// 리뷰 확인
 	public List<ReviewDTO> ReviewSelect(String user_id);

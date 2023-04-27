@@ -6,10 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class StoreDTO {
-	private int seq;
-
-	private String district;
-
+	private Integer seq;
 	private String picture_location;
 	private String owner_id;
 	private String store_name;
@@ -19,12 +16,13 @@ public class StoreDTO {
 	private String open_time;
 	private String close_time;
 	private String how_to_come;
-	private int parking;
-	private int wifi;
-	private int animal;
-	private int group_customer;
-	private int playroom;
-	private int disabled;
+	private String district;
+	private boolean parking;
+	private boolean wifi;
+	private boolean animal;
+	private boolean group_customer;
+	private boolean playroom;
+	private boolean disabled;
 	private String category;
 
 }

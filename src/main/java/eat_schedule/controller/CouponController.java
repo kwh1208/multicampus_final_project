@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import eat_schedule.service.CouponService;
 import eat_schedule.service.UserService;
 
 @Controller
+@Slf4j
 public class CouponController {
 	@Autowired
 	CouponService service;
@@ -39,8 +41,10 @@ public class CouponController {
 	public ModelAndView myPage(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		UserDTO dto = userservice.UserSelect((String)session.getAttribute("logId"));
+		log.info("username={}", session.getAttribute("logId"));
 		int cnt = service.CouponCount((String)session.getAttribute("logId"));
 		mav.addObject("dto", dto);
+
 		mav.addObject("cnt", cnt);
 		mav.setViewName("user/myPage");
 		return mav;

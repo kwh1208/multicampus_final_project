@@ -8,9 +8,10 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import eat_schedule.dto.BoardDTO;
+import org.springframework.stereotype.Component;
 
 
-
+@Component
 @Mapper
 public interface BoardDAO {
 	public int inquiryInsert(HashMap<String, Object> map);

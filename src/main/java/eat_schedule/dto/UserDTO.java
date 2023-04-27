@@ -18,20 +18,4 @@ public class UserDTO {
 	private String email;
 	private int balloon;
 	private String join_date;
-	public void setUser_id(String attribute) {
-		// TODO Auto-generated method stub
-		
-	}
-	public Object getUser_id() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public Object getUser_name() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public Object getIs_owner() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
