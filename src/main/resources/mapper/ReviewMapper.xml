@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="eat_schedule.dao.ReviewDAO">
+	<select id="ReviewSelect" resultType="eat_schedule.dto.ReviewDTO">
+	 	select r.seq, s.seq, s.store_name, r.review_time, r.score, r.review, r.owner_comment, r.comment_time
+		from review r
+		join store s on s.seq=r.store_seq
+		where r.user_id=#{param1}
+	</select>
+	<insert id="ReviewInsert">
+		insert into review(store_seq, user_id, score, review, review_time)
+		values (#{store_seq}, #{user_id}, #{score}, #{review}, sysdate())
+	</insert>
+	<select id="ReviewEdit" resultType="eat_schedule.dto.ReviewDTO">
+		select r.seq, s.store_name, r.review_time, r.score, r.review, r.owner_comment, r.comment_time
+		from review r
+		join store s on s.seq=r.store_seq
+		where r.seq=#{param1}
+	</select>
+	<update id="ReviewEditOk" parameterType="eat_schedule.dto.ReviewDTO">
+		update review set score=#{score}, review=#{review}, review_time=sysdate()
+		where seq=#{seq}
+	</update>
+	<delete id="ReviewDelete">
+		delete from review where seq=${seq}
+	</delete>
+	
+	<insert id="saveData">
+		insert into reviewfile(filename) values(#{filename})
+	</insert>
+	<select id="ReviewFileSelect" resultType="com.eat.table.dto.ReviewFileDTO">
+		select * from reviewfile
+	</select>
+</mapper>

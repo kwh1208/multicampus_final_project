@@ -2,7 +2,6 @@ package eat_schedule.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
@@ -12,9 +11,14 @@ public class ReviewDTO {
 	private String user_id;
 	private String owner_id;
 	private Integer score;
+	//라디오버튼 스트링으로 받아야함
 	private String review;
 	private String review_time;
 	private String owner_comment;
 	private String comment_time;
+
 	private Integer coupon_status;
+	
+	private String store_name;
+
 }
