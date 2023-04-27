@@ -104,6 +104,13 @@ public class OwnerController {
 		model.addAttribute("menuList", menuList);
 		return "ownerpage/menuSelect";
 	}
+	@GetMapping("menuEdit")
+	public String menuEdit(Integer no, HttpSession session, Model model) {
+		//사장님 마이페이지 중 가게등록 페이지
+		MenuDTO menu=service.menuInfo(no);
+		model.addAttribute("menu", menu);
+		return "ownerpage/menuEdit";
+	}
 	@PostMapping("storeRegisterOk")
 	public ModelAndView storeRegisterOk(HttpServletRequest req,@ModelAttribute("StoreDTO") StoreDTO store, HttpSession session){
 		int result=service.storeRegisterOk(store);
@@ -270,6 +277,116 @@ public class OwnerController {
 		menu.setPicture_location(folderName+"/"+fileName);
 		menu.setStore_seq((Integer)session.getAttribute("storeSeq"));
 		int result=service.menuInsert(menu);
+		
+		ModelAndView mav= new ModelAndView();
+		if(result>0) {
+			StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
+			List<StoreDTO> storeList=service.storeSelect((String)session.getAttribute("logId"));
+			mav.addObject("store", storeList);
+			int reservationNoCheck=service.reservationNoCheck(store.getSeq());
+		    int noShowCheckNum=service.noShowCheckNum(store.getSeq());
+		    mav.addObject("reservationNoCheck", reservationNoCheck);
+		    mav.addObject("noShowCheckNum", noShowCheckNum);
+			mav.setViewName("ownerpage/ownerMyPage");
+		}else {
+			mav.addObject("msg","가게등록실패!!");
+			mav.setViewName("ownerpage/failResult");
+		}
+		
+		return mav;
+	}
+	
+	// 업로드 파일 삭제
+	public void fileDelete(String path, String filename) {
+		File f = new File(path, filename);
+		f.delete();
+	}
+	
+	@PostMapping("menuEditOk")
+	public ModelAndView menuEditOk(HttpServletRequest req,@ModelAttribute("MenuDTO") MenuDTO menu, HttpSession session){
+		//request: 폼의 데이터들과 첨부파일이 있다.
+		String before_filename=req.getParameter("before_filename");
+		//MultiPartHttpServletRequest <- request이용하여 구한다.
+		
+		//1. 파일업로드
+		MultipartHttpServletRequest mr=(MultipartHttpServletRequest)req;
+		
+		if(mr.getFiles("filename")!=null) {
+			
+			
+			//2. mr에서 MultipartFile 객체를 얻어오기 (업로드한 파일의 수만큼 있다.)
+			List<MultipartFile> files= mr.getFiles("filename");
+			
+			//3. 파일을 서버에 업로드할 위치의 절대주소가 필요하다.
+			String folderName="/storeuploadfile/store"+(Integer)session.getAttribute("storeSeq")+"/menupicture";
+			String path=req.getSession().getServletContext().getRealPath(folderName);
+			System.out.println("path->"+path);
+			
+			Path directoryPath = Paths.get(path);
+			
+			try {
+	            // 디렉토리 생성
+	            Files.createDirectories(directoryPath);
+	 
+	            System.out.println(directoryPath + " 디렉토리가 생성되었습니다.");
+	 
+	        }catch (IOException e) {
+	            e.printStackTrace();
+	        }
+			try {
+			fileDelete(path, before_filename);
+			}
+			catch(Exception e) {
+				System.out.println("삭제안됨");
+			}
+			
+			//-------업로드 시작 -> 같은 파일이 존재할 때 파일명을 만들어 주어야 한다. ------
+			List<FilenameDTO> fileList = new ArrayList<FilenameDTO>();
+			if(files!=null){//업로드 파일이 있을때
+			
+				for(int i=0; i<files.size(); i++){//업로드한 파일의 수만큼 반복수행
+					MultipartFile mf = files.get(i);
+					
+					String orgFilename = mf.getOriginalFilename();//클라이언트가 업로드한 원래 파일명을 구한다.
+					if(orgFilename !=null && !orgFilename.equals("")) {
+						//파일객체가 있는지 확인후 같은 파일이 있으면 파일명을 변경한다.
+						File f = new File(path, orgFilename);
+						
+						if(f.exists()) {// file 있으면 true, 없으면 false
+							//    a.gif -> a(1).gif ->a(2).gif -> ...
+							for(int renameNum=1;;renameNum++) {// 1,2,3,4......
+								// 파일명, 확장자를 나눈다.
+								// 마지막 .의 위치구한다.
+								int point = orgFilename.lastIndexOf(".");
+								String orgFile = orgFilename.substring(0, point);// 확장자 뺀 파일명
+								String orgExt = orgFilename.substring(point+1);// 확장자 gif
+								
+								String newFilename= orgFile+" ("+renameNum+")."+orgExt; //새로만드는 파일명
+								f = new File(path, newFilename);
+								if(!f.exists()) {// 새로만들 파일이 존재하지 않으면 반복문 중단
+									orgFilename= newFilename;
+									break;
+								}
+							}//for
+							//새로운 파일명을 찾았을때
+							//업로드 수행, 파일명보관
+							
+						}// if -> f.exists()
+						try {
+							mf.transferTo(new File(path, orgFilename));
+						} catch(Exception e) {}
+						
+						FilenameDTO fnDTO=new FilenameDTO();
+						fnDTO.setFilename(orgFilename);
+						fileList.add(fnDTO);
+					}//if->rename
+				}
+			}//if 업로드 파일이 있을때
+			//----------------------------------------------------------------
+			String fileName=fileList.get(0).getFilename();
+			menu.setPicture_location(folderName+"/"+fileName);
+		}
+		int result=service.menuEditOk(menu);
 		
 		ModelAndView mav= new ModelAndView();
 		if(result>0) {

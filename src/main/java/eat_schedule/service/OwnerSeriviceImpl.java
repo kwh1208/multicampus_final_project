@@ -115,4 +115,12 @@ public class OwnerSeriviceImpl implements OwnerService {
 	public List<MenuDTO> menuLoad(Integer store_seq) {
 		return dao.menuLoad(store_seq);
 	}
+	@Override
+	public MenuDTO menuInfo(Integer menu_seq) {
+		return dao.menuInfo(menu_seq);
+	}
+	@Override
+	public int menuEditOk(MenuDTO menu) {
+		return dao.menuEditOk(menu);
+	}
 }

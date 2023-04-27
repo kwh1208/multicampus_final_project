@@ -63,4 +63,8 @@ public interface OwnerDAO {
 	public int promotionInsert(PromotionListDTO promotion);
 	//메뉴 리스트 불러오기
 	public List<MenuDTO> menuLoad(Integer store_seq); 
+	//메뉴 상세정보 불러오기
+	public MenuDTO menuInfo(Integer menu_seq);
+	//메뉴 업데이트
+	public int menuEditOk(MenuDTO menu);
 }

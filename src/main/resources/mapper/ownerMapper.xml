@@ -90,4 +90,11 @@
 <select id="menuLoad" resultType="eat_schedule.dto.MenuDTO">
 	select * from menu where store_seq=${param1}
 </select>
+<select id="menuInfo" resultType="eat_schedule.dto.MenuDTO">
+	select * from menu where seq=${seq}
+</select>
+<update id="menuEditOk">
+	update menu set menu_name=#{menu_name}, price=${price}, category=#{category}, information=#{information}, picture_location=#{picture_location}
+	where seq=${seq}
+</update>
 </mapper>
