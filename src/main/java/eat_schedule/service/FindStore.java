@@ -12,9 +12,8 @@ import java.util.ArrayList;
 public class FindStore {
     private final StoreMapper StoreMapper;
 
-    public ArrayList<Store> findAllStore(String district, String category){
-
-        return StoreMapper.findAll(district, category);
+    public ArrayList<Store> findAllStore(String district, String category, String sort){
+        return StoreMapper.findAll(district, category, sort);
     }
 
     public Store findStoreBySeq(int seq){

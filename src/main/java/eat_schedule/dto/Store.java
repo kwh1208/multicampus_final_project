@@ -1,7 +1,10 @@
 package eat_schedule.dto;
 
+import eat_schedule.mapper.CommonMapper;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,7 +15,7 @@ public class Store {
 
     private String category;
 
-    private Integer score;
+    private Double score;
 
     private Integer review;
 
@@ -32,8 +35,6 @@ public class Store {
 
     private String how_to_come;
 
-    private Integer picture_number;
-
     private boolean parking;
 
     private boolean wifi;
@@ -45,6 +46,12 @@ public class Store {
     private boolean playroom;
 
     private boolean disabled;
+
+
+    public void setLocation(String location) {
+        this.location = "\'"+location+"\'";
+    }
+
     public int compareScore(Store o) {
         if(this.score.equals(o.score))
             return 0;

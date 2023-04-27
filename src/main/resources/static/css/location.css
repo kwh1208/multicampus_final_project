@@ -15,7 +15,6 @@ a{
     align-items:center;
     box-shadow:0 7px 7px -7px #FF7100;
     padding:10px 0 10px 10px;
-    top:0;
 }
 #logo, #shop, #board, #login_logout, #join_balloon, img{
     height:80px;
@@ -34,6 +33,8 @@ a{
 #without_logo{
     width:1200px;
     display:flex;
+    justify-content: center;
+    align-items: center
 }
 #inner{
     margin:0 auto;
@@ -45,6 +46,94 @@ a{
 #login_logout{
     margin-left:600px;
     margin-right:40px;
+}
+.button{
+    border: 1px solid #FF7100;
+    background-color:#FF7100;
+    color: white;
+    border-radius: 25px;
+    width: 200px;
+    height: 35px;
+}
+.select{
+    width: 200px;
+    border: 1px solid #FF7100;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding: 12px 13px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    appearance: none;
+    text-align: center;
+}
+.pl:focus{
+    border: 1px solid #FF7100;
+    box-sizing: border-box;
+    border-radius: 10px;
+    outline: 3px solid #FF7100;
+    border-radius: 10px;
+}
+#district_category{
+    min-height: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 4vh;
+}
+#category{
+    margin-left: 10%;
+    margin-right: 10%;
+}
+#sort{
+    min-height: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10vh;
+}
+#sort_review{
+    margin-left: 10%;
+    margin-right: 10%;
+}
+#store{
+    display: flex;
+    width: 27vw;
+}
+#stores{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+#store_name{
+    font-weight: bold;
+    font-size: large;
+}
+#star{
+    color:#FF7100;
+    margin-left: 3vw;
+}
+#store{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-left: 1vw;
+    height: 25vh;
+    max-width: 258.375px;
+}
+#store_img{
+    max-width: 258.375px;
+    width: 27vw;
+    height: 20vh;
+}
+li {
+    list-style-type: none;
+}
+option{
+    text-align: center;
 }
 #slideShow {
     /*전체 컨테이너*/
@@ -98,19 +187,4 @@ a{
 } /* 다음 화살표에 마우스 커서가 올라가 있을때 이전 화살표가 살짝 오른쪽으로 이동하는 효과*/
 .next:hover {
     transform: translateX(10px);
-}
-ul{
-    list-style: none;
-}
-#reservation{
-    display: flex;
-    position: sticky;
-    top: 5vh;
-    width: 26vw;
-    min-width: 289.625px;
-    float: right;
-    flex-direction: column
-}
-#store_inf{
-    position: relative;
 }
