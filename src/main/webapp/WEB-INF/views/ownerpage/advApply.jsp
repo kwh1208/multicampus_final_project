@@ -100,7 +100,7 @@
 			var list_date=$('input[name="list_date"]').val();
 			if(list_date!=""){
 				//step2
-				IMP.init('imp23255514');
+				IMP.init('');
 				var pg_mid;
 				var store_seq= "${store_seq}";
 				var buyer_name= "${buyer_name}";
