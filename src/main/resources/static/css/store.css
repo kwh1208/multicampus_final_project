@@ -1,79 +1,116 @@
 *{
     position: relative;
 }
-body{
-    overflow-y: scroll;
-    height: 100%;
+a{
+    text-decoration:none;
+    color:#FF7100;
 }
-.header{
-    display: flex;
+#nav_bar{
+    background-color:white;
+    width:100%;
+    display:flex;
+    flex-direction:row;
+    height:60px;
+    line-height:60px;
+    align-items:center;
+    box-shadow:0 7px 7px -7px #FF7100;
+    padding:10px 0 10px 10px;
+    top:0;
+}
+#logo, #shop, #board, #login_logout, #join_balloon, img{
+    height:80px;
+}
+#nav_bar div{
+    float:left;
+}
+#login_logout, #join_balloon{
+    display:flex;
+    align-items:center;
 }
 #logo{
-    width: 150px;
+    margin-left:80px;
+    margin-top:15px;
+}
+#without_logo{
+    width:1200px;
+    display:flex;
+}
+#inner{
+    margin:0 auto;
+}
+#shop{
+    margin-right:100px;
+    line-height:80px;
+}
+#login_logout{
+    margin-left:600px;
+    margin-right:40px;
+}
+#slideShow {
+    /*전체 컨테이너*/
+    width: 500px;
+    height: 300px;
+    position: relative;
+    margin: 50px auto;
+    overflow: hidden; /*리스트 형식으로 이미지를 일렬로 정렬할 것이기 때문에, 500px 밖으로 튀어 나간 이미지들은 hidden으로 숨겨줘야됨*/
+}
+.slides {
+    /*이미지들이 담겨있는 슬라이드 컨테이너*/
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 2500px; /* 슬라이드할 사진과 마진 총 넓이 */
+    transition: 0.5s ease-out; /*ease-out: 처음에는 느렸다가 점점 빨라짐*/
+    height: 200px;
+} /* 첫 번째 슬라이드 가운데에 정렬하기위해 첫번째 슬라이드만 margin-left조정 */
+.slides li img{
+    height: 200px;
+}
+.slides li:first-child {
+    margin-left: 100px;
+} /* 슬라이드들 옆으로 정렬 */
+.slides li:not(:last-child) {
     float: left;
-    display: flex;
+    margin-right: 100px;
 }
-#logo{
-    padding-left: 8%;
-    padding-top: 0.5%;
+.controller span {
+    position: absolute;
+    background-color: transparent;
+    color: black;
+    text-align: center;
+    border-radius: 50%;
+    padding: 10px 20px;
+    top: 50%;
+    font-size: 1.3em;
+    cursor: pointer;
+} /* 이전, 다음 화살표에 마우스 커서가 올라가 있을때 */
+.controller span:hover {
+    background-color: rgba(128, 128, 128, 0.11);
 }
-#about_login{
-    display: flex;
-    margin: auto;
+.prev {
+    left: 10px;
+} /* 이전 화살표에 마우스 커서가 올라가 있을때 이전 화살표가 살짝 왼쪽으로 이동하는 효과*/
+.prev:hover {
+    transform: translateX(-10px);
 }
-#about_login>li{
-    position:relative;
-    list-style: none;
-}
-#mypage{
-    padding-left: 70px;
-}
-#balloon{
-    padding-left: 160px;
-}
-#coupon{
-    padding-left: 200px;
-}
-#nav-bar_ul{
-    list-style:none;
-    margin: auto;
-}
-#slide_wrap{
-    display: flex;
-    width: 80%;
-    height: 25%;
-    margin-left: auto;
-    margin-right: auto;
-}
-#slide_items{
-    display: flex;
-    margin: auto;
-}
-#item1{
-    width: 40%;
-    flex: 1;
-}
-#item2{
-    width: 40%;
-    margin-left: 5%;
-    flex: 1;
-}
-#item3{
-    width: 40%;
-    flex: 1;
-    margin-left: 5%;
-}
-.slide_button{
-    padding-top: 10%;
-}
-.slide_prev_button{
-    float: left;
-    padding-right: 5%;
-}
-.slide_next_button{
-    float: right;
-    margin-left: 5%;
+.next {
+    right: 10px;
+} /* 다음 화살표에 마우스 커서가 올라가 있을때 이전 화살표가 살짝 오른쪽으로 이동하는 효과*/
+.next:hover {
+    transform: translateX(10px);
 }
 ul{
     list-style: none;
+}
+#reservation{
+    display: flex;
+    position: sticky;
+    top: 5vh;
+    width: 26vw;
+    min-width: 289.625px;
+    float: right;
+    flex-direction: column
+}
+#store_inf{
+    position: relative;
 }

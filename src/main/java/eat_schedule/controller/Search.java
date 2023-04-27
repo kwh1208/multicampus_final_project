@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.ArrayList;
 
@@ -48,8 +49,8 @@ public class Search {
             model.addAttribute("sort", "score");
         }
         else {
-            model.addAttribute("sort", sort);
             model.addAttribute("storeList", sortStore(district, category, sort));
+            model.addAttribute("sort", sort);
         }
 
         return "find-location";
@@ -64,7 +65,7 @@ public class Search {
     ArrayList<Store> sortStore(String district, String category, String sort){
 
         ArrayList<Store> store = findAllStore(district, category, sort);
-
+        System.out.println(store.get(0).getScore());
         return store;
     }
 }

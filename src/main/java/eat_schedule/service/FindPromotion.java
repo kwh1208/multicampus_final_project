@@ -22,8 +22,6 @@ public class FindPromotion {
     LocalDate now = LocalDate.now();
 
     public ArrayList<Store> findPromotionList(String district){
-
-
         return promotionMapper.findAll(district, now);
     }
 }

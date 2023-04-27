@@ -10,6 +10,5 @@ import java.util.ArrayList;
 public interface StoreMapper {
     ArrayList<Store> findAll(String district, String category, String sort);
 
-
     Store findStore(int seq);
 }

@@ -37,7 +37,6 @@ public class Restaurant {
 
     @GetMapping("/{seq}")
     public String showRestaurant(@PathVariable int seq,
-                                 @SessionAttribute("user_id") String user_id,
                                  Model model){
 
         Store store = findStore.findStoreBySeq(seq);
@@ -59,7 +58,7 @@ public class Restaurant {
 
         model.addAttribute("left", reservationMapper.findReservationLeft(seq));
 
-        model.addAttribute("coupon", couponMapper.findCoupon(user_id));
+//        model.addAttribute("coupon", couponMapper.findCoupon(user_id));
 
         return "store";
     }

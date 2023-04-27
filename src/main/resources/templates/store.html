@@ -8,41 +8,108 @@
   <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 </head>
 <body>
-<div class="header">
-<a href="http://localhost:8080"><img src="/picture/logo.jpg" th:id="logo"></a>
-  <ul id="nav-bar_ul">
-    <li id="store" style="float: left">상점</li>
-    <li id="qna" style="float: left; padding-left: 40px">문의사항</li>
-  </ul>
-  <ul id="about_login">
-    <li><a th:if="${session.logStatus != null} " th:href="logout" th:text="로그아웃" href="login" id="logout">로그아웃</a></li>
-    <li><a th:if="${session.logStatus != null} " th:href="mypage" th:text="마이페이지" href="join" id="mypage">마이페이지</a></li>
-    <li><a th:if="${session.logStatus != null} " th:href="logout" id="balloon">먹풍</a></li>
-    <li><a th:if="${session.logStatus != null} " th:href="logout" id="coupon">쿠폰</a></li>
-    <li><a th:if="${session.logStatus == null} " th:href="logout" id="login">로그인</a></li>
-    <li><a th:if="${session.logStatus == null} " th:href="logout" id="join">회원가입</a></li>
-  </ul>
+<div id="nav_bar">
+  <div id="logo">
+    <a href="/"><img src="/picture/logo.png" style="width:130px; height:60px;"/></a>
+  </div>
+  <div id="without_logo">
+    <div id="inner">
+      <div id="shop">
+        <a href="/shopAndEvent/shop">상점</a>
+      </div>
+
+      <div id="drop">
+        <div class="menu">
+						<span>
+							<a href="/board/FAQ">FAQ</a><br/>
+							<a href="/board/inquiry">1:1문의</a>
+						</span>
+        </div>
+      </div>
+
+      <div id="login_logout">
+        <div th:if="${session.logStatus}!='Y'"><a href="/register/loginForm">로그인</a></div>
+        <img src="/img/person.png" style="width:30px; height:30px;" id="person_img_owner" th:if="${logStatus=='Y'  && isOwner==1 }"/>
+        <div class="menu" th:if="${logStatus=='Y'  && isOwner==1 }">
+							<span>
+								<a href="/register/logout">로그아웃</a><br/>
+								<a href="/ownerpage/ownerStart">마이페이지</a>
+							</span>
+        </div>
+
+        <img src="/picture/person.png" style="width:30px; height:30px;" id="person_img_user" th:if="${logStatus=='Y'  && isOwner==0 }"/>
+        <div class="menu" th:if="${logStatus=='Y'  && isOwner==0 }">
+							<span>
+								<a href="/register/logout">로그아웃</a><br/>
+								<a href="/user/myPage">마이페이지</a>
+							</span>
+        </div>
+      </div>
+      <div id="join_balloon" th:if="${logStatus!='Y'}">
+        <div><a href="/register/joinForm">회원가입</a></div>
+        <img src="/picture/balloons.png" style="width:30px; height:30px; margin:0 auto;" th:if="${logStatus=='Y'  && isOwner==1 }"/>
+        <p style="color:#FF7100">&nbsp;&nbsp; X ${balloon}</p>
+        <img src="/picture/balloons.png" style="width:30px; height:30px; margin:0 auto;" th:if="${logStatus=='Y'  && isOwner==0 }"/>
+        <p style="color:#FF7100">&nbsp;&nbsp; X ${balloon}</p>
+      </div>
+    </div>
+  </div>
 </div>
-<div id="slide_wrap">
-  <div id="slide_items">
-  <div class="slide_prev_button slide_button" onclick="prevMove()">◀</div>
-  <div class="slide_item" id="item1">
-    <img src="/picture/test.jpg">
-  </div>
-  <div class="slide_item" id="item2">
-    <img src="/picture/test.jpg">
-  </div>
-  <div class="slide_item" id="item3">
-    <img src="/picture/test.jpg">
-  </div>
-<!--  <div class="slide_item item1" th:each="fileInfo: ${fileInfos}">-->
-<!--    <img th:src="@{/src/main/webapp/storeuploadfile/store__${store.seq}/storepicture/${fileInfo}}">-->
-<!--  </div>-->
-  <div class="slide_next_button slide_button" onclick="nextMove()">▶</div>
-  <ul class="slide_pagination"></ul>
-</div>
+<div id="slideShow">
+  <ul class="slides">
+    <!--        <li th:each="List:${promotionList}"><img th:src="@{/${List.picture_location}}"></li>-->
+    <li><img src="/picture/balloons.png"></li>
+    <li><img src="/picture/logo.png"></li>
+  </ul>
+  <p class="controller">
+    <span class="prev">&lang;</span>
+    <span class="next">&rang;</span>
+  </p>
 </div>
 <script src="/js/slide.js"></script>
+<div id="store_inf">
+<form th:action="@{/restaurant/{seq}(seq=${store.seq})}" method="post" id="reservation">
+  <select th:value="date" id="date">
+    <option value="">날짜 선택</option>
+    <option th:each="date:${left}" th:value="${date.reservation_date}" th:text="${date.reservation_date}"></option>
+  </select>
+  <select th:value="time" id="select_time">
+    <option value="">시간 선택</option>
+    <option th:each="date:${left}" th:value="${date.reservation_time}" th:text="${date.reservation_time}"></option>
+  </select>
+  <select th:value="people" id="people">
+    <option value="">인원 선택</option>
+    <option th:each="date:${left}" th:value="${date.people}" th:text="${date.people}"></option>
+  </select>
+  <!--    <select th:value="coupon" id="coupon_use">-->
+  <!--      <option value="">쿠폰 사용</option>-->
+  <!--      <option th:each="coupon:${coupon}" th:value="${coupon.discount_rate}" th:text="${coupon.discount_rate}"></option>-->
+  <!--    </select>-->
+  <button onclick="onDisplay()" id="reservation_button">예약</button>
+  <script>
+    /*<![CDATA[*/
+    var date = document.getElementById("reservation_date");
+    var time = document.getElementById("reservation_time");
+    var people = document.getElementById("reservation_people");
+    var coupon = document.getElementById("reservation_coupon");
+
+    date.innerHTML=document.getElementById("date");
+    time.innerHTML=document.getElementById("time");
+    people.innerHTML=document.getElementById("people");
+    coupon.innerHTML=document.getElementById("coupon");
+    /*]]>*/
+  </script>
+  <div id="reservation_confirm" style="display: none;">
+    <p id="reservation_date"></p>
+    <p id="reservation_time"></p>
+    <p id="reservation_people"></p>
+    <p id="reservation_coupon"></p>
+    <input type="text" name="comment" id="user_comment">
+    <button type="submit" onclick="message()">확인 먹풍(-5)</button>
+    <button onclick="offDisplay()">취소</button>
+  </div>
+</form>
+<script src="/js/quick_menu.js"></script>
 <div class="con">
   <!--/* 음식점정보 */-->
     <th:block th:object="${store}">
@@ -159,50 +226,7 @@
     </div>
   </div>
 </div>
-<script src="/js/quick_menu.js"></script>
-<form th:action="@{/restaurant/{seq}(seq=${store.seq})}" method="post">
-    <select th:value="date" id="date">
-      <option value="">날짜 선택</option>
-      <option th:each="date:${left}" th:value="${date.reservation_date}" th:text="${date.reservation_date}"></option>
-    </select>
-    <select th:value="time" id="select_time">
-      <option value="">시간 선택</option>
-      <option th:each="date:${left}" th:value="${date.reservation_time}" th:text="${date.reservation_time}"></option>
-    </select>
-    <select th:value="people" id="people">
-      <option value="">인원 선택</option>
-      <option th:each="date:${left}" th:value="${date.people}" th:text="${date.people}"></option>
-    </select>
-    <select th:value="coupon" id="coupon_use">
-      <option value="">쿠폰 사용</option>
-      <option th:each="coupon:${coupon}" th:value="${coupon.discount_rate}" th:text="${coupon.discount_rate}"></option>
-    </select>
-    <button onclick="onDisplay()" id="reservation_button">예약</button>
-  </div>
-  <script>
-    /*<![CDATA[*/
-    var date = document.getElementById("reservation_date");
-    var time = document.getElementById("reservation_time");
-    var people = document.getElementById("reservation_people");
-    var coupon = document.getElementById("reservation_coupon");
-
-    date.innerHTML=document.getElementById("date");
-    time.innerHTML=document.getElementById("time");
-    people.innerHTML=document.getElementById("people");
-    coupon.innerHTML=document.getElementById("coupon");
-    /*]]>*/
-  </script>
-  <div id="reservation_confirm" style="display: none;">
-      <p id="reservation_date"></p>
-      <p id="reservation_time"></p>
-      <p id="reservation_people"></p>
-      <p id="reservation_coupon"></p>
-    <input type="text" name="comment" id="user_comment">
-      <button type="submit" onclick="message()">확인 먹풍(-5)</button>
-      <button onclick="offDisplay()">취소</button>
-  </div>
-</form>
-</th:block>
+</div>
 <footer>
   <p>푸터</p>
 </footer>
