@@ -670,8 +670,8 @@ public class OwnerController {
 				//db select ( select amount from oder_table where merchant_uid = ?)
 				
 				//step5
-				String api_key ="0768415534736602";
-				String api_secret ="qwDxOfUXWEt5zkWOFM2xm8rtTq8DTnhuB2jrFlfxEdwzozXOUlWSvblcmC3pHOnZq48OPRyyVYTycFtU";
+				String api_key ="";
+				String api_secret ="";
 				
 				IamportClient ic=new IamportClient(api_key, api_secret);
 				IamportResponse<Payment> response = ic.paymentByImpUid(imp_uid);
