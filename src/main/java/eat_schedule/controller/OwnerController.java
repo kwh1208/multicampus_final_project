@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -186,11 +187,23 @@ public class OwnerController {
 			}
 		}//if 업로드 파일이 있을때
 		//----------------------------------------------------------------
+		
 		ModelAndView mav=new ModelAndView();
-		store.setPicture_location(folderName);
-		System.out.println(store.getPicture_location());
-		int result2=service.pictureDirInsert(store);
-		if(result>0 && result2>0) {//가게등록 성공
+		for(FilenameDTO i : fileList) { //for문을 통한 전체출력
+			i.setStore_seq(store.getSeq());
+		    i.setFilename(folderName+"/"+i.getFilename());
+		    int result2=service.pictureInsert(i);
+		    if(result2>0) {		    	
+		    }
+		    else {
+				mav.addObject("msg","가게등록실패!!");
+				mav.setViewName("ownerpage/failResult");
+		    }
+		}
+//		store.setPicture_location(folderName+"/"+filename);
+//		System.out.println(store.getPicture_location());
+//		int result2=service.pictureDirInsert(store);
+		if(result>0) {//가게등록 성공
 			List<StoreDTO> store1=service.storeSelect((String)session.getAttribute("logId"));
 			mav.addObject("store", store1);
 			mav.setViewName("ownerpage/ownerStart");

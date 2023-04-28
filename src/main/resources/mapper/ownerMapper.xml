@@ -30,10 +30,10 @@
 	, email=#{email} where user_id=#{user_id} and user_password=#{user_password}
 </update>
 <select id="reviewSelect" resultType="eat_schedule.dto.ReviewDTO">
-	select seq, store_seq, user_id, owner_id, score, review, review_time, owner_comment, comment_time from review where store_seq=${param1}
+	select seq, store_seq, user_id, owner_id, score, review, review_time, owner_comment, comment_time, coupon_status from review where store_seq=${param1}
 </select>
 <select id="reservationSelect" resultType="eat_schedule.dto.ReservationDTO">
-	select r.seq ,r.reservation_time, r.number_of_people, r.user_id, u.user_name, r.coupon, u.phone_number, u.email, r.reservation_status, r.reservation_comment
+	select r.seq ,r.reservation_time, r.number_of_people, r.user_id, u.user_name, r.coupon, u.phone_number, u.email, r.reservation_status, r.reservation_comment, r.visit_status
 		from reservation r
 		join user u on u.user_id=r.user_id
 		where r.store_seq=${param1};
@@ -97,4 +97,7 @@
 	update menu set menu_name=#{menu_name}, price=${price}, category=#{category}, information=#{information}, picture_location=#{picture_location}
 	where seq=${seq}
 </update>
+<insert id="pictureInsert">
+	insert into picture(store_seq, filename) values(${store_seq}, #{filename})
+</insert>
 </mapper>

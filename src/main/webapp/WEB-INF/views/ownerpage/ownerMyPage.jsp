@@ -224,7 +224,7 @@ body{
               <div class="text">메뉴정보수정</div>
               <div class="right"> > </div>
           </a>
-          <a href="#information" class="item">
+          <a href="/restaurant/${storeSeq }" class="item">
               <div class="text">가게정보보기</div>
               <div class="right"> > </div>
           </a>

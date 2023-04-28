@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ include file="/resources/header.jspf" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,6 +49,10 @@
 	a {
         text-decoration: none;
     }
+    .store_select_div .store_name{
+    	font-weight: bold;
+    	font-size: 20px;
+    }
 
 </style>
 </head>
@@ -58,10 +63,8 @@
 	<c:forEach var="store" items="${store }">
 	<div class="store_detail">
 	<ul>
-	<li>가게번호: ${store.seq }</li>
-	<li>사장님 아이디: ${store.owner_id }</li>
+	<li class="store_name">가게이름: ${store.store_name}</li>
 	<li>지역: ${store.location }</li>
-	<li>가게이름: ${store.store_name}</li>
 	<li><a class="link-select" href="ownerMyPage?no=${store.seq}">가게 선택</a></li>
 	</ul>
 	</div>

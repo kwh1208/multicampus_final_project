@@ -6,6 +6,7 @@ import java.util.List;
 
 import eat_schedule.dto.BalloonDTO;
 import eat_schedule.dto.CouponDTO;
+import eat_schedule.dto.FilenameDTO;
 import eat_schedule.dto.MenuDTO;
 import eat_schedule.dto.PromotionListDTO;
 import eat_schedule.dto.RegisterDTO;
@@ -65,4 +66,6 @@ public interface OwnerService {
 	public MenuDTO menuInfo(Integer menu_seq);
 	//메뉴 업데이트
 	public int menuEditOk(MenuDTO menu);
+	//파일명 넣기(경로넣기)
+	public int pictureInsert(FilenameDTO filename);
 }
