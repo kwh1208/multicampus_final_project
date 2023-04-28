@@ -56,7 +56,7 @@ public class Restaurant {
 
 //        model.addAttribute("coupon", couponMapper.findCoupon(user_id));
 
-        return "store";
+        return "thymeleaf/store";
     }
 
     //예약임.
@@ -79,7 +79,7 @@ public class Restaurant {
         //이메일 보내기 세팅
 
 
-        return "redirect:/store/"+seq;
+        return "redirect:thymeleaf//store/"+seq;
     }
 
 

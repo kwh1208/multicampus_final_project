@@ -3,22 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <title th:text="${store.store_name}"></title>
-  <script src="../static/js/calendar.js"></script>
   <link rel="stylesheet" th:href="@{/css/store.css}">
   <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 </head>
+<script>
+  $(document).ready(function(){
+    $("#board").click(function() {
+      $(this).next(".menu").stop().slideToggle(300);
+      $(this).toggleClass('on').siblings().removeClass('on');
+      $(this).next(".menu").siblings(".menu").slideUp(300);
+    });
+  });
+  $(document).ready(function(){
+    $("#person_img").click(function() {
+      $(this).next(".menu").stop().slideToggle(300);
+      $(this).toggleClass('on').siblings().removeClass('on');
+      $(this).next(".menu").siblings(".menu").slideUp(300);
+    });
+  });
+</script>
 <body>
 <div id="nav_bar">
   <div id="logo">
-    <a href="/"><img src="/picture/logo.png" style="width:130px; height:60px;"/></a>
+    <a href="/"><img src="/img/logo.png" style="width:130px; height:60px;"/></a>
   </div>
+
   <div id="without_logo">
     <div id="inner">
       <div id="shop">
-        <a href="/shopAndEvent/shop">상점</a>
+        <a href="/shopAndEvent/shop">쿠폰상점</a>
       </div>
 
       <div id="drop">
+        <div id="board">
+          게시판
+        </div>
         <div class="menu">
 						<span>
 							<a href="/board/FAQ">FAQ</a><br/>
@@ -28,46 +47,51 @@
       </div>
 
       <div id="login_logout">
-        <div th:if="${session.logStatus}!='Y'"><a href="/register/loginForm">로그인</a></div>
-        <img src="/img/person.png" style="width:30px; height:30px;" id="person_img_owner" th:if="${logStatus=='Y'  && isOwner==1 }"/>
-        <div class="menu" th:if="${logStatus=='Y'  && isOwner==1 }">
+        <div th:if="${logStatus!= Y}"><a href="/register/loginForm">로그인</a></div>
+        <img th:if="${logStatus!= Y && isOwner==1}" src="/img/person.png" style="width:30px; height:30px;" id="person_img"/>
+        <div class="menu">
 							<span>
 								<a href="/register/logout">로그아웃</a><br/>
 								<a href="/ownerpage/ownerStart">마이페이지</a>
 							</span>
         </div>
-
-        <img src="/picture/person.png" style="width:30px; height:30px;" id="person_img_user" th:if="${logStatus=='Y'  && isOwner==0 }"/>
-        <div class="menu" th:if="${logStatus=='Y'  && isOwner==0 }">
+        <img th:if ="${logStatus=='Y'  && isOwner==0 }" src="/img/person.png" style="width:30px; height:30px;" id="person_img"/>
+        <div class="menu">
 							<span>
 								<a href="/register/logout">로그아웃</a><br/>
 								<a href="/user/myPage">마이페이지</a>
 							</span>
         </div>
       </div>
-      <div id="join_balloon" th:if="${logStatus!='Y'}">
-        <div><a href="/register/joinForm">회원가입</a></div>
-        <img src="/picture/balloons.png" style="width:30px; height:30px; margin:0 auto;" th:if="${logStatus=='Y'  && isOwner==1 }"/>
-        <p style="color:#FF7100">&nbsp;&nbsp; X ${balloon}</p>
-        <img src="/picture/balloons.png" style="width:30px; height:30px; margin:0 auto;" th:if="${logStatus=='Y'  && isOwner==0 }"/>
-        <p style="color:#FF7100">&nbsp;&nbsp; X ${balloon}</p>
+
+      <div id="join_balloon">
+        <div th:if ="${logStatus!='Y' }"><a href="/register/joinForm">회원가입</a></div>
+        <img th:if ="${logStatus=='Y'  && isOwner==1 }"  src="/img/balloons.png" style="width:30px; height:30px; margin:0 auto;"/>
+        <p th:if ="${logStatus=='Y'  && isOwner==0 }" style="color:#FF7100">&nbsp;&nbsp; X ${balloon}</p>
+        <img th:if ="${logStatus=='Y'  && isOwner==0 }"  src="/img/balloons.png" style="width:30px; height:30px; margin:0 auto;"/>
+        <p th:if ="${logStatus=='Y'  && isOwner==0 }" style="color:#FF7100">&nbsp;&nbsp; X ${balloon}</p>
       </div>
     </div>
   </div>
 </div>
-<div id="slideShow">
+<div id="slideShow" style="margin-top: 50px">
   <ul class="slides">
-    <!--        <li th:each="List:${promotionList}"><img th:src="@{/${List.picture_location}}"></li>-->
-    <li><img src="/picture/balloons.png"></li>
-    <li><img src="/picture/logo.png"></li>
+    <li th:each="List:${promotionList}"><img th:src="@{/${List.picture_location}}"></li>
   </ul>
   <p class="controller">
     <span class="prev">&lang;</span>
     <span class="next">&rang;</span>
   </p>
 </div>
-<script src="/js/slide.js"></script>
-<div id="store_inf">
+<!--<div id="store_img">-->
+<!--  <ul class="bxslider">-->
+<!--    <li class="store_img"><img src="/img/pizza.png" style="width:400px; height:400px;"></li>-->
+<!--    <li class="store_img"><img src="/img/noodle.png" style="width:400px; height:400px;"></li>-->
+<!--    <li class="store_img"><img src="/img/pasta.png" style="width:400px; height:400px;"></li>-->
+<!--    <li class="store_img"><img src="/img/waffles.png" style="width:400px; height:400px;"></li>-->
+<!--  </ul>-->
+<!--</div>-->
+<span style="height: 100vh">
 <form th:action="@{/restaurant/{seq}(seq=${store.seq})}" method="post" id="reservation">
   <select th:value="date" id="date">
     <option value="">날짜 선택</option>
@@ -110,15 +134,20 @@
   </div>
 </form>
 <script src="/js/quick_menu.js"></script>
+</span>
+<div id="store_inf">
 <div class="con">
   <!--/* 음식점정보 */-->
     <th:block th:object="${store}">
       <div id="store_information">
-        <p id="common_store_name">매장명</p>
-      <p th:field="*{store_name}" th:text="*{store_name}" th:id="store_name"></p>
-      <p id="common_location">상세 위치 안내</p>
-      <p th:value="*{location}" id="store_location" th:text="*{location}"></p>
-      <div id="map" style="width:50%;height:350px;"></div>
+        <span class="content">
+        <p class="common">매장명</p>
+      <p th:field="*{store_name}" th:text="*{store_name}" th:id="store_name" class="specific"></p>
+          </span>
+        <span class="content">
+      <div id="map" style="width:70%;height:350px;"></div>
+          <p class="common">상세 위치 안내</p>
+      <p th:value="*{location}" id="store_location" th:text="*{location}" class="specific"></p>
       <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bf51c8be3f9bf6ff5d80d7217305cd1b&libraries=services"></script>
       <script>
         var mapContainer = document.getElementById('map'), // 지도를 표시할 div
@@ -179,22 +208,36 @@
           }
         });
       </script>
-      <p id="common_category">분류</p>
-      <p th:field="*{category}" th:text="*{category}"></p>
-      <p id="common_time">영업 시간</p>
-      <p th:name="time" th:id="time" th:value="time" th:text="|*{open_time} ~ *{close_time}|"></p>
-      <p id="common_tel_number">매장 전화번호</p>
-      <p th:field="*{tel_number}" th:text="*{tel_number}" id="tel_number"></p>
-      <p id="common_how_to_come">오시는 길</p>
-      <p th:field="*{how_to_come}" th:text="*{how_to_come}" id="how_to_come"></p>
-      <p id="common_facilities">편의시설</p>
-      <p th:if="${facility} != null" th:name="'편의시설'" id="facilities" th:value="'편의시설'" th:text="${facility}"></p>
-      <p id="common_comment">사장님 한마디</p>
-      <p th:field="*{comment}" th:text="*{comment}" id="comment"></p>
+        </span>
+          <span class="content">
+      <p class="common">분류</p>
+      <p th:field="*{category}" th:text="*{category}" class="specific"></p>
+          </span>
+            <span class="content">
+      <p class="common">영업 시간</p>
+      <p th:name="time" th:id="time" th:value="time" th:text="|*{open_time} ~ *{close_time}|" class="specific"></p>
+              </span>
+        <span class="content">
+      <p class="common">매장 전화번호</p>
+      <p th:field="*{tel_number}" th:text="*{tel_number}" id="tel_number" class="specific"></p>
+          </span>
+        <span class="content">
+      <p class="common">오시는 길</p>
+      <p th:field="*{how_to_come}" th:text="*{how_to_come}" id="how_to_come" class="specific"></p>
+          </span>
+        <span class="content">
+      <p class="common">편의시설</p>
+      <p th:if="${facility} != null" th:name="'편의시설'" id="facilities" th:value="'편의시설'" th:text="${facility}" class="specific"></p>
+          </span>
+        <span class="content">
+      <p class="common">사장님 한마디</p>
+      <p th:field="*{comment}" th:text="*{comment}" id="comment" class="specific"></p>
+          </span>
       </div>
     </th:block>
   </div>
-  <div><!--/* 메뉴 */-->
+  <div id="menu"><!--/* 메뉴 */-->
+    <h2>메뉴</h2>
     <table>
       <th:block th:each="kind:${type}">
         <h4 th:text="${kind}"></h4>
@@ -227,7 +270,73 @@
   </div>
 </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="/static/js/jquery.bxslider.js"></script>
+<script>
+  $(document).ready(function(){
+    $('.bxslider').bxSlider( {
+      mode: 'horizontal',// 가로 방향 수평 슬라이드
+      speed: 500,        // 이동 속도를 설정
+      pager: false,      // 현재 위치 페이징 표시 여부 설정
+      moveSlides: 1,     // 슬라이드 이동시 개수
+      slideWidth: 410,   // 슬라이드 너비 수정
+      minSlides: 1,      // 최소 노출 개수 수정
+      maxSlides: 1,      // 최대 노출 개수 수정
+      slideMargin: 0,    // 슬라이드간의 간격
+      auto: true,        // 자동 실행 여부
+      autoHover: true,   // 마우스 호버시 정지 여부
+      controls: false    // 이전 다음 버튼 노출 여부
+    });
+  });
+</script>
 <footer>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
+  <p>푸터</p>
   <p>푸터</p>
 </footer>
 </body>

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 
 @Controller
-@RequestMapping
+@RequestMapping()
 @RequiredArgsConstructor
 public class Search {
     private final FindPromotion findPromotion;
@@ -28,7 +28,7 @@ public class Search {
 
     private final RegionMapper regionMapper;
 
-    @GetMapping("search")
+    @GetMapping("/search")
     public String searchDistrict(@RequestParam(value = "district") String district,
                                  @RequestParam(value = "category", required = false) String category,
                                  @RequestParam(value = "sort", required = false) String sort,
@@ -53,7 +53,7 @@ public class Search {
             model.addAttribute("sort", sort);
         }
 
-        return "find-location";
+        return "thymeleaf/find-location";
     }
     ArrayList<Store> findPromotion(String district){
         return findPromotion.findPromotionList(district);

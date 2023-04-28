@@ -9,7 +9,7 @@
         where store_seq=#{seq}
     </select>
     <select id="findMenuType" resultType="java.lang.String">
-        select category from menu
+        select distinct category from menu
         where store_seq=#{seq}
     </select>
 </mapper>

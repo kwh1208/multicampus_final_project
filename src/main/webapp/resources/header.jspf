@@ -14,14 +14,14 @@
 
 
 <script>
-	$(document).ready(function(){ 
+	$(document).ready(function(){
 		$("#board").click(function() {
 			  $(this).next(".menu").stop().slideToggle(300);
 			  $(this).toggleClass('on').siblings().removeClass('on');
 			  $(this).next(".menu").siblings(".menu").slideUp(300);
 			});
 	});
-	$(document).ready(function(){ 
+	$(document).ready(function(){
 		$("#person_img").click(function() {
 			  $(this).next(".menu").stop().slideToggle(300);
 			  $(this).toggleClass('on').siblings().removeClass('on');

@@ -8,15 +8,19 @@
 <body>
 <div id="nav_bar">
     <div id="logo">
-        <a href="/"><img src="/picture/logo.png" style="width:130px; height:60px;"/></a>
+        <a href="/"><img src="/img/logo.png" style="width:130px; height:60px;"/></a>
     </div>
+
     <div id="without_logo">
         <div id="inner">
             <div id="shop">
-                <a href="/shopAndEvent/shop">상점</a>
+                <a href="/shopAndEvent/shop">쿠폰상점</a>
             </div>
 
             <div id="drop">
+                <div id="board">
+                    게시판
+                </div>
                 <div class="menu">
 						<span>
 							<a href="/board/FAQ">FAQ</a><br/>
@@ -26,29 +30,29 @@
             </div>
 
             <div id="login_logout">
-                <div th:if="${session.logStatus}!='Y'"><a href="/register/loginForm">로그인</a></div>
-                <img src="/img/person.png" style="width:30px; height:30px;" id="person_img_owner" th:if="${logStatus=='Y'  && isOwner==1 }"/>
-                <div class="menu" th:if="${logStatus=='Y'  && isOwner==1 }">
+                    <div th:if="${logStatus!= Y}"><a href="/register/loginForm">로그인</a></div>
+                    <img th:if="${logStatus!= Y && isOwner==1}" src="/img/person.png" style="width:30px; height:30px;" id="person_img"/>
+                    <div class="menu">
 							<span>
 								<a href="/register/logout">로그아웃</a><br/>
 								<a href="/ownerpage/ownerStart">마이페이지</a>
 							</span>
-                </div>
-
-                <img src="/picture/person.png" style="width:30px; height:30px;" id="person_img_user" th:if="${logStatus=='Y'  && isOwner==0 }"/>
-                <div class="menu" th:if="${logStatus=='Y'  && isOwner==0 }">
+                    </div>
+                    <img th:if ="${logStatus=='Y'  && isOwner==0 }" src="/img/person.png" style="width:30px; height:30px;" id="person_img"/>
+                    <div class="menu">
 							<span>
 								<a href="/register/logout">로그아웃</a><br/>
 								<a href="/user/myPage">마이페이지</a>
 							</span>
-                </div>
+                    </div>
             </div>
-            <div id="join_balloon" th:if="${logStatus!='Y'}">
-                <div><a href="/register/joinForm">회원가입</a></div>
-                <img src="/picture/balloons.png" style="width:30px; height:30px; margin:0 auto;" th:if="${logStatus=='Y'  && isOwner==1 }"/>
-                <p style="color:#FF7100">&nbsp;&nbsp; X ${balloon}</p>
-                <img src="/picture/balloons.png" style="width:30px; height:30px; margin:0 auto;" th:if="${logStatus=='Y'  && isOwner==0 }"/>
-                <p style="color:#FF7100">&nbsp;&nbsp; X ${balloon}</p>
+
+            <div id="join_balloon">
+                    <div th:if ="${logStatus!='Y' }"><a href="/register/joinForm">회원가입</a></div>
+                    <img th:if ="${logStatus=='Y'  && isOwner==1 }"  src="/img/balloons.png" style="width:30px; height:30px; margin:0 auto;"/>
+                    <p th:if ="${logStatus=='Y'  && isOwner==0 }" style="color:#FF7100">&nbsp;&nbsp; X ${balloon}</p>
+                    <img th:if ="${logStatus=='Y'  && isOwner==0 }"  src="/img/balloons.png" style="width:30px; height:30px; margin:0 auto;"/>
+                    <p th:if ="${logStatus=='Y'  && isOwner==0 }" style="color:#FF7100">&nbsp;&nbsp; X ${balloon}</p>
             </div>
         </div>
     </div>
@@ -60,18 +64,16 @@
       </th:block>
     </select>
   <select name="category" th:label="category" class="select" id="category">
-    <option th:value="none">-----선택-----</option>
+    <option th:value="none">분류</option>
     <th:block th:each="categorys:${AllCategory}">
     <option th:each="val:${categorys}" th:value="${categorys}" th:id="${categorys}" th:text="${categorys}" ></option>
     </th:block>
   </select>
-  <button type="submit" id="district_category_button" class="button">수정 버튼</button>
+  <button type="submit" id="district_category_button" class="button">검색</button>
 </form>
 <div id="slideShow">
     <ul class="slides">
-<!--        <li th:each="List:${promotionList}"><img th:src="@{/${List.picture_location}}"></li>-->
-        <li><img src="/picture/balloons.png"></li>
-        <li><img src="/picture/logo.png"></li>
+        <li th:each="List:${promotionList}"><img th:src="@{/${List.picture_location}}"></li>
     </ul>
     <p class="controller">
         <span class="prev">&lang;</span>
@@ -86,17 +88,17 @@
 </form>
 <div th:id="stores">
     <th:block>
-        <div th:each="store:${storeList}" id="store">
+        <div th:each="store:${storeList}" class="store">
             <div>
                 <a th:href="@{/restaurant/{seq}(seq=${store.seq})}">
-                    <img th:src="@{/picture/store/{seq}.jpg(seq=${store.seq})}" id="store_img">
+                    <img th:src="@{/picture/store/{seq}.jpg(seq=${store.seq})}" class="store_img">
                 </a>
             </div>
-            <div id="store_information">
+            <div class="store_information">
                 <a th:href="@{/restaurant/{seq}(seq=${store.seq})}">
                     <span th:text="${store.store_name}" id="store_name">가게이름</span>
                 </a>
-                <span id="star">★<span th:text="${store.score}" id="score">평점</span><span>♥</span></span>
+                <span id="star">★<span th:text="${store.score}" id="score">평점</span><span class="wish">♥</span></span>
             </div>
         </div>
     </th:block>
