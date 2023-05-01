@@ -8,13 +8,14 @@ import lombok.Setter;
 public class ReviewFileDTO {
 
 	private int seq;
+	private int store_seq;
+	private String user_id;
 	private String filename;
-	public void setFilename(String sysFileName) {
-		// TODO Auto-generated method stub
-		
+	
+	public String getFilename() {
+		return filename;
 	}
-	public char[] getFilename() {
-		// TODO Auto-generated method stub
-		return null;
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 }

@@ -14,14 +14,15 @@ public class CouponServiceImpl implements CouponService {
 	@Autowired
 	CouponDAO dao;
 	
+	@Override
 	public List<CouponDTO> CouponSelect(String user_id) {
 		return dao.CouponSelect(user_id);
-	}
-	
+	}	
+	@Override
 	public int CouponCount(String user_id) {
 		return dao.CouponCount(user_id);
 	}
-	
+	@Override
 	public int CouponDelete(int no) {
 		return dao.CouponDelete(no);
 	}

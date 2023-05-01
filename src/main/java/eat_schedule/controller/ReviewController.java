@@ -2,7 +2,9 @@ package eat_schedule.controller;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import eat_schedule.dto.ReviewDTO;
 import eat_schedule.dto.ReviewFileDTO;
+import eat_schedule.dto.WishDTO;
 import eat_schedule.service.ReviewService;
 
 @Controller
@@ -35,7 +38,6 @@ public class ReviewController {
 	@GetMapping("user/myReview")
 	public ModelAndView myReview(HttpSession session) { 
 		ModelAndView mav = new ModelAndView();
-		
 		List<ReviewDTO> list = service.ReviewSelect((String)session.getAttribute("logId"));
 		mav.addObject("list", list);
 		mav.setViewName("user/user/myReview");	
@@ -44,75 +46,177 @@ public class ReviewController {
 
 	// 리뷰 쓰기 저장 (DB)
 	@PostMapping("user/ReviewWriteOk")
-	public ModelAndView ReviewWriteOk(HttpServletRequest request, ReviewDTO dto, HttpSession session) {
-		ReviewFileDTO rfdto = new ReviewFileDTO();
-		dto.setUser_id((String)request.getSession().getAttribute("logId"));
-		// 1. 파일업로드
-		MultipartHttpServletRequest mr = (MultipartHttpServletRequest)request;
-		// 2. mr에서 MultipartFile객체 얻어오기(업로드한 파일 수 만큼)
-		MultipartFile file = mr.getFile("filename");
-		// 3. 파일을 서버에 업로드할 위치의 절대주소
-		String path = request.getSession().getServletContext().getRealPath("/uploadfile");
-		System.out.println("path: " + path);
+	public ModelAndView ReviewWriteOk(HttpServletRequest request, ReviewDTO dto, MultipartHttpServletRequest mul) {
 		
-		if(file.getSize()!=0) {
-			SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss-");
-			Calendar calender = Calendar.getInstance();
-			String sysFileName = format.format(calender.getTime());
-			
-			sysFileName += file.getOriginalFilename();
-			rfdto.setFilename(sysFileName);
-			
-			File saveFile = new File(path + "/" + sysFileName);
-
-			try {
-				file.transferTo(saveFile);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}else {
-			rfdto.setFilename("nan");
+		dto.setUser_id((String)request.getSession().getAttribute("logId"));
+		ModelAndView mav = new ModelAndView();
+		
+		MultipartFile fi = mul.getFile("filename");
+		String file = fi.getOriginalFilename();
+		
+		if(file.equals("") || file.length() <= 0) {
+			file = null;
 		}
 		
-		ModelAndView mav = new ModelAndView();
-		// dto.setFilename(path);
-		int result = service.ReviewInsert(dto);
-		int fileResult = service.saveData(rfdto);
-		System.out.println(rfdto.getFilename());
-	
-		mav.setViewName("redirect:/user/user/myReview");
+		List<MultipartFile> files = mul.getFiles("filename");
+		
+		String path = request.getSession().getServletContext().getRealPath("/uploadfile");
+		List<ReviewFileDTO> fileList = new ArrayList<ReviewFileDTO>();
+		if(files!=null) {
+			for(int i=0; i<files.size(); i++) {
+				MultipartFile mf = files.get(i);
+				
+				String orgFilename = mf.getOriginalFilename();
+				if(orgFilename!=null && !orgFilename.equals("")) {
+					File f = new File(path, orgFilename);
+					
+					if(f.exists()) {
+						for(int renameNum=1; ; renameNum++) {
+							
+							int point = orgFilename.lastIndexOf("."); // 마지막 .의 위치
+							String orgFile = orgFilename.substring(0, point); // 확장자를 뺀 파일명
+							String orgExt = orgFilename.substring(point+1); // 확장자
+						
+							String newFilename = orgFile+" ("+renameNum+")."+orgExt;
+							f = new File(path, newFilename);
+							if(!f.exists()) {
+								orgFilename = newFilename;
+								break;
+							}
+						}
+						
+					}
+					try {
+						mf.transferTo(new File(path, orgFilename));
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
+					ReviewFileDTO rfDTO=new ReviewFileDTO();
+					rfDTO.setFilename(orgFilename);
+					fileList.add(rfDTO);
+				}			
+			}
+		}
+		String fileName=fileList.get(0).getFilename();
+		dto.setFile_location("/uploadfile/"+fileName);
+		//System.out.println(dto.getFile_location());
+		try {
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			
+			map.put("id", dto.getUser_id());
+			map.put("store_seq", dto.getStore_seq());
+			map.put("score", dto.getScore());
+			map.put("review", dto.getReview());
+			map.put("filename", file);
+			map.put("location", "/uploadfile/"+fileName);
+			
+			int result = service.ReviewInsert(map);
+			/*
+			WishDTO wdto = new WishDTO();
+			double avg_score = service.AvgScore(dto.getStore_seq());
+			System.out.println(dto.getStore_seq());
+			wdto.setAvg_score(avg_score);
+			int cnt = service.AvgScoreUpdate(wdto);
+			System.out.println(wdto.getAvg_score());
+			System.out.println(cnt);
+			*/
+			mav.setViewName("redirect:/user/user/myReview");
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return mav;	
 
-		return mav;
 	}
 	
 	// 리뷰 수정
 	@GetMapping("user/reviewEdit")
 	public ModelAndView ReviewEditForm(Integer no) {
 		ModelAndView mav = new ModelAndView();
-		
 		ReviewDTO dto = service.ReviewEdit(no);
 		mav.addObject("dto", dto);
 		mav.setViewName("user/user/reviewEditForm");
-		
 		return mav;
 	}
+	
+	// 업로드 파일 삭제
+	public void fileDelete(String path, String filename) {
+		File f = new File(path, filename);
+		f.delete();
+	}   
 	                
 	// 리뷰 수정 저장(DB)
 	@RequestMapping(value="user/reviewEditOk", method=RequestMethod.POST)
-	public ModelAndView ReviewEditOk(ReviewDTO dto, HttpSession session) {
+	public ModelAndView ReviewEditOk(HttpServletRequest request, ReviewDTO dto, HttpSession session) {
+		String before_filename=request.getParameter("before_filename");
+		
+		dto.setUser_id((String)request.getSession().getAttribute("logId"));
+		
+		MultipartHttpServletRequest mr=(MultipartHttpServletRequest)request;
+		
 		ModelAndView mav = new ModelAndView();
 		
-		dto.setUser_id((String)session.getAttribute("logId"));
-		
-		int result = service.ReviewEditOk(dto);
-		
-		if(result>0) {
-			mav.setViewName("redirect:/user/user/myReview"); //리뷰등록 성공
-		}else {
-			mav.addObject("msg", "리뷰 등록 실패");
-			mav.setViewName("user/user/joinOkResult");	// 리뷰 등록 실패
+		if(mr.getFiles("filename")!=null) {
+			List<MultipartFile> files = mr.getFiles("filename");
+			
+			String path = request.getSession().getServletContext().getRealPath("/uploadfile");
+			
+			try {
+				fileDelete(path, before_filename);
+				}
+				catch(Exception e) {
+					System.out.println("삭제안됨");
+				}
+			
+			List<ReviewFileDTO> fileList = new ArrayList<ReviewFileDTO>();
+			if(files!=null) {
+				for(int i=0; i<files.size(); i++) {
+					MultipartFile mf = files.get(i);
+					
+					String orgFilename = mf.getOriginalFilename();
+					if(orgFilename!=null && !orgFilename.equals("")) {
+						File f = new File(path, orgFilename);
+						
+						if(f.exists()) {
+							for(int renameNum=1; ; renameNum++) {
+								
+								int point = orgFilename.lastIndexOf("."); // 마지막 .의 위치
+								String orgFile = orgFilename.substring(0, point); // 확장자를 뺀 파일명
+								String orgExt = orgFilename.substring(point+1); // 확장자
+							
+								String newFilename = orgFile+" ("+renameNum+")."+orgExt;
+								f = new File(path, newFilename);
+								if(!f.exists()) {
+									orgFilename = newFilename;
+									break;
+								}
+							}
+						}
+						try {
+							mf.transferTo(new File(path, orgFilename));
+						}catch(Exception e) {
+							e.printStackTrace();
+						}
+						ReviewFileDTO rfDTO=new ReviewFileDTO();
+						rfDTO.setFilename(orgFilename);
+						fileList.add(rfDTO);
+					}			
+				}		
+			}
+			
+			String fileName=fileList.get(0).getFilename();
+			dto.setFile_location("/uploadfile/"+fileName);
+			System.out.println(dto.getFile_location());
 		}
-		// joinOkResult -> msg알림, 이전페이지
+		
+		int result=service.ReviewEditUpdate(dto);
+		if(result>0) {
+			mav.setViewName("redirect:/user/user/myReview");
+			
+		}else {
+			mav.addObject("msg", "리뷰수정실패");
+			mav.setViewName("user/user/joinOkResult");
+		}
+		
 		return mav;
 	}
 	

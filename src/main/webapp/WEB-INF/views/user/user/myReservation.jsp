@@ -1,18 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<h1>예약내역 목록</h1>
+<%@ include file="/resources/header.jspf" %>
 <style>
+h1{
+	font-size:30px;
+	color:#FF7100;
+	margin-bottom:50px;
+	text-align:center;
+}
 .wrap{
 	background-color: #fff;
-	max-width: 1200px;
+	max-width: 1000px;
 	border : 1px solid #f5f5f5;
 	margin: 0 auto;
 	border-radius:10px;
 	padding : 15px 15px;
 	margin-bottom : 20px;
 }
-/* 예약상태 */
 .status{
 	margin-botton:5px;
 	display:inline-block;
@@ -25,12 +30,10 @@
 	font-size : 12px;
 	margin-bottom:10px;
 }
-/* 가게 이름 */
 .name{
 	font-size: 18px;
 	font-weight: bold;
 }
-/* 내용 부분 */
 .content_wrap{
 	display:flex;
 	margin : 10px 0;
@@ -39,7 +42,6 @@
 	width:100px;
 	color : #808080
 }
-/* 버튼 */
 .btn{
 	display: inline-block;
 	line-height:25px;
@@ -52,20 +54,20 @@
     border-radius:5px;
     text-align:center;
     text-decoration: none;
-
+}
+.btn:hover{
+	background-color:#FFA964;
+	cursor:pointer;
 }
 .btn_wrap{
 	margin-left : 30px;
 }
 </style>
-
+<h1>예약 내역</h1>
 <c:forEach var="res" items="${list }">
-<!-- 현재 날짜 및 시간-->
 <jsp:useBean id="now" class="java.util.Date"/>
-<!-- db 예약 날짜 및 시간 -->
 <fmt:parseDate var="resTime" value="${res.reservation_time }" pattern="yyyy-MM-dd HH:mm:ss"/>
 
-<!-- (예약 - 현재) 날짜 및 시간 -->
 <fmt:parseNumber value="${(resTime.time - now.time) / (1000*60*60) }" var="def" scope="request"/>
 <script>
 	function reservationDel(){
