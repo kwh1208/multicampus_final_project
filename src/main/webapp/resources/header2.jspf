@@ -34,7 +34,7 @@
 
 	<div id="nav_bar">
 		<div id="logo">
-			<a href="/"><img src="/img/logo.png" style="width:130px; height:60px;"/></a>
+			<a href="/"><img src="/img/meal.png" style="width:130px; height:90px; margin-top:-10px;"/></a>
 		</div>
 		
 		<div id="without_logo">

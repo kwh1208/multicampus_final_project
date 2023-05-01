@@ -2,11 +2,22 @@ package eat_schedule.controller;
 
 
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Base64;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -109,17 +120,7 @@ public class RegisterController {
 		
 		return "register/nicknameCheck";
 	}
-	// 전화번호 중복검사
-	@GetMapping("phoneCheck")
-	public String phoneCheck(String phone_number, Model model) {
-
-		int result = service.phoneCheckCount(phone_number);
-
-		model.addAttribute("phone_number", phone_number);
-		model.addAttribute("result", result);
-		
-		return "register/phoneCheck";
-	}
+	
 	
 	// 회원가입
 	@RequestMapping(value="/joinOk", method=RequestMethod.POST)
@@ -130,6 +131,8 @@ public class RegisterController {
 		
 		if(result>0) {// 성공
 			mav.setViewName("redirect:loginForm");
+			String user_id = dto.getUser_id();
+			int result2 = service.balloonGetInsert(user_id);
 		}else {
 			mav.addObject("msg", "회원등록을 실패하였습니다.\n다시 시도해주세요.");
 			mav.setViewName("register/joinOkResult");
@@ -232,5 +235,153 @@ public class RegisterController {
 				}
 			}
 		}
+		
+	// 전화번호 인증번호 요청 
+	@RequestMapping(value = "/smssend", method = RequestMethod.POST)
+	public @ResponseBody String getData(@RequestParam("phone_number") String toPerson,
+										@RequestParam("randomNum") String randomNum) {
+		
+		final String client_service_id = "";
+		final String request_uri 	   = "";
+		final String client_access_key = "";
+		final String client_secret_key = "";
+
+		String msg = "";
+		
+		try {
+			StringBuffer str = new StringBuffer();
+			
+			str.append(request_uri);
+			str.append(client_service_id);
+			str.append("/messages");
+			
+			String aa = "/sms/v2/services/" + client_service_id + "/messages";
+			
+			URL url = new URL(str.toString());
+			HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+			
+			Long time = System.currentTimeMillis();
+			
+			String key = makeSignature(aa, time.toString(), "POST", client_access_key, client_secret_key);
+		    	
+			// JSON 을 활용한 body data 생성
+			JSONObject bodyJson = new JSONObject();
+			JSONObject toJson = new JSONObject();
+		    JSONArray  toArr = new JSONArray();
+
+		    //toJson.put("subject","");							// Optional, messages.subject	개별 메시지 제목, LMS, MMS에서만 사용 가능
+		    //toJson.put("content","sms test in spring 111");	// Optional, messages.content	개별 메시지 내용, SMS: 최대 80byte, LMS, MMS: 최대 2000byte
+		    toJson.put("to",toPerson);							// Mandatory(필수), messages.to	수신번호, -를 제외한 숫자만 입력 가능
+		    toArr.put(toJson);
+		    
+		    bodyJson.put("type","SMS");							// Madantory, 메시지 Type (SMS | LMS | MMS), (소문자 가능)
+		    bodyJson.put("from","01038231933");					// Mandatory, 발신번호, 사전 등록된 발신번호만 사용 가능		
+		    bodyJson.put("content", "[MUKSCHEDULE] 인증번호는 " + randomNum + "입니다.");	// Mandatory(필수), 기본 메시지 내용, SMS: 최대 80byte, LMS, MMS: 최대 2000byte
+		    bodyJson.put("messages", toArr);					// Mandatory(필수), 아래 항목들 참조 (messages.XXX), 최대 1,000개
+		    
+		    String body = bodyJson.toString();
+					    
+			
+			httpURLConnection.setRequestMethod("POST");
+			httpURLConnection.setDoInput(true);
+			httpURLConnection.setDoOutput(true);
+			httpURLConnection.setReadTimeout(10000);
+			httpURLConnection.setConnectTimeout(10000);
+			httpURLConnection.setRequestProperty("content-type", "application/json");
+			httpURLConnection.setRequestProperty("x-ncp-apigw-timestamp", time.toString());
+			httpURLConnection.setRequestProperty("x-ncp-iam-access-key", client_access_key);
+			httpURLConnection.setRequestProperty("x-ncp-apigw-signature-v2", key);
+			
+			DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+            
+            wr.write(body.getBytes());
+            wr.flush();
+            wr.close();
+			
+	        // 요청에 대한 응답 받기
+	        int responseCode = httpURLConnection.getResponseCode();
+	        
+	        BufferedReader in = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
+
+	        if(responseCode == 200 || responseCode == 202) {
+	        	
+		        String inputLine;
+		        
+		        StringBuffer response = new StringBuffer();
+		        while ((inputLine = in.readLine()) != null) {
+		            response.append(inputLine);
+		        }
+		        in.close();
+	        
+	        }
+	
+	        switch(responseCode){
+	        	
+		        case 200 :
+		        case 202 :
+		        	msg = "인증번호를 발송했습니다 ! ";
+		        	break;
+		        case 400 :
+		        	msg = "Bad Request";
+		        	break;
+		        case 401 :
+		        	msg = "Unauthorized";
+		        	break;
+		        case 403 :
+		        	msg = "Forbidden";
+		        	break;
+		        case 404 :
+		        	msg = "Not Found";
+		        	break;
+		        case 429 :
+		        	msg = "Too Many Requests";
+		        	break;
+		        case 500 :
+		        	msg = "Internal Server Error";
+		        	break;
+		        default :
+		        	msg = "System Error";
+		        	break;
+	        }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return msg;
+	}
+	
+	
+	private String makeSignature(String url, String timestamp, String method, String accessKey, String secretKey) {
+	    String space = " ";                    // one space
+	    String newLine = "\n";                 // new line
+	    
+
+	    String message = new StringBuilder()
+	        .append(method)
+	        .append(space)
+	        .append(url)
+	        .append(newLine)
+	        .append(timestamp)
+	        .append(newLine)
+	        .append(accessKey)
+	        .toString();
+
+	    SecretKeySpec signingKey;
+	    String encodeBase64String;
+		try {
+			
+			signingKey = new SecretKeySpec(secretKey.getBytes("UTF-8"), "HmacSHA256");
+			Mac mac = Mac.getInstance("HmacSHA256");
+			mac.init(signingKey);
+			byte[] rawHmac = mac.doFinal(message.getBytes("UTF-8"));
+		    encodeBase64String = Base64.getEncoder().encodeToString(rawHmac);
+		} catch (Exception e) {
+			encodeBase64String = e.toString();
+		}
+	  return encodeBase64String;
+	}
+		
+		
+		
+		
 
 }

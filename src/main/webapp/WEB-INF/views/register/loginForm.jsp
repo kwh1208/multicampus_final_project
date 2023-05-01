@@ -9,7 +9,7 @@
 	}
 	.all{
 		font-size:15px;
-		margin-top:180px;
+		margin-top:100px;
 	}
 	.login{
 		width:400px;

@@ -25,6 +25,6 @@
 	</delete>
 	<update id="inquiryEditUpdate" parameterType="java.util.HashMap">
 		update qna set user_id=#{id}, picture_location=#{location}, question_title=#{title}, question=#{content}, 
-		question_time=NOW(), filename=#{filename}
+		question_time=NOW(), filename=#{filename} where seq=${seq}
 	</update>
 </mapper>

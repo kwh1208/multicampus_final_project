@@ -6,10 +6,11 @@
 	.inquiryView li{
 		padding:20px;
 		border-bottom:1px solid #ddd;
-		width:1200px;
+		width:80%;
+		margin:auto;
 	}
 	h1{
-		margin-top:200px;
+		margin-top:100px;
 		text-align:center;
 		color:#696969;
 	}
@@ -29,8 +30,8 @@
 </script>
 <h1>나의 1:1문의</h1>
 <div style="margin:50px auto 0 auto; width:1200px; display:flex;">
-	<div style="margin:0 auto;">
-		<ul class="inquiryView">
+	<div style="margin:0 auto; width:100%;">
+		<ul class="inquiryView" style="width:80%; margin:auto;">
 			<li style="border-top:1px solid #ddd;">${dto.question_time}</li>
 			<li>Q. ${dto.question_title}</li>
 			<li><div>&nbsp;&nbsp;&nbsp;&nbsp;${dto.question}</div></li>

@@ -110,7 +110,7 @@ public class BoardController {
 			
 			int result = service.inquiryInsert(map);
 			
-			mav.setViewName("redirect:/"); // 마이페이지로 수정필요!!!!!!!!!!!!!!!!!!!!!!!!
+			mav.setViewName("/board/inquiryList"); 
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -181,7 +181,8 @@ public class BoardController {
 		
 		// 1:1문의 수정(DB)
 		@PostMapping("inquiryEditOk")
-		public ModelAndView inquiryEditOk(HttpServletRequest req, BoardDTO dto , MultipartHttpServletRequest mureq) {
+		public ModelAndView inquiryEditOk(HttpServletRequest req, BoardDTO dto , MultipartHttpServletRequest mureq,
+										  HttpSession session) {
 
 			String before_filename = req.getParameter("before_filename");
 			
@@ -196,10 +197,11 @@ public class BoardController {
 			}
 			
 			List<MultipartFile> files = mureq.getFiles("filename");
+			 
 			
 			
 			String path = req.getSession().getServletContext().getRealPath("/uploadfile");
-			//System.out.println("path: " + path); 
+			System.out.println("path: " + path); 
 			
 			if(files!=null){// 업로드 파일이 있을때
 				for(int i=0; i<files.size(); i++) {
@@ -237,6 +239,7 @@ public class BoardController {
 			try {
 				HashMap<String , Object> map = new HashMap<String , Object>();
 				
+				map.put("seq", dto.getSeq());
 				map.put("id", dto.getUser_id());
 				map.put("title", dto.getQuestion_title());
 				map.put("content", dto.getQuestion());
@@ -245,11 +248,17 @@ public class BoardController {
 				
 				int result = service.inquiryEditUpdate(map);
 				
-				mav.setViewName("redirect:/"); // 마이페이지로 수정필요!!!!!!!!!!!!!!!!!!!!!!!!
+				
+				List<BoardDTO> list = service.inquiryAllSelect((String)session.getAttribute("logId"));
+				
+				mav.addObject("list", list);
+				
+				mav.setViewName("/board/inquiryList"); 
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
 			
+			 
 			if(before_filename!= null && ff != null && !before_filename.equals(ff)) {
 				fileDelete(path, before_filename);
 			}

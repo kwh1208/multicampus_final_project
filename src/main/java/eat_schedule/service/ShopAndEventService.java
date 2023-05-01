@@ -12,4 +12,5 @@ public interface ShopAndEventService {
 	public List<RegisterDTO> selectUser(String user_id);
 	public int couponInsertOk(ShopDTO dto);
 	public int userUpdateOk(HashMap<String , Object> map);
+	//public int balloonUseInsert(HashMap<String , Object> map);
 }

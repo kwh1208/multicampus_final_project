@@ -51,6 +51,11 @@ public class RegisterServiceImpl implements RegisterService {
 	public String passwordSearch(String username, String email, String user_id) {
 		return dao.passwordSearch(username, email, user_id);
 	}
+
+	@Override
+	public int balloonGetInsert(String user_id) {
+		return dao.balloonGetInsert(user_id);
+	}
 	
 
 

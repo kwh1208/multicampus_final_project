@@ -78,6 +78,8 @@ public class ShopAndEventController {
 			
 			int rResult = service.userUpdateOk(map);
 			
+			//int result = service.balloonUseInsert(map);
+			
 			if(sResult>0 && rResult>0) {
 				
 				List<RegisterDTO> arr = new ArrayList<RegisterDTO>();
