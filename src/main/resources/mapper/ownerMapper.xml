@@ -58,7 +58,7 @@
 		where r.seq=${param1};
 </select>
 <update id="showCheck">
-	update reservation set visit_status=#{visit_status} where seq=${seq}
+	update reservation set reservation_status=#{reservation_status} where seq=${seq}
 </update>
 <update id="balloonGive">
 	update user set balloon=${param2} where user_id=#{param1}
@@ -70,7 +70,7 @@
 	update review set coupon_status=1 where seq=${param1}
 </update>
 <select id="noShowCheckNum" resultType="int">
-	select count(seq) from reservation where store_seq=${param1} and reservation_status="예약 완료" and visit_status="방문 미확인";
+	select count(seq) from reservation where store_seq=${param1} and reservation_status="예약 완료";
 </select>
 <insert id="menuInsert" parameterType="eat_schedule.dto.MenuDTO" useGeneratedKeys="true" keyProperty="seq">
 	insert into menu(store_seq, menu_name, price, category, information, picture_location)
@@ -100,4 +100,10 @@
 <insert id="pictureInsert">
 	insert into picture(store_seq, filename) values(${store_seq}, #{filename})
 </insert>
+<delete id="storeDelete">
+	delete from store where seq=${param1}
+</delete>
+<delete id="menuDelete">
+	delete from menu where seq=${param1}
+</delete>
 </mapper>

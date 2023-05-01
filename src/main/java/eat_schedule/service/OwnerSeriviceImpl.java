@@ -128,4 +128,12 @@ public class OwnerSeriviceImpl implements OwnerService {
 	public int pictureInsert(FilenameDTO filename) {
 		return dao.pictureInsert(filename);
 	}
+	@Override
+	public int storeDelete(Integer seq) {
+		return dao.storeDelete(seq);
+	}
+	@Override
+	public int menuDelete(Integer seq) {
+		return dao.menuDelete(seq);
+	}
 }

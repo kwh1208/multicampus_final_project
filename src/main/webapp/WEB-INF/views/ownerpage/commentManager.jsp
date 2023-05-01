@@ -67,6 +67,7 @@
             padding: 10px;
             margin-bottom: 10px;
             border-radius: 10px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
         }
         .review-author {
             font-weight: bold;
@@ -146,7 +147,6 @@
 		        <input type="submit" value="등록" class="owner_comment_submit">
 		    </form>
             </c:if>
-            <div><a href="reviewContent?no=${comment.seq}">상세보기</a></div>
         </div>
     </c:forEach>
 </div>

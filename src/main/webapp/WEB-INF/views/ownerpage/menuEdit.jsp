@@ -83,6 +83,10 @@
 		form input[type="submit"]:hover {
     		background-color: #C65800;
   		}
+  		#warn-text{
+  			font-weight: bold;
+  			font-size: 18px;
+  		}
 </style>
 </head>
 <body>
@@ -102,7 +106,7 @@
 		<c:if test="${menu.picture_location!=null }">
 		<li><img src="${menu.picture_location }" width="200" height="200"></li>
 		<input type="hidden" value="${menu.picture_location }" id="before_filename" name="before_filename">
-		<li>이미지를 바꾸시고 싶으시다면 밑에 파일선택을 클릭하세요</li>
+		<li id="warn-text"> &#8251 이미지를 바꾸시고 싶으시다면 밑에 파일선택을 클릭하세요</li>
 		</c:if>
 		<li>
 			<input type="file" id="filename" name="filename">
@@ -112,5 +116,11 @@
 		</div>
 	 <input type="submit" value="메뉴 등록">
 	 </form>
+	 <div>
+	 <form action="menuDelete" ModelAttribute="MenuDTO" method="post" id="menuDelete">
+	 	<input type="hidden" name="seq" id="seq" value="${menu.seq }">
+	 	<input type="submit" value="삭제">
+	 </form>
+	 </div>
 </body>
 </html>

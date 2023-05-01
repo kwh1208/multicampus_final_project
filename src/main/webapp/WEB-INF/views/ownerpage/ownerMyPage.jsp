@@ -246,9 +246,12 @@ body{
           <a href="/ownerpage/userInfoEdit" class="item">
               <div class="text">회원정보수정</div>
               <div class="right"> > </div>
-          </a>   
-        </div>
-        
+          </a> 
+          <a href="/ownerpage/storeDelete" class="item">
+              <div class="text">가게삭제</div>
+              <div class="right"> > </div>
+          </a>    
+        </div>        
       </div>
 </body>
 </html>

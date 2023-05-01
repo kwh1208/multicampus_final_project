@@ -68,4 +68,8 @@ public interface OwnerService {
 	public int menuEditOk(MenuDTO menu);
 	//파일명 넣기(경로넣기)
 	public int pictureInsert(FilenameDTO filename);
+	//가게삭제
+	public int storeDelete(Integer seq);
+	//메뉴삭제
+	public int menuDelete(Integer seq);
 }

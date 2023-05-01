@@ -112,6 +112,21 @@ public class OwnerController {
 		model.addAttribute("menu", menu);
 		return "ownerpage/menuEdit";
 	}
+	@PostMapping("menuDelete")
+	public ModelAndView menuDelete(@ModelAttribute("MenuDTO") MenuDTO menu, HttpSession session) {
+		ModelAndView mav= new ModelAndView();
+		int result=service.menuDelete(menu.getSeq());
+		if(result>0) {
+			List<MenuDTO> menuList=service.menuLoad((Integer)session.getAttribute("storeSeq"));
+			mav.addObject("menuList", menuList);
+			mav.setViewName("ownerpage/menuSelect");
+		}else {
+			mav.addObject("msg","가게등록실패!!");
+			mav.setViewName("ownerpage/failResult");
+		}
+		return mav;
+	}
+	
 	@PostMapping("storeRegisterOk")
 	public ModelAndView storeRegisterOk(HttpServletRequest req,@ModelAttribute("StoreDTO") StoreDTO store, HttpSession session){
 		int result=service.storeRegisterOk(store);
@@ -554,9 +569,11 @@ public class OwnerController {
         if(cnt>0){// 예약확인 완료
         	StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
 		    int reservationNoCheck=service.reservationNoCheck(store.getSeq());
+		    int noShowCheckNum=service.noShowCheckNum(store.getSeq());
 			List<StoreDTO> storeList=service.storeSelect((String)session.getAttribute("logId"));
 			mav.addObject("store", storeList);
 		    mav.addObject("reservationNoCheck", reservationNoCheck);
+		    mav.addObject("noShowCheckNum", noShowCheckNum);
 			mav.setViewName("ownerpage/ownerMyPage");
 		}else{// 수정실패시 -> 이전페이지 (알림)
 			mav.addObject("msg","예약확인 실패!!");
@@ -582,6 +599,29 @@ public class OwnerController {
 		}
 		return mav;
 	}
+	
+	@GetMapping("storeDelete")
+	public String alertMessage(Model model) {
+		model.addAttribute("msg", "정말삭제하시겠습니까?");
+		return "ownerpage/storeDelete";
+	}
+	
+	@GetMapping("storeDeleteOk")
+	public ModelAndView storeDeleteOk(Model model, HttpSession session) {
+		ModelAndView mav=new ModelAndView();
+		int cnt=service.storeDelete((Integer)session.getAttribute("storeSeq"));
+		if(cnt>0) {//가게등록 성공
+			List<StoreDTO> store1=service.storeSelect((String)session.getAttribute("logId"));
+			mav.addObject("store", store1);
+			mav.setViewName("ownerpage/ownerStart");
+		}else {//가게등록 실패
+			mav.addObject("msg","가게등록실패!!");
+			mav.setViewName("ownerpage/failResult");
+		}
+		return mav;
+	}
+	
+	
 	@GetMapping("reviewContent")
 	public ModelAndView reviewContent(Integer no) {
 		ModelAndView mav= new ModelAndView();
@@ -709,8 +749,6 @@ public class OwnerController {
 		}
 		return new ResponseEntity<String>(responseObj.toString(), responseHeaders, HttpStatus.OK);
 	}
-	
-	
 //	//웹훅 수신 처리
 //	@PostMapping("/payment/webhook_receive")
 //	public ResponseEntity<?> webhook_recieve(@RequestBody Map<String, Object> model){
