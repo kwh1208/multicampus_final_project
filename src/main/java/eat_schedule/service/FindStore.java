@@ -10,13 +10,18 @@ import java.util.ArrayList;
 @Service
 @RequiredArgsConstructor
 public class FindStore {
-    private final StoreMapper StoreMapper;
-
-    public ArrayList<Store> findAllStore(String district, String category, String sort){
-        return StoreMapper.findAll(district, category, sort);
-    }
+    private final StoreMapper storeMapper;
 
     public Store findStoreBySeq(int seq){
-        return StoreMapper.findStore(seq);
+        return storeMapper.findStore(seq);
+    }
+    public ArrayList<Store> findAllScore(String district, String category){
+        return storeMapper.findAllScore(district, category);
+    }
+    public ArrayList<Store> findAllReview(String district, String category){
+        return storeMapper.findAllReview(district, category);
+    }
+    public ArrayList<Store> findAllWish(String district, String category){
+        return storeMapper.findAllWish(district, category);
     }
 }

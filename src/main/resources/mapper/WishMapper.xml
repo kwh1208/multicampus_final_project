@@ -8,6 +8,12 @@
 		join store s on s.seq=w.store_seq
 		where user_id=#{param1}
 	</select>
+
+	<select id ="WishSelectSpecific" resultType="eat_schedule.dto.WishDTO">
+		select s.store_name, s.district, s.category from wish_list w
+		join store s on s.seq=w.store_seq
+		where user_id=#{param1} and w.store_seq=#{param2}
+	</select>
 		<!--  
 	<update id="BalloonUpdate">
 		Update user set

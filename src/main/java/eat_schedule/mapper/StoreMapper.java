@@ -8,7 +8,11 @@ import java.util.ArrayList;
 @Mapper
 @Component
 public interface StoreMapper {
-    ArrayList<Store> findAll(String district, String category, String sort);
+    ArrayList<Store> findAllScore(String district, String category);
+
+    ArrayList<Store> findAllReview(String district, String category);
+
+    ArrayList<Store> findAllWish(String district, String category);
 
     Store findStore(int seq);
 }

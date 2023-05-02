@@ -6,8 +6,9 @@ import eat_schedule.dto.Coupon;
 
 import java.util.List;
 
-@Mapper
+
 @Component
+@Mapper
 public interface CouponMapper {
-    public List<Coupon> findCoupon(String user_id);
+    public List<Coupon> findCoupon(String user_id, int seq);
 }

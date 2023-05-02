@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="eat_schedule.mapper.StoreMapper">
 
-    <select id="findAll" resultType="eat_schedule.dto.Store">
+    <select id="findAllScore" resultType="eat_schedule.dto.Store">
         select distinct store.seq, picture_location, store.owner_id, store_name, location, tel_number, store.owner_comment, open_time, close_time, how_to_come, parking, wifi,animal, group_customer, playroom, disabled, round(AVG(review.score),1) as score
         from store
         right join review on store.seq=review.store_seq
@@ -16,14 +16,43 @@
             </if>
         </where>
         GROUP BY store.seq
-        order By ${sort}
+        order By score
     </select>
-
-    <select id="findStore" resultType="eat_schedule.dto.Store">
-        select *
+    <select id="findAllReview" resultType="eat_schedule.dto.Store">
+        select distinct store.seq, picture_location, store.owner_id, store_name, location, tel_number, store.owner_comment, open_time, close_time, how_to_come, parking, wifi,animal, group_customer, playroom, disabled, count(review.seq) as review
         from store
-        where seq = #{seq}
+        right join review on store.seq=review.store_seq
+        <where>
+            <if test="district != null and district !=''">
+                and district = #{param1}
+            </if>
+            <if test="category != null and category !=''">
+                and category = #{param2}
+            </if>
+        </where>
+        GROUP BY store.seq
+        order By review
     </select>
-
+    <select id="findAllWish" resultType="eat_schedule.dto.Store">
+        select distinct store.seq, picture_location, store.owner_id, store_name, location, tel_number, store.owner_comment, open_time, close_time, how_to_come, parking, wifi,animal, group_customer, playroom, disabled, count(wish_list.seq) as wish
+        from store
+        right join wish_list on store.seq=wish_list.store_seq
+        <where>
+            <if test="district != null and district !=''">
+                and district = #{param1}
+            </if>
+            <if test="category != null and category !=''">
+                and category = #{param2}
+            </if>
+        </where>
+        GROUP BY store.seq
+        order By wish
+    </select>
+    <select id="findStore" resultType="eat_schedule.dto.Store">
+        select distinct store.seq, picture_location, store.owner_id, store_name, location, tel_number, store.owner_comment, open_time, close_time, how_to_come, parking, wifi,animal, group_customer, playroom, disabled, round(AVG(review.score),1) as score
+        from store
+        right join review on store.seq=review.store_seq
+        where store.seq=#{seq}
+    </select>
 
 </mapper>

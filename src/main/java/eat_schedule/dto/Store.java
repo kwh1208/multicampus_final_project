@@ -19,7 +19,7 @@ public class Store {
 
     private Integer review;
 
-    private Integer wish;
+    private Integer wishs;
 
     private String store_name;
 
@@ -35,11 +35,14 @@ public class Store {
 
     private String how_to_come;
 
+    private String picture_location;
+
     private boolean parking;
 
     private boolean wifi;
 
     private boolean animal;
+    private boolean wish;
 
     private boolean group_customer;
 
@@ -47,34 +50,11 @@ public class Store {
 
     private boolean disabled;
 
+    private String owner_id;
+
 
     public void setLocation(String location) {
         this.location = "\'"+location+"\'";
     }
 
-    public int compareScore(Store o) {
-        if(this.score.equals(o.score))
-            return 0;
-        else if (this.score < o.score) {
-            return -1;
-        }
-        else return 1;
-    }
-    public int compareReview(Store o) {
-        if(this.review.equals(o.review))
-            return 0;
-        else if (this.review < o.review) {
-            return -1;
-        }
-        else return 1;
-    }
-
-    public int compareWish(Store o) {
-        if(this.wish.equals(o.wish))
-            return 0;
-        else if (this.wish < o.wish) {
-            return -1;
-        }
-        else return 1;
-    }
 }

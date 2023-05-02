@@ -74,33 +74,23 @@
     </div>
   </div>
 </div>
-<div id="slideShow" style="margin-top: 50px">
-  <ul class="slides">
-    <li th:each="List:${promotionList}"><img th:src="@{/${List.picture_location}}"></li>
+<div id="slideShow">
+  <ul id="bxslider">
+    <li th:each="img:${img}"><img th:src="${img}"></li>
   </ul>
-  <p class="controller">
-    <span class="prev">&lang;</span>
-    <span class="next">&rang;</span>
-  </p>
 </div>
-<!--<div id="store_img">-->
-<!--  <ul class="bxslider">-->
-<!--    <li class="store_img"><img src="/img/pizza.png" style="width:400px; height:400px;"></li>-->
-<!--    <li class="store_img"><img src="/img/noodle.png" style="width:400px; height:400px;"></li>-->
-<!--    <li class="store_img"><img src="/img/pasta.png" style="width:400px; height:400px;"></li>-->
-<!--    <li class="store_img"><img src="/img/waffles.png" style="width:400px; height:400px;"></li>-->
-<!--  </ul>-->
-<!--</div>-->
 <span style="height: 100vh">
-<form th:action="@{/restaurant/{seq}(seq=${store.seq})}" method="post" id="reservation">
-  <select th:value="date" id="date">
-    <option value="">날짜 선택</option>
-    <option th:each="date:${left}" th:value="${date.reservation_date}" th:text="${date.reservation_date}"></option>
-  </select>
-  <select th:value="time" id="select_time">
-    <option value="">시간 선택</option>
-    <option th:each="date:${left}" th:value="${date.reservation_time}" th:text="${date.reservation_time}"></option>
-  </select>
+<form th:action="@{/restaurant/{seq}(seq=${store.seq})}" method="post" id="reservation" value="reservation">
+<!--  <select th:value="date" id="date">-->
+<!--    <option value="">날짜 선택</option>-->
+<!--&lt;!&ndash;    <option th:each="date:${left}" th:value="${date.reservation_date}" th:text="${date.reservation_date}"></option>&ndash;&gt;-->
+    <input type="date" name="date" id="date">
+<!--  </select>-->
+<!--  <select th:value="time" id="select_time">-->
+<!--    <option value="">시간 선택</option>-->
+<!--    <option th:each="date:${left}" th:value="${date.reservation_time}" th:text="${date.reservation_time}"></option>-->
+<!--  </select>-->
+  <input type="time" name="time" id="time">
   <select th:value="people" id="people">
     <option value="">인원 선택</option>
     <option th:each="date:${left}" th:value="${date.people}" th:text="${date.people}"></option>
@@ -109,7 +99,7 @@
   <!--      <option value="">쿠폰 사용</option>-->
   <!--      <option th:each="coupon:${coupon}" th:value="${coupon.discount_rate}" th:text="${coupon.discount_rate}"></option>-->
   <!--    </select>-->
-  <button onclick="onDisplay()" id="reservation_button">예약</button>
+  <button type="button" onclick="ondisplay()" id="reservation_button">예약</button>
   <script>
     /*<![CDATA[*/
     var date = document.getElementById("reservation_date");
@@ -121,6 +111,10 @@
     time.innerHTML=document.getElementById("time");
     people.innerHTML=document.getElementById("people");
     coupon.innerHTML=document.getElementById("coupon");
+
+    function ondisplay() {
+      alert('예약할거임?')
+    }
     /*]]>*/
   </script>
   <div id="reservation_confirm" style="display: none;">
@@ -138,123 +132,121 @@
 <div id="store_inf">
 <div class="con">
   <!--/* 음식점정보 */-->
-    <th:block th:object="${store}">
+  <th:block th:object="${store}">
       <div id="store_information">
-        <span class="content">
-        <p class="common">매장명</p>
-      <p th:field="*{store_name}" th:text="*{store_name}" th:id="store_name" class="specific"></p>
-          </span>
-        <span class="content">
-      <div id="map" style="width:70%;height:350px;"></div>
-          <p class="common">상세 위치 안내</p>
-      <p th:value="*{location}" id="store_location" th:text="*{location}" class="specific"></p>
-      <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bf51c8be3f9bf6ff5d80d7217305cd1b&libraries=services"></script>
-      <script>
-        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-                mapOption = {
-                  center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-                  level: 3 // 지도의 확대 레벨
-                };
+        <div>
+          <span><h3 th:text="*{store_name}" th:id="store_name" style="display: inline"></h3></span>
+          <span th:id="score_"><span id="star">★</span><span th:text="*{score}" id="score"></span><span th:if="${wish == null}" onclick="wishtoggle()" id="wish" class="off">♡</span><span th:if="${wish != null}" onclick="wishtoggle()" id="wish" class="on">♥</span></span>
+        </div>
+        <hr style="width: 54.8vw;margin-left: 0;">
+        <table>
+          <tbody>
+          <tr>
+            <th>주소</th>
+            <td th:text="*{location}" class="specific"></td>
+          </tr>
+          <div id="map" style="width:70%;height:350px;"></div>
+          <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bf51c8be3f9bf6ff5d80d7217305cd1b&libraries=services"></script>
+          <script>
+            var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                    mapOption = {
+                      center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                      level: 3 // 지도의 확대 레벨
+                    };
 
-        // 지도를 생성합니다
-        var map = new kakao.maps.Map(mapContainer, mapOption);
+            // 지도를 생성합니다
+            var map = new kakao.maps.Map(mapContainer, mapOption);
 
-        // 주소-좌표 변환 객체를 생성합니다
-        var geocoder = new kakao.maps.services.Geocoder();
+            // 주소-좌표 변환 객체를 생성합니다
+            var geocoder = new kakao.maps.services.Geocoder();
 
-        // 주소로 좌표를 검색합니다
-        geocoder.addressSearch([(${store.location})], function(result, status) {
+            // 주소로 좌표를 검색합니다
+            geocoder.addressSearch([(${store.location})], function(result, status) {
 
-          // 정상적으로 검색이 완료됐으면
-          if (status === kakao.maps.services.Status.OK) {
+              // 정상적으로 검색이 완료됐으면
+              if (status === kakao.maps.services.Status.OK) {
 
-            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-            // 결과값으로 받은 위치를 마커로 표시합니다
-            var marker = new kakao.maps.Marker({
-              map: map,
-              position: coords
+                // 결과값으로 받은 위치를 마커로 표시합니다
+                var marker = new kakao.maps.Marker({
+                  map: map,
+                  position: coords
+                });
+
+                // 인포윈도우로 장소에 대한 설명을 표시합니다
+                var infowindow = new kakao.maps.InfoWindow({
+                  content: '<div style="width:150px;text-align:center;padding:6px 0;">[[${store.store_name}]]</div>'
+                });
+                infowindow.open(map, marker);
+
+                // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                map.setCenter(coords);
+              }
+              function zoomIn() {
+                // 현재 지도의 레벨을 얻어옵니다
+                var level = map.getLevel();
+
+                // 지도를 1레벨 내립니다 (지도가 확대됩니다)
+                map.setLevel(level - 1);
+
+                // 지도 레벨을 표시합니다
+                displayLevel();
+              }
+
+              function zoomOut() {
+                // 현재 지도의 레벨을 얻어옵니다
+                var level = map.getLevel();
+
+                // 지도를 1레벨 올립니다 (지도가 축소됩니다)
+                map.setLevel(level + 1);
+
+                // 지도 레벨을 표시합니다
+                displayLevel();
+              }
             });
-
-            // 인포윈도우로 장소에 대한 설명을 표시합니다
-            var infowindow = new kakao.maps.InfoWindow({
-              content: '<div style="width:150px;text-align:center;padding:6px 0;">[[${store.store_name}]]</div>'
-            });
-            infowindow.open(map, marker);
-
-            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-            map.setCenter(coords);
-          }
-          function zoomIn() {
-            // 현재 지도의 레벨을 얻어옵니다
-            var level = map.getLevel();
-
-            // 지도를 1레벨 내립니다 (지도가 확대됩니다)
-            map.setLevel(level - 1);
-
-            // 지도 레벨을 표시합니다
-            displayLevel();
-          }
-
-          function zoomOut() {
-            // 현재 지도의 레벨을 얻어옵니다
-            var level = map.getLevel();
-
-            // 지도를 1레벨 올립니다 (지도가 축소됩니다)
-            map.setLevel(level + 1);
-
-            // 지도 레벨을 표시합니다
-            displayLevel();
-          }
-        });
-      </script>
-        </span>
-          <span class="content">
-      <p class="common">분류</p>
-      <p th:field="*{category}" th:text="*{category}" class="specific"></p>
-          </span>
-            <span class="content">
-      <p class="common">영업 시간</p>
-      <p th:name="time" th:id="time" th:value="time" th:text="|*{open_time} ~ *{close_time}|" class="specific"></p>
-              </span>
-        <span class="content">
-      <p class="common">매장 전화번호</p>
-      <p th:field="*{tel_number}" th:text="*{tel_number}" id="tel_number" class="specific"></p>
-          </span>
-        <span class="content">
-      <p class="common">오시는 길</p>
-      <p th:field="*{how_to_come}" th:text="*{how_to_come}" id="how_to_come" class="specific"></p>
-          </span>
-        <span class="content">
-      <p class="common">편의시설</p>
-      <p th:if="${facility} != null" th:name="'편의시설'" id="facilities" th:value="'편의시설'" th:text="${facility}" class="specific"></p>
-          </span>
-        <span class="content">
-      <p class="common">사장님 한마디</p>
-      <p th:field="*{comment}" th:text="*{comment}" id="comment" class="specific"></p>
-          </span>
-      </div>
-    </th:block>
-  </div>
-  <div id="menu"><!--/* 메뉴 */-->
-    <h2>메뉴</h2>
-    <table>
-      <th:block th:each="kind:${type}">
-        <h4 th:text="${kind}"></h4>
+          </script>
+          <tr>
+            <th>전화번호</th>
+            <td th:text="*{tel_number}" class="specific"></td>
+          </tr>
+          <tr>
+            <th>음식종류</th>
+            <td th:text="*{category}" class="specific"></td>
+          </tr>
+          <tr>
+            <th>영업시간</th>
+            <td th:text="|*{open_time} ~ *{close_time}|" class="specific"></td>
+          </tr>
+          <tr>
+            <th>오시는 길</th>
+            <td th:text="*{how_to_come}" class="specific"></td>
+          </tr>
+          <tr>
+            <th>편의시설</th>
+            <td th:text="${facility}" class="specific"></td>
+          </tr>
+          <tr>
+            <th>사장님 한마디</th>
+            <td th:text="*{comment}" class="specific"></td>
+          </tr>
+          </tbody>
+        </table>
+        <h3>메뉴</h3>
+  <div id="menus"><!--/* 메뉴 */-->
+    <br>
         <th:block th:each="menu:${menus}">
-          <ul th:if="${menu.category}==${kind}">
-          <li th:field="${menu.menu_name}" th:text="${menu.menu_name}"></li>
-          <li th:field="${menu.price}" th:text="${menu.price}"></li>
-          </ul>
+          <div id="menu">
+            <img th:src="${menu.picture_location}" style="width: 25vw;height: 20vh">
+            <div id="menu_inf">
+            <span th:text="${menu.menu_name}"></span>
+            <span th:text="${menu.price}"></span>
+            </div>
+          </div>
         </th:block>
-      </th:block>
-    </table>
   </div>
+  <h3>리뷰</h3>
   <div><!--/* 리뷰 */-->
-    <div>
-      <p>★</p>
-      <p th:field="${avgScore}" th:text="${avgScore}"></p>
-    </div>
     <div th:each="review:${reviews}">
       <p th:field="${review.user_id}" th:text="${review.user_id}"></p>
       <p>★</p>
@@ -267,77 +259,65 @@
         <p th:field="${review.owner_comment}" th:text="${review.owner_comment}"></p>
       </div>
     </div>
+    <div th:if="${reviews.size()==0}">
+      리뷰가 없습니다 방문하고 첫번째 리뷰를 남겨보세요!
+    </div>
   </div>
 </div>
-</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="/static/js/jquery.bxslider.js"></script>
-<script>
+<script src="/js/jquery.bxslider.js"></script>
+<script type="text/javascript">
   $(document).ready(function(){
-    $('.bxslider').bxSlider( {
+    $('#bxslider').bxSlider( {
       mode: 'horizontal',// 가로 방향 수평 슬라이드
       speed: 500,        // 이동 속도를 설정
       pager: false,      // 현재 위치 페이징 표시 여부 설정
       moveSlides: 1,     // 슬라이드 이동시 개수
-      slideWidth: 410,   // 슬라이드 너비 수정
-      minSlides: 1,      // 최소 노출 개수 수정
-      maxSlides: 1,      // 최대 노출 개수 수정
+      slideWidth: 1000,   // 슬라이드 너비 수정
+      minSlides: 3,      // 최소 노출 개수 수정
+      maxSlides: 3,      // 최대 노출 개수 수정
       slideMargin: 0,    // 슬라이드간의 간격
       auto: true,        // 자동 실행 여부
       autoHover: true,   // 마우스 호버시 정지 여부
-      controls: false    // 이전 다음 버튼 노출 여부
+      controls: true    // 이전 다음 버튼 노출 여부
     });
   });
 </script>
-<footer>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-  <p>푸터</p>
-</footer>
+ <script>
+   let check = document.getElementById(wish).className;
+   function wishtoggle(){
+     if(check='On') wishOff();
+     else wishOn();
+   }
+  function wishOn() {
+    fetch("/wishUpdate",{
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        seq: [[${store.seq}]],
+        wish: false
+      },
+    })
+    document.getElementById('wish').innerHTML="♥"
+    document.getElementById('wish').className='On'
+  }
+  function wishOff() {
+    fetch("/wishUpdate",{
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        seq: [[${store.seq}]],
+        wish: true
+      },
+    })
+    document.getElementById('wish').innerHTML="♡"
+    document.getElementById('wish').className='Off'
+  }
+</script>
+  <div id="footer" style="width:100vw;height: 20vh"></div>
 </body>
 </html>

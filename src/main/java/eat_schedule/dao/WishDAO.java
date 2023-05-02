@@ -12,4 +12,6 @@ import eat_schedule.dto.WishDTO;
 public interface WishDAO {
 	// 위시리스트
 	public List<WishDTO> WishSelect(String user_id);
+
+	public List<WishDTO> WishSelectSpecific(String user_id, int store_seq);
 }

@@ -5,6 +5,6 @@
 
 
     <select id="findCoupon" resultType="eat_schedule.dto.Coupon">
-        select store_seq, discount_rate from coupon where user_id=#{user_id}
+        select store_seq, discount_rate from coupon where user_id=#{user_id} and store_seq=#{seq}
     </select>
 </mapper>
