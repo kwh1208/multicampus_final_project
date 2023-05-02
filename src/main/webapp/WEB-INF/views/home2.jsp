@@ -60,6 +60,7 @@
 	.middle_wrapper_first{
 		width:100%;
 		height:17.6%;
+		margin-bottom:50px;
 	}
 	
 	.middle_wrapper_second{
@@ -122,32 +123,40 @@
 	 
 	 
 </script>
+<div style="width:100%; background:linear-gradient(to bottom, #fffaf0 5%, #fff);">
 <div class="container">
-<div style="width:100%; margin:auto; text-align:center; margin-top:20px;">
-<img src="/img/logo.png" style="width:300px; height:130px;">
-</div>
+	<div style="width:100%; margin:auto; text-align:center; margin-top:5px; padding-top:20px;">
+		<img src="/img/logo_r.png" style="width:300px; height:130px;">
+	</div>
 	<div id="select_box">
 		<div style="width: 38%; text-align: center; margin: auto; border-radius: 50px; border: 1.5px solid #ff7100;">
-		<div id="inner_box">
-			<select id="district-select">
-				<option value="#">지역 선택&nbsp;&nbsp;(&nbsp;클릭하여 지역을 선택해주세요.&nbsp;)</option>
-				<option value="홍대">홍대</option>
-				<option value="강남">강남</option>
-				<option value="왕십리">왕십리</option>
-			</select>
-				<input id="search" type="button" value="search"/>
-		</div>
+			<div id="inner_box">
+				<select id="district-select">
+					<option value="#">지역 선택&nbsp;&nbsp;(&nbsp;클릭하여 지역을 선택해주세요.&nbsp;)</option>
+					<option value="홍대">홍대</option>
+					<option value="강남">강남</option>
+					<option value="왕십리">왕십리</option>
+					<option value="한남">한남</option>
+					<option value="성수">성수</option>
+					<option value="명동">명동</option>
+					<option value="여의도">여의도</option>
+					<option value="서촌">서촌</option>
+					<option value="잠실">잠실</option>
+				</select>
+					<input id="search" type="button" value="search"/>
+			</div>
 		</div>
 	</div>
 		<div class="middle_contents">
 			<div class="middle_wrapper_first">
-				<p style="text-align:center; color:gray">
+				<p style="text-align:center; color:gray;">
 					Search restaurants where you want to go,<br/>
 					browse menus and reviews.<br/>
 					Then you can find places you like, and<br/>
 					Make a reservation  with <b>MUKSCHEDULE!</b>
 				</p>
 			</div>
+
 			<div class="middle_wrapper_second">
 				<div class="middle_second_contents">
 					<div class="img_text">
@@ -189,6 +198,7 @@
 				</div>
 			</div>
 		</div>
+</div>
 </div>
 </body>
 </html>
