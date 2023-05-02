@@ -33,7 +33,6 @@
 }
 .coupon-submit {
 	display: inline-block;
-	float: right;
 	margin-top: 10px;
 	margin-right: 10px;
 	background-color: #FF7100;
@@ -42,6 +41,7 @@
 	border: none;
 	border-radius: 5px;
 	padding: 5px 10px;
+	margin-bottom: 10px;
 }
 
 .coupon-submit:hover {
@@ -80,7 +80,10 @@
 			
 		}	
         .review-content {
-
+			border-style:dashed;
+			border-radius: 10px;
+			border-width: 1px;
+			border-color: #808080;
             white-space: pre-line;
         }
         .space-work{
@@ -92,7 +95,11 @@
             font-weight: bold;
         }
         .review-owner-comment {
-            white-space: pre-line;
+        border-style:dashed;
+		border-radius: 10px;
+		border-width: 1px;
+		border-color: #808080;
+        white-space: pre-line;
         }
         .review-boss-comment {
             margin-top: 10px;
@@ -100,13 +107,30 @@
             font-size: 12px;
             white-space: pre-line;
         }
+        .review-container .review_picture{
+            float: right;
+    		width: 200px;
+    		height: auto;
+        }
     </style>
 </head>
 <body>
 	<h1>가게 리뷰 확인</h1>
+	<div id="riveiwSearch">
+	<form method="get" id="searchForm" action="commentManager">
+		<select name="searchKey">
+			<option value="oc">사장님댓글</option>
+			<option value="cg">쿠폰여부</option>
+		</select>
+		<input type="checkbox" id="use" name="use"/>
+		<input type="submit" id="searchbutton" value="search"/>
+	</form>
+	<div>가게 총 평점: <span style="color: #FF7100;">&#9733; </span>${storeScore }</div>
+	</div>
 <div class="container">
     <c:forEach var="comment" items="${review}">
         <div class="review-container">
+        	<img class="review_picture" src="${comment.file_location }">
             <div class="review-author">
                 작성자 ID: ${comment.user_id}
             </div>

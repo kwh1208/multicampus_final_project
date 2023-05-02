@@ -17,4 +17,5 @@ public class ReviewDTO {
 	private String owner_comment;
 	private String comment_time;
 	private Integer coupon_status;
+	private String file_location;
 }

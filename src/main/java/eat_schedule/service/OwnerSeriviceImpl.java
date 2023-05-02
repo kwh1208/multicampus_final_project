@@ -136,4 +136,20 @@ public class OwnerSeriviceImpl implements OwnerService {
 	public int menuDelete(Integer seq) {
 		return dao.menuDelete(seq);
 	}
+	@Override
+	public List<ReservationDTO> reservationDateSelect(Integer store_seq, String date) {
+		return dao.reservationDateSelect(store_seq, date);
+	}
+	@Override
+	public List<ReviewDTO> reviewOwnerCommentSelect(Integer store_seq, Integer status) {
+		return dao.reviewOwnerCommentSelect(store_seq, status);
+	}
+	@Override
+	public List<ReviewDTO> reviewCouponSelect(Integer store_seq, Integer status) {
+		return dao.reviewCouponSelect(store_seq, status);
+	}
+	@Override
+	public double storeScore(Integer store_seq) {
+		return dao.storeScore(store_seq);
+	}
 }

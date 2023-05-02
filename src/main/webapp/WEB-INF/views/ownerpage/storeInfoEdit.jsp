@@ -6,7 +6,7 @@
 <head>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=&libraries=services"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ad43dcaa341623983b20d5ee0fc28465&libraries=services"></script>
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <title>가게수정페이지</title>
 <style>
@@ -101,10 +101,6 @@ form {
     padding: 20px;
     background-color: #fff;
   }
-  #map{
-  	width: 800px;
-  	height: 800px;
-  }
 
 </style>
 <script>
@@ -182,7 +178,7 @@ form {
       <input type="text" id="store_name" name="store_name" value="${store.store_name }" required>
       <label for="location">위치:</label>
       <input type="text" id="location" name="location" onkeyup="locationCheck()" value="${store.location }" required>
-      <div id="map" style="width:800px; height:400px;"></div>
+      <div id="map" style="width:720px; height:400px;"></div>
       <label for="district">구역:</label>
       <input type="text" id="district" name="district" value="${store.district }" required>
       <label for="tel_number">전화번호:</label>

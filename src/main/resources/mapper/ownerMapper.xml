@@ -30,13 +30,28 @@
 	, email=#{email} where user_id=#{user_id} and user_password=#{user_password}
 </update>
 <select id="reviewSelect" resultType="eat_schedule.dto.ReviewDTO">
-	select seq, store_seq, user_id, owner_id, score, review, review_time, owner_comment, comment_time, coupon_status from review where store_seq=${param1}
+	select * from review where store_seq=${param1} order by seq desc
+</select>
+<select id="reviewOwnerCommentSelect" resultType="eat_schedule.dto.ReviewDTO">
+	select * from review where store_seq=${param1} and owner_comment is null order by seq desc
+</select>
+<select id="reviewCouponSelect" resultType="eat_schedule.dto.ReviewDTO">
+	select * from review where store_seq=${param1} and coupon_status=${param2} order by seq desc
+</select>
+<select id="storeScore" resultType="double">
+	select round(avg(score), 1) from review where store_seq=${param1};
 </select>
 <select id="reservationSelect" resultType="eat_schedule.dto.ReservationDTO">
 	select r.seq ,r.reservation_time, r.number_of_people, r.user_id, u.user_name, r.coupon, u.phone_number, u.email, r.reservation_status, r.reservation_comment, r.visit_status
 		from reservation r
 		join user u on u.user_id=r.user_id
-		where r.store_seq=${param1};
+		where r.store_seq=${param1} order by r.seq desc;
+</select>
+<select id="reservationDateSelect" resultType="eat_schedule.dto.ReservationDTO">
+	select r.seq ,r.reservation_time, r.number_of_people, r.user_id, u.user_name, r.coupon, u.phone_number, u.email, r.reservation_status, r.reservation_comment, r.visit_status
+		from reservation r
+		join user u on u.user_id=r.user_id
+		where r.store_seq=${param1} and r.reservation_time like '%${param2}%' order by r.seq desc;
 </select>
 <insert id="couponGift">
 	insert into coupon(user_id, expired_period, discount_rate, store_seq)

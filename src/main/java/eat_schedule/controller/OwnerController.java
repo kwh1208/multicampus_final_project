@@ -80,12 +80,20 @@ public class OwnerController {
 		return "ownerpage/ownerMyPage";
 	}
 	@GetMapping("reservation")
-	public String reservation(Model model, HttpSession session) {
+	public String reservation(Model model, HttpSession session, String date) {
 		//사장님 마이페이지 중 예약확인페이지
-		StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
-		List<ReservationDTO> reservation=service.reservationSelect((Integer)store.getSeq());
-		model.addAttribute("reservation", reservation);
-		return "ownerpage/reservation";
+		if(date!=null) {
+			StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
+			List<ReservationDTO> reservation=service.reservationDateSelect((Integer)store.getSeq(),date);
+			model.addAttribute("reservation", reservation);
+			return "ownerpage/reservation";
+		}else {
+			StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
+			List<ReservationDTO> reservation=service.reservationSelect((Integer)store.getSeq());
+			model.addAttribute("reservation", reservation);
+			return "ownerpage/reservation";
+		}
+		
 	}
 	@GetMapping("storeRegister")
 	public String storeRegister() {
@@ -94,8 +102,7 @@ public class OwnerController {
 	}
 	@GetMapping("menuRegister")
 	public String menuRegister() {
-		//사장님 마이페이지 중 가게등록 페이지
-		
+		//사장님 마이페이지 중 메뉴등록 페이지		
 		return "ownerpage/menuRegister";
 	}
 	@GetMapping("menuSelect")
@@ -481,15 +488,27 @@ public class OwnerController {
 			mav.setViewName("ownerpage/ownerMyPage");
 		}else{// 수정실패시 -> 이전페이지 (알림)
 			mav.addObject("msg","회원정보수정 실패!!");
-			mav.setViewName("register/failResult");
+			mav.setViewName("ownerpage/failResult");
 		}
 		return mav;
 	}
 	@GetMapping("commentManager")
-	public String commentmanager(Model model, HttpSession session) {
+	public String commentmanager(Model model, HttpSession session, String searchKey, String use) {
 		StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
+		double storeScore=service.storeScore((Integer)session.getAttribute("storeSeq"));
+		model.addAttribute("storeScore", storeScore);
+		if(searchKey!=null && use!=null) {
+			if(searchKey.equals("oc")) {
+				List<ReviewDTO> review=service.reviewOwnerCommentSelect((Integer)store.getSeq(), 1);
+				model.addAttribute("review", review);
+			}else {
+				List<ReviewDTO> review=service.reviewCouponSelect((Integer)store.getSeq(), 0);
+				model.addAttribute("review", review);
+			}
+		}else {
 		List<ReviewDTO> review=service.reviewSelect((Integer)store.getSeq());
 		model.addAttribute("review", review);
+		}
 		return "ownerpage/commentManager";
 	}
 	@GetMapping("advApply")
@@ -539,7 +558,7 @@ public class OwnerController {
 			mav.setViewName("ownerpage/ownerMyPage");
 		}else{// 수정실패시 -> 이전페이지 (알림)
 			mav.addObject("msg","쿠폰주기 실패!!");
-			mav.setViewName("register/failResult");
+			mav.setViewName("ownerpage/failResult");
 		}
 		return mav;
 	}
@@ -558,7 +577,7 @@ public class OwnerController {
 			mav.setViewName("ownerpage/ownerMyPage");
 		}else{// 수정실패시 -> 이전페이지 (알림)
 			mav.addObject("msg","댓글달기 실패!!");
-			mav.setViewName("register/failResult");
+			mav.setViewName("ownerpage/failResult");
 		}
 		return mav;
 	}
@@ -577,7 +596,7 @@ public class OwnerController {
 			mav.setViewName("ownerpage/ownerMyPage");
 		}else{// 수정실패시 -> 이전페이지 (알림)
 			mav.addObject("msg","예약확인 실패!!");
-			mav.setViewName("register/failResult");
+			mav.setViewName("ownerpage/failResult");
 		}
 		return mav;
 	}
@@ -595,7 +614,7 @@ public class OwnerController {
 			mav.setViewName("ownerpage/ownerMyPage");
 		}else{// 수정실패시 -> 이전페이지 (알림)
 			mav.addObject("msg","예약확인 실패!!");
-			mav.setViewName("register/failResult");
+			mav.setViewName("ownerpage/failResult");
 		}
 		return mav;
 	}
@@ -661,7 +680,7 @@ public class OwnerController {
 			mav.setViewName("ownerpage/ownerMyPage");
 		}else{// 수정실패시 -> 이전페이지 (알림)
 			mav.addObject("msg","방문확인 실패!!");
-			mav.setViewName("register/failResult");
+			mav.setViewName("ownerpage/failResult");
 		}
 		return mav;
 	}
@@ -680,7 +699,7 @@ public class OwnerController {
 			mav.setViewName("ownerpage/ownerMyPage");
 		}else{// 수정실패시 -> 이전페이지 (알림)
 			mav.addObject("msg","방문확인 실패!!");
-			mav.setViewName("register/failResult");
+			mav.setViewName("ownerpage/failResult");
 		}
 		return mav;
 	}
@@ -723,8 +742,8 @@ public class OwnerController {
 				//db select ( select amount from oder_table where merchant_uid = ?)
 				
 				//step5
-				String api_key ="";
-				String api_secret ="";
+				String api_key ="0768415534736602";
+				String api_secret ="qwDxOfUXWEt5zkWOFM2xm8rtTq8DTnhuB2jrFlfxEdwzozXOUlWSvblcmC3pHOnZq48OPRyyVYTycFtU";
 				
 				IamportClient ic=new IamportClient(api_key, api_secret);
 				IamportResponse<Payment> response = ic.paymentByImpUid(imp_uid);

@@ -23,7 +23,29 @@ border-radius: 10px;
 margin-top:25px;
 box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
 }
-
+#dateSearch{
+	margin:0 auto;
+	max-width:800px;
+}
+input[type="date"] {
+			margin: 0 auto;
+			padding: 8px;
+			border-radius: 4px;
+			border: 1px solid #ccc;
+			font-size: 16px;
+		}
+	#datebutton {
+		margin: 0 auto;
+	 	background-color: #FF9139;
+		color: #fff;
+    	border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		font-size: 18px;
+	}
+	#datebutton:hover {
+  		background-color: #C65800;
+	}
 
 .reservation-button {
   background-color: #FF7100;
@@ -43,16 +65,33 @@ box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
   font-size: 1.2em;
   color: #000;
 }
+.coupon{
+	font-weight: bold;
+	font-size: 1.1em;
+	color: #000;
+}
 .phone, .email {
   font-style: italic;
   color: gray;
   font-size: 0.8em;
+}
+.reservation_comment{
+	border-style:dashed;
+	border-radius: 10px;
+	border-width: 1px;
+	border-color: #808080;
 }
 
     </style>
 </head>
 <body>
 	<h1>가게예약내역 확인</h1>
+	<div id="dateSearch">
+	<form method="get" id="searchForm" action="reservation">
+		<input type="date" name="date" id="date"/>
+		<input type="submit" id="datebutton" value="search"/>
+	</form>
+	</div>
 	<c:if test="${empty reservation }">
 	<h1>예약내역이 없습니다.</h1>
 	</c:if>
