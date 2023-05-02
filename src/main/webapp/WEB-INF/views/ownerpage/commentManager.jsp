@@ -9,7 +9,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>댓글관리페이지</title>
     <style>
-
    .owner_comment
    {
     width: 95%;
@@ -68,6 +67,7 @@
             margin-bottom: 10px;
             border-radius: 10px;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+            margin-top: 15px;
         }
         .review-author {
             font-weight: bold;
@@ -112,12 +112,40 @@
     		width: 200px;
     		height: auto;
         }
+        #riveiwSearch{
+        	margin:0 auto;
+			max-width:960px;
+			overflow: hidden;
+        }
+        #searchbutton{
+        margin: 0 auto;
+	 	background-color: #FF9139;
+		color: #fff;
+    	border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		font-size: 18px;
+        }
+        #searchbutton:hover{
+        background-color: #C65800;
+        }
+        #storeavgScore{
+        	font-style: bold;
+        	font-size: 14px;
+        	float: left;
+        }
+        #searchForm{
+       		float: right;
+        }
     </style>
 </head>
 <body>
 	<h1>가게 리뷰 확인</h1>
 	<div id="riveiwSearch">
-	<form method="get" id="searchForm" action="commentManager">
+	<div id="storeavgScore">가게 총 평점: <span style="color: #FF7100;">&#9733; </span>${storeScore }</div>
+	<div id="searchForm">
+	<form method="get" id="searchtagForm" action="commentManager">
+	&#8251 아직 처리하지 않은 작업 선택 :
 		<select name="searchKey">
 			<option value="oc">사장님댓글</option>
 			<option value="cg">쿠폰여부</option>
@@ -125,7 +153,7 @@
 		<input type="checkbox" id="use" name="use"/>
 		<input type="submit" id="searchbutton" value="search"/>
 	</form>
-	<div>가게 총 평점: <span style="color: #FF7100;">&#9733; </span>${storeScore }</div>
+	</div>
 	</div>
 <div class="container">
     <c:forEach var="comment" items="${review}">
