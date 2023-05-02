@@ -35,12 +35,12 @@ public class ShopAndEventServiceImpl implements ShopAndEventService {
 	public int userUpdateOk(HashMap<String , Object> map) {
 		return dao.userUpdateOk(map);
 	}
-	/*
+	
 	@Override
 	public int balloonUseInsert(HashMap<String, Object> map) {
 		return dao.balloonUseInsert(map);
 	}
-	*/
+	
 
 
 

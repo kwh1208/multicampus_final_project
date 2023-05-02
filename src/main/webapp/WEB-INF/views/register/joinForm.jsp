@@ -11,7 +11,7 @@
 	var reg_email = /^([0-9a-zA-Z_-]+){3,20}@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/; // 이메일 형식 + @ 앞에 길이제한 3,20
 	var reg_phone = /^\d{3}-\d{4}-\d{4}$/;
 	var reg_nickname = /^[가-힣\dA-Za-z\d$@$!%^*#?&]{2,20}$/;
-	var reg_addr = /^[가-힣]{5,100}$/;
+
 	var chk_num = 0;
 	
 	function keyevent(){
@@ -249,10 +249,10 @@
 	          var nickname_val = $('#nickname').val();
 	          var email_val = $('#email').val();
 	          var phone_val = $('#phone_number').val().replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
-	          var address_val = $('#address').val();
+	         
 
 	          if(id_val=="" || pass_val=="" || pass_chk_val=="" || name_val=="" || nickname_val=="" || 
-	        		  email_val=="" || phone_val=="" || address_val==""){
+	        		  email_val=="" || phone_val=="" ){
 	        	  alert("모든 항목을 입력해주세요.");
 	        	  return;
 	          }
@@ -327,9 +327,6 @@
 			    <div class="login_param_check" id="login_pass_param_check">
                 	<span id="login_param_check_txt_email" class="login_param_check_txt" ></span>
                 </div>
-			</li>
-			<li>
-				<input type="text" id="address" name="address" class="" placeholder="주소" onkeyup="keyevent(this)" autocomplete='off'/>
 			</li>
 			<li>
 				<input type="text" id="phone_number" name="phone_number" class="" placeholder="휴대폰번호( - 없이 입력)" onkeyup="keyevent(this)" autocomplete='off'/>

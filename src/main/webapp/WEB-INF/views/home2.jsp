@@ -172,7 +172,7 @@
 						<div class="location_text">명동</div>
 					</div>
 					<div class="img_text">
-						<a href="/"><img src="/img/홍대.jpeg" class="location_img"></a>
+						<a href="/search?district=홍대"><img src="/img/홍대.jpeg" class="location_img"></a>
 						<div class="location_text">홍대</div>
 					</div>
 				</div>
@@ -192,7 +192,7 @@
 						<div class="location_text">서촌</div>
 					</div>
 					<div class="img_text">
-						<a href="/"><img src="/img/강남.jpeg" class="location_img"></a>
+						<a href="/search?district=강남"><img src="/img/강남.jpeg" class="location_img"></a>
 						<div class="location_text">강남</div>
 					</div>
 				</div>
