@@ -9,6 +9,8 @@
 		text-decoration:none;
 		color:#FF7100;
 	}
+
+/*------------header------------*/
 	#nav_bar{
 		background-color:white;
 		width:100%;
@@ -17,12 +19,11 @@
 		height:60px;
 		line-height:60px;
 		align-items:center;
-		position:fixed;
 		box-shadow:0 7px 7px -7px #FF7100;
 		padding:10px 0 10px 10px;
 		top:0;
 	}
-	#logo, #shop, #board, #login_logout, #join_balloon, img{
+	#logo, #shop, #FAQ, #inquiry, #login_logout, #join_balloon, img{
 		height:80px;
 	}
 	#nav_bar div{
@@ -37,11 +38,11 @@
 		margin-top:15px;
 	}
 	#without_logo{
-		width:90vw;
+		width:90%;
 		display:flex;
 	}
 	#inner{
-		width:90vw;
+		width:90%;
 		margin:0 auto;
 	}
 	#shop{
@@ -50,25 +51,15 @@
 		line-height:80px;
 	}
 	#login_logout{
-		margin-left:35%;
+		margin-left:16.7%;
 		margin-right:3.3%;
 	}
-	#board{
-	  position: relative;
-	  cursor: pointer; 
-	  line-height:80px;
-	  color:#FF7100; 
+	#FAQ, #inquiry{
+		line-height:80px;
 	}
-	  
-	#board::before{
-	  display: inline-block;
-	  color: #006633;
+	#FAQ{
+		margin-right:16.7%;
 	}
-	
-	#board.on>span{
-	  color: #006633; 
-	}
-	 
 	#person_img{
 	  position: relative;
 	  cursor: pointer; 
@@ -83,19 +74,21 @@
 	#person_img.on>span{
 	  color: #006633; 
 	}
-	.menu {
+
+	.menu2 {
 	  display: none;
 	  overflow: hidden;
 	  background-color: #f4f4f2;
 	  line-height:30px;
-	  position: absolute; top: 50%; transform: translateY(-50%);
-	  margin-top:80px;
+	  position: absolute; transform: translateY(-50%);
+	  margin-top:240px;
 	  padding:10px;
 	}
 	  
-	.menu::before {
+	.menu2::before {
 	  display: inline-block;
 	  color: #666;
 	  margin: 0 5px;
 	}
+
 

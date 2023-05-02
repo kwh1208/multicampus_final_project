@@ -39,7 +39,7 @@
 		font-size:0.9em;
 	}
 	h1{
-		margin-top:150px;
+		margin-top:100px;
 		text-align:center;
 		color:#696969;
 	}

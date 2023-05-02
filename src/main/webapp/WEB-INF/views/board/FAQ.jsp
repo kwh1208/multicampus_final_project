@@ -9,7 +9,8 @@
 	#Accordion_wrap{
 		width:1080px;
 		margin:0 auto;
-		margin-top:180px;
+		margin-top:100px;
+		margin-bottom:100px;
 	}
 	.que:first-child{
 	    border-top: 1px solid gray;
@@ -178,9 +179,8 @@
       	먹풍선은 가게를 예약하실 때 사용됩니다. 또한, 상점에서 쿠폰 구매 시 사용하실 수 있습니다.
       </span>
      </div>
-
 </div>
-  </body>
+</body>
 </html>
 
 

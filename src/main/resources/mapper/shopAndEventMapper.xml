@@ -16,4 +16,10 @@
 	<update id="userUpdateOk">
 		update user set balloon = (balloon-(select balloon_number from shop where seq=${seq})) where user_id=#{id}
 	</update>
+	<insert id="balloonUseInsert">
+		insert into balloon(user_id, use_get, use_get_time, balloon, total_balloon, content)
+		values(#{id}, 0, NOW(), -(select balloon_number from shop where seq=${seq}), 
+		(select balloon from user where user_id=#{id}), "상점에서 쿠폰구매")
+	</insert>
+	
 </mapper>

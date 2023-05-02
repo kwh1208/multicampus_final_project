@@ -2,8 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/resources/header.jspf" %>
 
-
-
 <style>
 
 	.container{
@@ -25,7 +23,7 @@
 		background-color:#FFA964;
 	}
 	#select_box{
-		margin-top:350px;
+		margin-top:250px;
 		display:flex;
 		flex-direction: row;
 		margin-left:8%;
@@ -65,8 +63,8 @@
 	.bx-wrapper {
 	    -moz-box-shadow: none;
 	    -webkit-box-shadow: none;
-	    box-shadow: none;     // 그림자 없애기
-	    border: 0;            //  흰색 보더 없애기
+	    box-shadow: none;    
+	    border: 0;            
     }
 </style>
 <script type="text/javascript">
@@ -90,7 +88,8 @@
 			pause:2000,
 			controls: false,
 			autoHover: true,
-			slideWidth: 400
+			slideWidth: 400,
+			pager:false
 		});
 	 });
 	 
@@ -126,15 +125,5 @@
 		<!-- <a href="/board/inquiryList">문의내역보기</a> -->
 	</div>
 </div>
-<!-- 
-	<c:forEach var="storeDTO" items="${list}">
-		<ul>
-			<li>${storeDTO.district}</li>
-		</ul>
-	</c:forEach>
-	
-	<a href="/board/inquiryList">문의내역보기</a>
- -->
- 
 </body>
 </html>

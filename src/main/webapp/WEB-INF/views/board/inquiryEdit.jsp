@@ -11,7 +11,7 @@
 	.c{
 		display:flex;
 		justify-content:center;
-		margin-top:130px;
+		margin-top:50px;
 		margin-bottom:30px;
 	}
 	#inquiryForm li{
@@ -69,16 +69,17 @@
 <div class="all">
 	<h1>1:1 문의</h1>
 	<div style="border-top:1px solid #696969; margin-bottom:20px;"></div>
-	<form method="post" action="inquiryEditOk" id="inquiryEdit" enctype="multipart/form-data">
+	<form method="post" action="../inquiryEditOk" id="inquiryEdit" enctype="multipart/form-data">
+		<input type="hidden" name="seq" value="${dto.seq }"/>
+		<input type="hidden" name="before_filename" value="${filename }"/>
 		<ul>
-			<input type="hidden" name="seq" value="${dto.seq }"/>
 			<li>제목</li>
 				<li style="margin-bottom:20px;"><input type="text" name="question_title" id="question_title" value="${dto.question_title}"/></li>
 			<li>상담내용</li>
 				<li style="margin-bottom:20px;"><textarea name="question" id="question">${dto.question}</textarea></li>
 			<li>
 				<c:if test="${not empty filename}">
-					<a href="/uploadfile/${filename}" download name="before_filename" id="before_filename">이전 첨부파일 : ${filename}</a>
+					<a href="/uploadfile/${filename}" download>이전 첨부파일 : ${filename}</a>
 				</c:if>
 				<c:if test="${empty filename}">
 					첨부된 파일이 없습니다.
@@ -97,6 +98,5 @@
 	</form>
 </div>
 </div>
-
 </body>
 </html>
