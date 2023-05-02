@@ -10,7 +10,7 @@ import eat_schedule.dto.WishDTO;
 @Component
 @Mapper
 public interface WishDAO {
-	// 위시리스트
+	// 찜 목록
 	public List<WishDTO> WishSelect(String user_id);
 
 	public List<WishDTO> WishSelectSpecific(String user_id, int store_seq);

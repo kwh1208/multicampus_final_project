@@ -18,4 +18,7 @@ public class UserDTO {
 	private String email;
 	private int balloon;
 	private String join_date;
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
 }

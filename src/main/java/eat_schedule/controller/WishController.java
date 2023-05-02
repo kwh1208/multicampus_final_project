@@ -22,8 +22,7 @@ public class WishController {
 	// 찜 내역 확인
 	@GetMapping("user/user/wishlist")
 	public ModelAndView myCoupon(HttpSession session) {
-		ModelAndView mav = new ModelAndView();
-		
+		ModelAndView mav = new ModelAndView();	
 		List<WishDTO> list = service.WishSelect((String)session.getAttribute("logId"));
 		mav.addObject("list", list);
 		mav.setViewName("user/user/wishlist");	

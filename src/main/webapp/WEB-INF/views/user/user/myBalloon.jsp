@@ -1,13 +1,51 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ include file="/resources/header.jspf" %>
 <style>
+h1{
+	font-size:30px;
+	color:#FF7100;
+	margin-bottom:50px;
+	text-align:center;
+}
+
+.history{
+	width: 1000px;
+	margin: 0 auto;
+}
+.countBalloon{
+	height:30px;
+	width:900px;
+	border : 1px solid #d7d5d5;
+	background-color:#fbfafa;
+	border-radius:5px;
+	padding : 20px 30px;
+	margin : 50px auto;
+	display:flex;
+}
+.text1{
+	margin-top:3px;
+}
+.count{
+	font-size : 23px;
+	margin-right:10px;
+}
+.unit{
+	margin-top:3px;
+}
+.left{
+	display:flex;
+}
+.right{
+	display:flex;
+	margin-left:auto;
+}
 li{
 	list-style-type:none;
 }
 .history table{
-	width: 1200px;
-	margin: 0 auto;
+	width:1000px;
 	border-collapse: collapse;
 	border:1px solid #d7d5d5; 
 	color:#353535; 
@@ -41,9 +79,17 @@ li{
 
 
 </style>
-<h1>먹풍 이용 내역</h1>
-
-
+<h1>먹풍선 내역</h1>
+<div class="countBalloon">
+	<div class="left">
+		<img src="/img/balloons.png" style="width:30px; height:30px; margin-right:10px;"/>
+		<div class="text1">보유 먹풍선</div>
+	</div>
+	<div class="right">
+		<div class="count">${dto.balloon }</div>
+		<div class="unit">개</div> 
+	</div>
+</div>
 
 <div class="history">
 <table border="1" summary="">
@@ -81,7 +127,7 @@ li{
 	</c:forEach>
 </table>
 </div>
-	<div style="width:1200px; margin:50px auto 50px auto; padding:10px; height:400px; background-color:#f8f9fa; color:#696969;">
+	<div style="width:1000px; margin:50px auto 50px auto; padding:10px; height:400px; background-color:#f8f9fa; color:#696969;">
 		<div class="text">'먹풍선'이란?</div>
 			<div>  '먹풍선'은 매장 예약, 쿠폰 결제 시 필요한 수단입니다. </div>
 		<div class="text">'먹풍선'을 어떻게 얻나요?</div>
@@ -96,3 +142,5 @@ li{
 			<div>  - 잦은 노쇼로 인해 보유 먹풍선이 5개 이하가 되면 매장 예약이 금지되고 휴면계정으로 전환됩니다.</div>
 
 	</div>
+
+

@@ -14,10 +14,11 @@ public class BalloonServiceImpl implements BalloonService {
 	@Autowired
 	BalloonDAO dao;
 	
+	@Override
 	public List<BalloonDTO> BalloonSelect(String user_id){
 		return dao.BalloonSelect(user_id);
 	}
-
+	@Override
 	public int BalloonUpdate(String user_id) {
 		return dao.BalloonUpdate(user_id);
 	}

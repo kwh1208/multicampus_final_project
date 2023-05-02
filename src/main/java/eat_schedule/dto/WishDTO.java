@@ -12,4 +12,6 @@ public class WishDTO {
 	private String store_name;
 	private String district;
 	private String category;
+	private double avg_score;
+	private String owner_comment;
 }

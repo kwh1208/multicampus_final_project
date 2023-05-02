@@ -21,15 +21,12 @@
 }
 #myform label:hover{
     text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
-    cursor: pointer;
 }
 #myform label:hover ~ label{
     text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
-    cursor: pointer;
 }
 #myform input[type=radio]:checked ~ label{
     text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
-    cursor: pointer;
 }
 #review {
     width: 100%;
@@ -88,7 +85,8 @@ body{
 	background-color: #FF7100;
 	color: #fff;
 	font-size: 14px;
-	border:none;	
+	border:none;
+	cursor: pointer; 	
 }
 .enroll_btn:hover{
 	background-color:#FFA964;
@@ -188,36 +186,64 @@ function fileChange(obj){
 		}
 	}
 }
-
-
 </script>
 <body>
-
-<form method="post" name="myform" id="myform" action="ReviewWriteOk" enctype="multipart/form-data">
+<form method="post" name="myform" id="myform" action="reviewEditOk" enctype="multipart/form-data">
 	<div class="wrapper_div">
 		<div class="subject_div">
 			${dto.store_name }에 대한 리뷰를 써주세요
 			<input type="hidden" name="store_seq" value="${dto.store_seq}"/>
-			<input type="hidden" name="user_id" value="${dto.user_id}"/>
+			<input type="hidden" name="seq" value="${dto.seq}"/>
 		</div>
 		
 		<div class="input_wrap">
 			<div class="rating_div">
 			<fieldset>
 				<h4>별점을 선택해 주세요</h4>
-				<input type="radio" name="score" value="5" id="rate1"><label for="rate1">★</label>
-				<input type="radio" name="score" value="4" id="rate2"><label for="rate2">★</label>
-				<input type="radio" name="score" value="3" id="rate3"><label for="rate3">★</label>
-				<input type="radio" name="score" value="2" id="rate4"><label for="rate4">★</label>
-				<input type="radio" name="score" value="1" id="rate5"><label for="rate5">★</label>
+				<c:if test="${dto.score == '5' }">
+					<input type="radio" name="score" value="5" id="rate1" checked="checked"><label for="rate1">★</label>
+					<input type="radio" name="score" value="4" id="rate2"><label for="rate2">★</label>
+					<input type="radio" name="score" value="3" id="rate3"><label for="rate3">★</label>
+					<input type="radio" name="score" value="2" id="rate4"><label for="rate4">★</label>
+					<input type="radio" name="score" value="1" id="rate5"><label for="rate5">★</label>
+				</c:if>
+				<c:if test="${dto.score == '4' }">
+					<input type="radio" name="score" value="5" id="rate1"><label for="rate1">★</label>
+					<input type="radio" name="score" value="4" id="rate2" checked="checked"><label for="rate2">★</label>
+					<input type="radio" name="score" value="3" id="rate3"><label for="rate3">★</label>
+					<input type="radio" name="score" value="2" id="rate4"><label for="rate4">★</label>
+					<input type="radio" name="score" value="1" id="rate5"><label for="rate5">★</label>
+				</c:if>
+				<c:if test="${dto.score == '3' }">
+					<input type="radio" name="score" value="5" id="rate1"><label for="rate1">★</label>
+					<input type="radio" name="score" value="4" id="rate2"><label for="rate2">★</label>
+					<input type="radio" name="score" value="3" id="rate3" checked="checked"><label for="rate3">★</label>
+					<input type="radio" name="score" value="2" id="rate4"><label for="rate4">★</label>
+					<input type="radio" name="score" value="1" id="rate5"><label for="rate5">★</label>
+				</c:if>
+				<c:if test="${dto.score == '2' }">
+					<input type="radio" name="score" value="5" id="rate1"><label for="rate1">★</label>
+					<input type="radio" name="score" value="4" id="rate2"><label for="rate2">★</label>
+					<input type="radio" name="score" value="3" id="rate3"><label for="rate3">★</label>
+					<input type="radio" name="score" value="2" id="rate4" checked="checked"><label for="rate4">★</label>
+					<input type="radio" name="score" value="1" id="rate5"><label for="rate5">★</label>
+				</c:if>
+				<c:if test="${dto.score == '1' }">
+					<input type="radio" name="score" value="5" id="rate1"><label for="rate1">★</label>
+					<input type="radio" name="score" value="4" id="rate2"><label for="rate2">★</label>
+					<input type="radio" name="score" value="3" id="rate3"><label for="rate3">★</label>
+					<input type="radio" name="score" value="2" id="rate4"><label for="rate4">★</label>
+					<input type="radio" name="score" value="1" id="rate5" checked="checked"><label for="rate5">★</label>
+				</c:if>
 			</fieldset>
 			</div>
 		</div>
 			<div class="file_div">
 				<h4>사진업로드</h4>
 				<div class="filebox">
+					<input type="hidden" value="${dto.file_location }" id="before_filename" name="before_filename">
     				<input type="file" id="file" name="filename" title="" onchange="fileChange(this)" style="display:none;"/>
-					<input type="text" id="file_text" name="file_text" title="" readonly="readonly" class="input_file" />
+					<input type="text" id="file_text" name="file_text" title="" readonly="readonly" value="${dto.file_location }" class="input_file"/>
 					<input type="button" class="file_btn" value="파일 선택" onclick="fileReg()"/>
 					<input type="button" class="file_btn" value="삭제" onclick="fileRm()" />
 					<div class="desc">10MB 이하의 jpg, png, gif 파일만 업로드 가능합니다.</div>
@@ -226,7 +252,7 @@ function fileChange(obj){
 			<div class="content_div">
 				<h4>리뷰 작성</h4>
 				<textarea name="review" id="review"
-						  placeholder="레스토랑과 유저들에게 도움이 되는 따뜻한 리뷰를 작성해주세요."></textarea>
+						  placeholder="레스토랑과 유저들에게 도움이 되는 따뜻한 리뷰를 작성해주세요.">${dto.review }</textarea>
 			</div>		
 		
 		<div class="btn_wrap">

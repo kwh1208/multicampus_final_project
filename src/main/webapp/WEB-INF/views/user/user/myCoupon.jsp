@@ -1,8 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<h1>쿠폰 내역</h1>
+<%@ include file="/resources/header.jspf" %>
 <style>
+h1{
+	font-size:30px;
+	color:#FF7100;
+	margin-bottom:50px;
+	text-align:center;
+}
 /*body, ul, li{
 	padding:0;
 	margin:0;
@@ -60,8 +66,7 @@
 	margin-left:auto;
 }
 </style>
-
-
+<h1>쿠폰 내역</h1>
 <c:forEach var="c" items="${list }">
 <jsp:useBean id="now" class="java.util.Date"/>
 <fmt:parseDate var="exTime" value="${c.expired_period }" pattern="yyyy-MM-dd"/>
@@ -87,4 +92,6 @@
 	</div>
 </div>
 </c:forEach>
+
+
 

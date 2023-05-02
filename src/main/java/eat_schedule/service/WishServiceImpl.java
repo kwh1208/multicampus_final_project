@@ -12,6 +12,8 @@ import eat_schedule.dto.WishDTO;
 public class WishServiceImpl implements WishService {
 	@Autowired
 	WishDAO dao;
+	
+	@Override
 	public List<WishDTO> WishSelect(String user_id){
 		return dao.WishSelect(user_id);
 	}

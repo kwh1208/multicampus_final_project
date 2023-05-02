@@ -6,95 +6,91 @@ div{
   box-sizing: border-box;
 }
 
+/* 오렌지 텍스트 */
 .orange{
   color: #FF7100;
 }
 
 .wrap{
   background-color: #F8F8F8;
-  max-width: 1200px;
+  max-width: 1000px;
   margin:0 auto;
 }
-
-.topContainer{
+/* =============== 이름 있는 박스 ================= */
+.topContainer{  
   height: 132px;
-  background-color: #fff;
+  background-color: #fff;    
   display: flex;
   align-items: flex-end;
   padding: 16px;
   margin-top:60px;
 }
-
+/* 이름 */
 .topContainer .name{
    font-size: 30px;
    font-weight: bold;
    color: #FF7100;
-}
-
+} 
+/* 인사 */
 .topContainer .text{
-    font-size: 30px;
+	font-size: 30px;
     font-weight: bold;
     color: #000;
 }
-
+/* 회원정보수정 */
 .topContainer .modify{
-    margin-left:20px;
-    font-size: 17px;
-    font-weight:bold;
-    color:#FF9139;
-    text-decoration: none;
+	margin-left:20px;
+	font-size: 17px;
+	font-weight:bold;
+	color:#FF9139;
+	text-decoration: none;
 }
-
+/* 링크 밑줄 없애기 용 */
 .delete{
-    text-decoration: none;
+	text-decoration: none; 
 }
 
-
+/* =================== 오렌지 박스 부분 ================= */
 .summaryContainer{
-  background-color: #FF7100;
-  display: flex;
-  padding: 21px 16px;
-  height: 90px;
+  background-color: #FF7100;  
+  display: flex;  
+  padding: 21px 16px;  
+  height: 120px;
   margin-bottom: 10px;
 }
-
-.summaryContainer{
-    height:80px;
-}
 .summaryContainer .item{
-    flex-grow: 1;
+    flex-grow: 1; 
 }
-
-
-.summaryContainer .item > div:nth-child(1){
+/* 텍스트 */
+.summaryContainer .item > div:nth-child(2){
   font-size: 13px;
   color:white;
 }
-
+/* 먹풍, 쿠폰 숫자 */
 .summaryContainer .number{
   font-size: 19px;
   font-weight: bold;
   color: #fff;
 }
-
+/* 세로 선 */
 .summaryContainer .v-line{
-    border-left : thin solid #fff;
-     height : 45px;
-     margin-right:10px;
+	border-left : thin solid #fff;
+ 	height : 85px;
+ 	margin-right:20px;
 }
 
-
-.listContainer{
+/*=================== 메뉴 리스트 ==================*/
+.listContainer{  
   padding: 0;
   background-color: #ffffff;
   margin-bottom: 10px;
 }
-.listContainer .item{
+.listContainer .item{  
   display: flex;
   align-items: center;
   padding: 16px;
   color: black;
-  text-decoration: none;
+  text-decoration: none;  
   height: 56px;
   box-sizing: border-box;
 }
@@ -107,5 +103,6 @@ div{
 }
 
 .listContainer .item:hover{
-  background-color: #f8f8f8;
+   background-color: #f8f8f8; 
 }
+
