@@ -31,9 +31,6 @@
 	</div>
 	
 	<div class="listContainer">
-		<a href="http://localhost:9090" class="item">
-			<div class="text">홈</div>
-		</a>
 		<a href="user/myReservation" class="item">
 			<div class="text">예약 내역</div>
 			<div class="right"> > </div>

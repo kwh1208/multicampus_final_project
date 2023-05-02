@@ -7,9 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import eat_schedule.dao.ReviewDAO;
+import eat_schedule.dto.AvgScoreDTO;
 import eat_schedule.dto.ReviewDTO;
-import eat_schedule.dto.ReviewFileDTO;
-import eat_schedule.dto.WishDTO;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
@@ -42,8 +41,12 @@ public class ReviewServiceImpl implements ReviewService {
 		return dao.AvgScore(no);
 	}
 	@Override
-	public int AvgScoreUpdate(WishDTO wdto) {
-		return dao.AvgScoreUpdate(wdto);
+	public int ReviewCount(int no) {
+		return dao.ReviewCount(no);
+	}
+	@Override
+	public int WishUpdate(AvgScoreDTO dto) {
+		return dao.WishUpdate(dto);
 	}
 }
 

@@ -26,6 +26,9 @@ h1{
 	text-decoration: none; 
 	color:#000;
 }
+.name:hover{
+	color:#787878;
+}
 .content{
 	margin-top:4px;
 }
@@ -33,7 +36,6 @@ h1{
 	margin : 10px 20px;
 	display:flex;
 }
-
 .star{
 	font-size:20px;
     color: transparent;
@@ -50,9 +52,6 @@ h1{
 	margin-top:6px;
 	color:#828282;
 	font-size:14px;
-}
-.comment{
-
 }
 .category{
 	margin-top:-10px;
@@ -77,7 +76,7 @@ h1{
 			<div class="content_wrap">
 				<div class="star">★</div>
 				<div class="score">${w.avg_score }</div>
-				<div class="count">(35)</div>
+				<div class="count">(${w.count })</div>
 			</div>
 			<div class="content_wrap">
 				<div class="category">${w.district } · ${w.category }</div>

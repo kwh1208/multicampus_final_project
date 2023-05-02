@@ -8,11 +8,4 @@
 		join store s on s.seq=w.store_seq
 		where user_id=#{param1}
 	</select>
-		<!--  
-	<update id="BalloonUpdate">
-		Update user set
-		balloon = #{balloon(풍선결과값)}
-		where user_id={param1}
-	</update>
-	-->
 </mapper>

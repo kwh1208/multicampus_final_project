@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
+import eat_schedule.dto.AvgScoreDTO;
 import eat_schedule.dto.ReviewDTO;
 import eat_schedule.dto.WishDTO;
 
@@ -24,6 +25,8 @@ public interface ReviewDAO {
 	public int ReviewDelete(int no);
 	// 리뷰 별점 평균 계산
 	public Double AvgScore(int no);
-	// 리뷰 별점 평균 계산 DB Update
-	public int AvgScoreUpdate(WishDTO wdto);
+	// 리뷰 총 개수 계산
+	public int ReviewCount(int no);
+	// 리뷰 별점 평균, 총 개수 계산 DB Update
+	public int WishUpdate(AvgScoreDTO dto);
 }

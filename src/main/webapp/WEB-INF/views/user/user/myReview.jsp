@@ -18,8 +18,6 @@ h1{
 	padding : 15px 15px;
 	margin-bottom : 20px;
 }
-
-/* 가게 이름 */
 .name{
 	margin-top : 4px;
 	font-size: 18px;
@@ -30,7 +28,6 @@ h1{
 .name:hover{
 	color:#787878;
 }
-/* 내용 부분 */
 .content_wrap{
 	display:flex;
 	margin : 10px 10px;
@@ -56,7 +53,6 @@ h1{
     color: transparent;
     text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
 }
-/* 버튼 */
 .btn{
 	display: inline-block;
 	line-height:25px;
@@ -69,7 +65,6 @@ h1{
     border-radius:5px;
     text-align:center;
     text-decoration: none;
-
 }
 </style>
 <h1>리뷰 내역</h1>
@@ -91,11 +86,14 @@ h1{
 		<div class="content">${rev.score }</div>
 		<div class="content"><fmt:formatDate value="${revTime}" pattern="yyyy년 M월 d일" /></div>
 		<div class="btn_wrap">
-			<a href="reviewEdit?no=${rev.seq }" class="btn">수정</a>
+			<c:if test="${rev.coupon_status == 0 }">
+				<a href="reviewEdit?no=${rev.seq }" class="btn">수정</a>
+			</c:if>
 			<a href="javascript:reviewDel()" class="btn">삭제</a>
 		</div>
 	</div>
 	<div class="content2_wrap">
+		
 		<div class="content">${rev.review}</div>
 		<c:if test="${not empty rev.file_location }">
 			<img src="${rev.file_location}" width="300px" height="300px" class="image">
@@ -111,5 +109,3 @@ h1{
 	<li>${rev.comment_time }</li>
 	<li>${rev.seq }</li>
 	-->
-
-

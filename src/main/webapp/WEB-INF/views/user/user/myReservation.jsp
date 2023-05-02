@@ -33,6 +33,11 @@ h1{
 .name{
 	font-size: 18px;
 	font-weight: bold;
+	text-decoration: none; 
+	color:#000;
+}
+.name:hover{
+	color:#787878;
 }
 .content_wrap{
 	display:flex;
@@ -79,7 +84,7 @@ h1{
 <div class="wrap">
 	<div class="status">${res.reservation_status }</div>
 	<div class="content_wrap">
-		<div class ="name">${res.store_name } > </div>
+		<a href="/restaurant/${res.store_seq}" class="name">${res.store_name } ></a>
 		<div class="btn_wrap">
 			<c:if test="${res.reservation_status != '예약 취소' }">
 				<c:if test="${def < -1 }"> <!-- 예약 시간 1시간 후 리뷰 쓰기 가능 -->

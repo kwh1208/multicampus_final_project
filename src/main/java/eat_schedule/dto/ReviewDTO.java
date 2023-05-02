@@ -17,6 +17,7 @@ public class ReviewDTO {
 	private String comment_time;
 	private String store_name;
 	private String file_location;
+	private int coupon_status;
 
 	public String getUser_id() {
 		return user_id;
