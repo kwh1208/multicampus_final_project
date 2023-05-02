@@ -2,11 +2,8 @@ package eat_schedule.controller;
 
 import eat_schedule.dao.UserDAO;
 import eat_schedule.dao.WishDAO;
-import eat_schedule.dto.Mail;
-import eat_schedule.dto.UserDTO;
+import eat_schedule.dto.*;
 import eat_schedule.mapper.*;
-import eat_schedule.dto.Reservation;
-import eat_schedule.dto.Store;
 import eat_schedule.service.EmailService;
 import eat_schedule.service.FindStore;
 import eat_schedule.service.UpdateReservation;
@@ -15,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("/restaurant")
 @Controller
@@ -64,7 +63,16 @@ public class Restaurant {
 
         model.addAttribute("img", imgMapper.findImg(seq));
 
-        model.addAttribute("wish", wishMapper.WishSelectSpecific(user_id, seq));
+        List<WishDTO> wish = wishMapper.WishSelectSpecific(user_id, seq);
+        int wishChk;
+        if(wish.size()==0){
+            wishChk=0;
+        }
+        else {
+            wishChk=1;
+        }
+
+        model.addAttribute("wish", wishChk);
 
         model.addAttribute("coupon", couponMapper.findCoupon(user_id, seq));
 
@@ -74,12 +82,12 @@ public class Restaurant {
     //예약임.
     @PostMapping("/{seq}")
     public String showRestaurant(@PathVariable int seq,
-                                 @SessionAttribute(value = "logStatus", required = false) boolean login,
+                                 @SessionAttribute(value = "logStatus", required = false) String login,
                                  @RequestParam("date") String date,
                                  @RequestParam("time") String time,
                                  Model model) throws Exception {
-        if(!login){
-            return "WEB-INF/views/register/loginForm";//로그인페이지 url
+        if(!login.equals("Y")){
+            return "redirect:/register/loginForm";//로그인페이지 url
         }
         //인원수, user, 기타등등 받아서 update 하고 마이페이지로 넘어감.
         reservation.setReservation_time(date+time);
@@ -92,8 +100,7 @@ public class Restaurant {
 
         mailSendToOwner(reservation);
 
-
-        return "redirect:thymeleaf//store/"+seq;
+        return "redirect:/user/user/myReservation";
     }
 
     private void mailSendToUser(Reservation reservation) {

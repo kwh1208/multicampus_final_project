@@ -6,9 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import eat_schedule.dto.WishDTO;
@@ -30,10 +28,10 @@ public class WishController {
 
 	}
 
-	@GetMapping("/wishUpdate")
+	@RequestMapping("/wishUpdate")
 	public void wishUpdate(@RequestParam(value = "seq") String seq,
-						   @RequestParam("wish") Boolean wish){
-		if(wish){
+						   @RequestParam("wish") String wish){
+		if(wish.equals("true")){
 			//찜목록 추가하기
 		}
 		else {

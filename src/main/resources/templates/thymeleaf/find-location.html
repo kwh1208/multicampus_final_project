@@ -73,14 +73,17 @@
 </form>
 <div id="slideShow">
     <ul id="bxslider">
-        <li th:each="List:${promotionList}"><img th:src="${List.picture_location}"><p th:text="${List.store_name}" style="display: inline"><span th:text="|★${List.score}|"></span></p></li>
+        <li class="promotion"><img src="/img/kimchi.png" class="promotion_img"><p class="promotion_inf">대충 가게이름<span style="float: right"> ★ 5.0</span></p></a></li>
+<!--        <li th:each="List:${promotionList}"><a th:href="@{/restaurant/{seq}(seq=${List.seq})}"><img th:src="${List.picture_location}"><p th:text="${List.store_name}" style="display: inline"><span th:text="|★${List.score}|"></span></p></a></li>-->
     </ul>
 </div>
-<script type="text/javascript" src="/js/slide.js"></script>
+
 <form action="" method="get" id="sort">
-  <button class="sort_btn" value="score" th:class="button">평점순</button>
-  <button class="sort_btn" value="review" th:class="button" id="sort_review">리뷰많은순</button>
-  <button class="sort_btn" value="wish" th:class="button">찜목록 많은순</button>
+    <input type="hidden" name="district" th:value="${district}">
+    <input type="hidden" name="category" th:value="${category}">
+  <button class="sort_btn" value="score" th:class="button" name="sort">평점순</button>
+  <button class="sort_btn" value="review" th:class="button" id="sort_review" name="sort">리뷰많은순</button>
+  <button class="sort_btn" value="wish" th:class="button" name="sort">찜목록 많은순</button>
 </form>
 <div th:id="stores">
     <th:block>
@@ -103,17 +106,18 @@
 <script src="/js/jquery.bxslider.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
-        $('#bxslider').bxSlider( {
-            mode: 'horizontal',// 가로 방향 수평 슬라이드
-            speed: 500,        // 이동 속도를 설정
-            pager: false,      // 현재 위치 페이징 표시 여부 설정
-            moveSlides: 1,     // 슬라이드 이동시 개수
-            slideWidth: 1000,   // 슬라이드 너비 수정
-            maxSlides: 1,      // 최대 노출 개수 수정
-            slideMargin: 50,    // 슬라이드간의 간격
-            auto: true,        // 자동 실행 여부
-            autoHover: true,   // 마우스 호버시 정지 여부
-            controls: true    // 이전 다음 버튼 노출 여부
+        $('#bxslider').bxSlider({
+            mode: 'horizontal', // 가로 방향 수평 슬라이드
+            speed: 500, // 이동 속도를 설정
+            pager: false, // 현재 위치 페이징 표시 여부 설정
+            moveSlides: 1, // 슬라이드 이동시 개수
+            slideWidth: 1500, // 슬라이드 너비 수정
+            slideHeight: 1000, // 슬라이드 높이 수정
+            maxSlides: 3, // 최대 노출 개수 수정
+            slideMargin: 50, // 슬라이드간의 간격
+            auto: true, // 자동 실행 여부
+            autoHover: true, // 마우스 호버시 정지 여부
+            controls: true // 이전 다음 버튼 노출 여부
         });
     });
 </script>

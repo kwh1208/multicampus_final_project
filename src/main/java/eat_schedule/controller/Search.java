@@ -38,6 +38,8 @@ public class Search {
 
         model.addAttribute("promotionList", findPromotion(district));
 
+        model.addAttribute("category", category);
+
         model.addAttribute("region", CommonMapper.findArea());
 
         model.addAttribute("AllCategory", CommonMapper.findCategory());

@@ -8,4 +8,9 @@
 		join store s on s.seq=w.store_seq
 		where user_id=#{param1}
 	</select>
+    <select id="WishSelectSpecific" resultType="eat_schedule.dto.WishDTO">
+		select w.store_seq, w.avg_score, s.store_name, s.district, s.category, s.owner_comment from wish_list w
+		join store s on s.seq=w.store_seq
+		where user_id=#{param1} and w.store_seq=#{param2}
+	</select>
 </mapper>
