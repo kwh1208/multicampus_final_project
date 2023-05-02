@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ include file="/resources/header.jspf" %>
 
 <!DOCTYPE html>
 <html>
@@ -77,7 +78,12 @@ $(document).ready(function() {
     			<p class="menu-name">${menuList.menu_name}</p>
     			<p class="menu-price">${menuList.price}원</p>
   			</div>
+  			<c:if test="${!empty menuList.picture_location }">
   			<img class="menu-picture" src="${menuList.picture_location}" alt="${menuList.menu_name}">
+  			</c:if>
+  			<c:if test="${empty menuList.picture_location}">
+  			<img class="menu-picture" src="/imgbin/balloons.png" alt="빈사진">
+  			</c:if>
 		</div>
     </c:forEach>
     </div>

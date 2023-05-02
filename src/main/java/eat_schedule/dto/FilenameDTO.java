@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class FilenameDTO {
-	private int seq;
+	private Integer seq;
+	private Integer store_seq;
 	private String filename;
 }

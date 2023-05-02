@@ -6,7 +6,7 @@
 <head>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=발급받은카카오키&libraries=services"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ad43dcaa341623983b20d5ee0fc28465&libraries=services"></script>
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <title>가게수정페이지</title>
 <style>
@@ -101,10 +101,6 @@ form {
     padding: 20px;
     background-color: #fff;
   }
-  #map{
-  	width: 800px;
-  	height: 800px;
-  }
 
 </style>
 <script>
@@ -182,7 +178,7 @@ form {
       <input type="text" id="store_name" name="store_name" value="${store.store_name }" required>
       <label for="location">위치:</label>
       <input type="text" id="location" name="location" onkeyup="locationCheck()" value="${store.location }" required>
-      <div id="map" style="width:500px; height:400px;"></div>
+      <div id="map" style="width:720px; height:400px;"></div>
       <label for="district">구역:</label>
       <input type="text" id="district" name="district" value="${store.district }" required>
       <label for="tel_number">전화번호:</label>
@@ -199,19 +195,48 @@ form {
       <input type="text" id="close_time" name="close_time" value="${store.close_time }" required>
       <label for="how_to_come">찾아오는 길:</label>
       <textarea id="how_to_come" name="how_to_come">${store.how_to_come }</textarea>
-      바뀐것이 없더라도 기존것과 같이 체크해주시길 바랍니다.<br/><br/>
       <label for="parking">주차 가능 여부:</label>
-      <input type="checkbox" id="parking" name="parking" value="${store.parking }">
+      <c:if test="${store.parking==true }">
+      <input type="checkbox" id="parking" name="parking" value="${store.parking }" checked>
+      </c:if>
+      <c:if test="${store.parking!=true }">
+      <input type="checkbox" id="parking" name="parking" value="">
+      </c:if>
       <label for="wifi">와이파이 가능 여부:</label>
-      <input type="checkbox" id="wifi" name="wifi" value="${store.wifi }">
+      <c:if test="${store.wifi ==true }">
+      <input type="checkbox" id="wifi" name="wifi" value="${store.wifi }" checked>
+      </c:if>
+      <c:if test="${store.wifi !=true }">
+      <input type="checkbox" id="wifi" name="wifi" value="">
+      </c:if>
       <label for="animal">반려동물 출입 가능 여부:</label>
-      <input type="checkbox" id="animal" name="animal" value="${store.animal }">
+      <c:if test="${store.animal ==true }">
+      <input type="checkbox" id="animal" name="animal" value="${store.animal }" checked>
+      </c:if>
+      <c:if test="${store.animal !=true }">
+      <input type="checkbox" id="animal" name="animal" value="">
+      </c:if>
       <label for="group_customer">단체 좌석 제공 여부:</label>
-      <input type="checkbox" id="group_customer" name="group_customer" value="${store.group_customer }">
+      <c:if test="${store.group_customer  ==true }">
+      <input type="checkbox" id="group_customer" name="group_customer" value="${store.group_customer }" checked>
+      </c:if>
+      <c:if test="${store.group_customer  !=true }">
+      <input type="checkbox" id="group_customer" name="group_customer" value="">
+      </c:if>
       <label for="playroom">놀이방 유무:</label>
-      <input type="checkbox" id="playroom" name="playroom" value="${store.playroom }">
+      <c:if test="${store.group_customer  ==true }">
+      <input type="checkbox" id="playroom" name="playroom" value="${store.playroom }" checked>
+      </c:if>
+      <c:if test="${store.group_customer  !=true }">
+      <input type="checkbox" id="playroom" name="playroom" value="" >
+      </c:if>
       <label for="disabled">장애인 시설 유무:</label>
+      <c:if test="${store.disabled  ==true }">
+      <input type="checkbox" id="disabled" name="disabled" value="${store.disabled }" checked>
+      </c:if>
+      <c:if test="${store.disabled  !=true }">
       <input type="checkbox" id="disabled" name="disabled" value="${store.disabled }">
+      </c:if>
     </fieldset>
     <input type="submit" value="가게 정보 수정">
   </form>

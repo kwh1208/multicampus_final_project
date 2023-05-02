@@ -30,13 +30,28 @@
 	, email=#{email} where user_id=#{user_id} and user_password=#{user_password}
 </update>
 <select id="reviewSelect" resultType="eat_schedule.dto.ReviewDTO">
-	select seq, store_seq, user_id, owner_id, score, review, review_time, owner_comment, comment_time from review where store_seq=${param1}
+	select * from review where store_seq=${param1} order by seq desc
+</select>
+<select id="reviewOwnerCommentSelect" resultType="eat_schedule.dto.ReviewDTO">
+	select * from review where store_seq=${param1} and owner_comment is null order by seq desc
+</select>
+<select id="reviewCouponSelect" resultType="eat_schedule.dto.ReviewDTO">
+	select * from review where store_seq=${param1} and coupon_status=${param2} order by seq desc
+</select>
+<select id="storeScore" resultType="double">
+	select round(avg(score), 1) from review where store_seq=${param1};
 </select>
 <select id="reservationSelect" resultType="eat_schedule.dto.ReservationDTO">
-	select r.seq ,r.reservation_time, r.number_of_people, r.user_id, u.user_name, r.coupon, u.phone_number, u.email, r.reservation_status, r.reservation_comment
+	select r.seq ,r.reservation_time, r.number_of_people, r.user_id, u.user_name, r.coupon, u.phone_number, u.email, r.reservation_status, r.reservation_comment, r.visit_status
 		from reservation r
 		join user u on u.user_id=r.user_id
-		where r.store_seq=${param1};
+		where r.store_seq=${param1} order by r.seq desc;
+</select>
+<select id="reservationDateSelect" resultType="eat_schedule.dto.ReservationDTO">
+	select r.seq ,r.reservation_time, r.number_of_people, r.user_id, u.user_name, r.coupon, u.phone_number, u.email, r.reservation_status, r.reservation_comment, r.visit_status
+		from reservation r
+		join user u on u.user_id=r.user_id
+		where r.store_seq=${param1} and r.reservation_time like '%${param2}%' order by r.seq desc;
 </select>
 <insert id="couponGift">
 	insert into coupon(user_id, expired_period, discount_rate, store_seq)
@@ -58,7 +73,7 @@
 		where r.seq=${param1};
 </select>
 <update id="showCheck">
-	update reservation set visit_status=#{visit_status} where seq=${seq}
+	update reservation set reservation_status=#{reservation_status} where seq=${seq}
 </update>
 <update id="balloonGive">
 	update user set balloon=${param2} where user_id=#{param1}
@@ -70,7 +85,7 @@
 	update review set coupon_status=1 where seq=${param1}
 </update>
 <select id="noShowCheckNum" resultType="int">
-	select count(seq) from reservation where store_seq=${param1} and reservation_status="예약 완료" and visit_status="방문 미확인";
+	select count(seq) from reservation where store_seq=${param1} and reservation_status="예약 완료";
 </select>
 <insert id="menuInsert" parameterType="eat_schedule.dto.MenuDTO" useGeneratedKeys="true" keyProperty="seq">
 	insert into menu(store_seq, menu_name, price, category, information, picture_location)
@@ -97,4 +112,13 @@
 	update menu set menu_name=#{menu_name}, price=${price}, category=#{category}, information=#{information}, picture_location=#{picture_location}
 	where seq=${seq}
 </update>
+<insert id="pictureInsert">
+	insert into picture(store_seq, filename) values(${store_seq}, #{filename})
+</insert>
+<delete id="storeDelete">
+	delete from store where seq=${param1}
+</delete>
+<delete id="menuDelete">
+	delete from menu where seq=${param1}
+</delete>
 </mapper>

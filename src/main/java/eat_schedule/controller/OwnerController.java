@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -79,12 +80,20 @@ public class OwnerController {
 		return "ownerpage/ownerMyPage";
 	}
 	@GetMapping("reservation")
-	public String reservation(Model model, HttpSession session) {
+	public String reservation(Model model, HttpSession session, String date) {
 		//사장님 마이페이지 중 예약확인페이지
-		StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
-		List<ReservationDTO> reservation=service.reservationSelect((Integer)store.getSeq());
-		model.addAttribute("reservation", reservation);
-		return "ownerpage/reservation";
+		if(date!=null) {
+			StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
+			List<ReservationDTO> reservation=service.reservationDateSelect((Integer)store.getSeq(),date);
+			model.addAttribute("reservation", reservation);
+			return "ownerpage/reservation";
+		}else {
+			StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
+			List<ReservationDTO> reservation=service.reservationSelect((Integer)store.getSeq());
+			model.addAttribute("reservation", reservation);
+			return "ownerpage/reservation";
+		}
+		
 	}
 	@GetMapping("storeRegister")
 	public String storeRegister() {
@@ -93,8 +102,7 @@ public class OwnerController {
 	}
 	@GetMapping("menuRegister")
 	public String menuRegister() {
-		//사장님 마이페이지 중 가게등록 페이지
-		
+		//사장님 마이페이지 중 메뉴등록 페이지		
 		return "ownerpage/menuRegister";
 	}
 	@GetMapping("menuSelect")
@@ -111,6 +119,21 @@ public class OwnerController {
 		model.addAttribute("menu", menu);
 		return "ownerpage/menuEdit";
 	}
+	@PostMapping("menuDelete")
+	public ModelAndView menuDelete(@ModelAttribute("MenuDTO") MenuDTO menu, HttpSession session) {
+		ModelAndView mav= new ModelAndView();
+		int result=service.menuDelete(menu.getSeq());
+		if(result>0) {
+			List<MenuDTO> menuList=service.menuLoad((Integer)session.getAttribute("storeSeq"));
+			mav.addObject("menuList", menuList);
+			mav.setViewName("ownerpage/menuSelect");
+		}else {
+			mav.addObject("msg","가게등록실패!!");
+			mav.setViewName("ownerpage/failResult");
+		}
+		return mav;
+	}
+	
 	@PostMapping("storeRegisterOk")
 	public ModelAndView storeRegisterOk(HttpServletRequest req,@ModelAttribute("StoreDTO") StoreDTO store, HttpSession session){
 		int result=service.storeRegisterOk(store);
@@ -186,11 +209,23 @@ public class OwnerController {
 			}
 		}//if 업로드 파일이 있을때
 		//----------------------------------------------------------------
+		
 		ModelAndView mav=new ModelAndView();
-		store.setPicture_location(folderName);
-		System.out.println(store.getPicture_location());
-		int result2=service.pictureDirInsert(store);
-		if(result>0 && result2>0) {//가게등록 성공
+		for(FilenameDTO i : fileList) { //for문을 통한 전체출력
+			i.setStore_seq(store.getSeq());
+		    i.setFilename(folderName+"/"+i.getFilename());
+		    int result2=service.pictureInsert(i);
+		    if(result2>0) {		    	
+		    }
+		    else {
+				mav.addObject("msg","가게등록실패!!");
+				mav.setViewName("ownerpage/failResult");
+		    }
+		}
+//		store.setPicture_location(folderName+"/"+filename);
+//		System.out.println(store.getPicture_location());
+//		int result2=service.pictureDirInsert(store);
+		if(result>0) {//가게등록 성공
 			List<StoreDTO> store1=service.storeSelect((String)session.getAttribute("logId"));
 			mav.addObject("store", store1);
 			mav.setViewName("ownerpage/ownerStart");
@@ -453,15 +488,27 @@ public class OwnerController {
 			mav.setViewName("ownerpage/ownerMyPage");
 		}else{// 수정실패시 -> 이전페이지 (알림)
 			mav.addObject("msg","회원정보수정 실패!!");
-			mav.setViewName("register/failResult");
+			mav.setViewName("ownerpage/failResult");
 		}
 		return mav;
 	}
 	@GetMapping("commentManager")
-	public String commentmanager(Model model, HttpSession session) {
+	public String commentmanager(Model model, HttpSession session, String searchKey, String use) {
 		StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
+		double storeScore=service.storeScore((Integer)session.getAttribute("storeSeq"));
+		model.addAttribute("storeScore", storeScore);
+		if(searchKey!=null && use!=null) {
+			if(searchKey.equals("oc")) {
+				List<ReviewDTO> review=service.reviewOwnerCommentSelect((Integer)store.getSeq(), 1);
+				model.addAttribute("review", review);
+			}else {
+				List<ReviewDTO> review=service.reviewCouponSelect((Integer)store.getSeq(), 0);
+				model.addAttribute("review", review);
+			}
+		}else {
 		List<ReviewDTO> review=service.reviewSelect((Integer)store.getSeq());
 		model.addAttribute("review", review);
+		}
 		return "ownerpage/commentManager";
 	}
 	@GetMapping("advApply")
@@ -511,7 +558,7 @@ public class OwnerController {
 			mav.setViewName("ownerpage/ownerMyPage");
 		}else{// 수정실패시 -> 이전페이지 (알림)
 			mav.addObject("msg","쿠폰주기 실패!!");
-			mav.setViewName("register/failResult");
+			mav.setViewName("ownerpage/failResult");
 		}
 		return mav;
 	}
@@ -530,7 +577,7 @@ public class OwnerController {
 			mav.setViewName("ownerpage/ownerMyPage");
 		}else{// 수정실패시 -> 이전페이지 (알림)
 			mav.addObject("msg","댓글달기 실패!!");
-			mav.setViewName("register/failResult");
+			mav.setViewName("ownerpage/failResult");
 		}
 		return mav;
 	}
@@ -541,13 +588,15 @@ public class OwnerController {
         if(cnt>0){// 예약확인 완료
         	StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
 		    int reservationNoCheck=service.reservationNoCheck(store.getSeq());
+		    int noShowCheckNum=service.noShowCheckNum(store.getSeq());
 			List<StoreDTO> storeList=service.storeSelect((String)session.getAttribute("logId"));
 			mav.addObject("store", storeList);
 		    mav.addObject("reservationNoCheck", reservationNoCheck);
+		    mav.addObject("noShowCheckNum", noShowCheckNum);
 			mav.setViewName("ownerpage/ownerMyPage");
 		}else{// 수정실패시 -> 이전페이지 (알림)
 			mav.addObject("msg","예약확인 실패!!");
-			mav.setViewName("register/failResult");
+			mav.setViewName("ownerpage/failResult");
 		}
 		return mav;
 	}
@@ -565,10 +614,33 @@ public class OwnerController {
 			mav.setViewName("ownerpage/ownerMyPage");
 		}else{// 수정실패시 -> 이전페이지 (알림)
 			mav.addObject("msg","예약확인 실패!!");
-			mav.setViewName("register/failResult");
+			mav.setViewName("ownerpage/failResult");
 		}
 		return mav;
 	}
+	
+	@GetMapping("storeDelete")
+	public String alertMessage(Model model) {
+		model.addAttribute("msg", "정말삭제하시겠습니까?");
+		return "ownerpage/storeDelete";
+	}
+	
+	@GetMapping("storeDeleteOk")
+	public ModelAndView storeDeleteOk(Model model, HttpSession session) {
+		ModelAndView mav=new ModelAndView();
+		int cnt=service.storeDelete((Integer)session.getAttribute("storeSeq"));
+		if(cnt>0) {//가게등록 성공
+			List<StoreDTO> store1=service.storeSelect((String)session.getAttribute("logId"));
+			mav.addObject("store", store1);
+			mav.setViewName("ownerpage/ownerStart");
+		}else {//가게등록 실패
+			mav.addObject("msg","가게등록실패!!");
+			mav.setViewName("ownerpage/failResult");
+		}
+		return mav;
+	}
+	
+	
 	@GetMapping("reviewContent")
 	public ModelAndView reviewContent(Integer no) {
 		ModelAndView mav= new ModelAndView();
@@ -608,7 +680,7 @@ public class OwnerController {
 			mav.setViewName("ownerpage/ownerMyPage");
 		}else{// 수정실패시 -> 이전페이지 (알림)
 			mav.addObject("msg","방문확인 실패!!");
-			mav.setViewName("register/failResult");
+			mav.setViewName("ownerpage/failResult");
 		}
 		return mav;
 	}
@@ -627,7 +699,7 @@ public class OwnerController {
 			mav.setViewName("ownerpage/ownerMyPage");
 		}else{// 수정실패시 -> 이전페이지 (알림)
 			mav.addObject("msg","방문확인 실패!!");
-			mav.setViewName("register/failResult");
+			mav.setViewName("ownerpage/failResult");
 		}
 		return mav;
 	}
@@ -670,8 +742,8 @@ public class OwnerController {
 				//db select ( select amount from oder_table where merchant_uid = ?)
 				
 				//step5
-				String api_key ="";
-				String api_secret ="";
+				String api_key ="0768415534736602";
+				String api_secret ="qwDxOfUXWEt5zkWOFM2xm8rtTq8DTnhuB2jrFlfxEdwzozXOUlWSvblcmC3pHOnZq48OPRyyVYTycFtU";
 				
 				IamportClient ic=new IamportClient(api_key, api_secret);
 				IamportResponse<Payment> response = ic.paymentByImpUid(imp_uid);
@@ -696,8 +768,6 @@ public class OwnerController {
 		}
 		return new ResponseEntity<String>(responseObj.toString(), responseHeaders, HttpStatus.OK);
 	}
-	
-	
 //	//웹훅 수신 처리
 //	@PostMapping("/payment/webhook_receive")
 //	public ResponseEntity<?> webhook_recieve(@RequestBody Map<String, Object> model){

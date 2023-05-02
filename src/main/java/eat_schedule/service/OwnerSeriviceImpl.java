@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import eat_schedule.dto.StoreDTO;
 import eat_schedule.dto.BalloonDTO;
 import eat_schedule.dto.CouponDTO;
+import eat_schedule.dto.FilenameDTO;
 import eat_schedule.dto.MenuDTO;
 import eat_schedule.dto.PromotionListDTO;
 import eat_schedule.dto.RegisterDTO;
@@ -122,5 +123,33 @@ public class OwnerSeriviceImpl implements OwnerService {
 	@Override
 	public int menuEditOk(MenuDTO menu) {
 		return dao.menuEditOk(menu);
+	}
+	@Override
+	public int pictureInsert(FilenameDTO filename) {
+		return dao.pictureInsert(filename);
+	}
+	@Override
+	public int storeDelete(Integer seq) {
+		return dao.storeDelete(seq);
+	}
+	@Override
+	public int menuDelete(Integer seq) {
+		return dao.menuDelete(seq);
+	}
+	@Override
+	public List<ReservationDTO> reservationDateSelect(Integer store_seq, String date) {
+		return dao.reservationDateSelect(store_seq, date);
+	}
+	@Override
+	public List<ReviewDTO> reviewOwnerCommentSelect(Integer store_seq, Integer status) {
+		return dao.reviewOwnerCommentSelect(store_seq, status);
+	}
+	@Override
+	public List<ReviewDTO> reviewCouponSelect(Integer store_seq, Integer status) {
+		return dao.reviewCouponSelect(store_seq, status);
+	}
+	@Override
+	public double storeScore(Integer store_seq) {
+		return dao.storeScore(store_seq);
 	}
 }

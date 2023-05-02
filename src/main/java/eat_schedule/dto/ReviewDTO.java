@@ -2,6 +2,7 @@ package eat_schedule.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -18,7 +19,8 @@ public class ReviewDTO {
 	private String comment_time;
 
 	private Integer coupon_status;
-	
+	private String file_location;
+
 	private String store_name;
 
 }

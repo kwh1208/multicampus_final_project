@@ -6,6 +6,7 @@ import java.util.List;
 
 import eat_schedule.dto.BalloonDTO;
 import eat_schedule.dto.CouponDTO;
+import eat_schedule.dto.FilenameDTO;
 import eat_schedule.dto.MenuDTO;
 import eat_schedule.dto.PromotionListDTO;
 import eat_schedule.dto.RegisterDTO;
@@ -31,8 +32,16 @@ public interface OwnerService {
 	public int userInfoEditOk(RegisterDTO user);
 	//예약내역확인
 	public List<ReservationDTO> reservationSelect(Integer store_seq);
+	//예약내역날짜별확인
+	public List<ReservationDTO> reservationDateSelect(Integer store_seq, String date);
 	//리뷰내역확인
 	public List<ReviewDTO> reviewSelect(Integer store_seq);
+	//리뷰내역확인
+	public List<ReviewDTO> reviewOwnerCommentSelect(Integer store_seq, Integer status);
+	//리뷰내역확인
+	public List<ReviewDTO> reviewCouponSelect(Integer store_seq, Integer status);
+	//가게 리뷰 평균 별점
+	public double storeScore(Integer store_seq);
 	//쿠폰증정
 	public int couponGift(CouponDTO coupon);
 	//댓글남기기
@@ -65,4 +74,10 @@ public interface OwnerService {
 	public MenuDTO menuInfo(Integer menu_seq);
 	//메뉴 업데이트
 	public int menuEditOk(MenuDTO menu);
+	//파일명 넣기(경로넣기)
+	public int pictureInsert(FilenameDTO filename);
+	//가게삭제
+	public int storeDelete(Integer seq);
+	//메뉴삭제
+	public int menuDelete(Integer seq);
 }

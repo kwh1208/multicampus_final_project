@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ include file="/resources/header.jspf" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,6 +32,8 @@
 		background-color: #fff;
 		border-radius: 10px;
 		box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+		overflow: hidden;
+    	cursor: pointer;
 	}
 	.store_detail ul {
 			list-style:none;
@@ -48,20 +51,37 @@
 	a {
         text-decoration: none;
     }
+    .store_select_div .store_name{
+    	font-weight: bold;
+    	font-size: 20px;
+    }
+    .store_detail .store-picture{
+    	float: right;
+    	width: 120px;
+    	height: auto;
+    }
 
 </style>
+<script>
+$(document).ready(function() {
+	  $(".store_detail").click(function() {
+	    var storeSeq = $(this).data("seq"); // Retrieve the value of data-seq attribute
+	    var editPageUrl = "ownerMyPage?no=" + storeSeq; // Construct the URL for the edit page
+	    window.location.href = editPageUrl; // Redirect to the edit page
+	  });
+	});
+</script>
 </head>
 <body>
 	<div class="store_select_div">
 	<h1 id="store_select">나의 가게 목록</h1>
 	<c:if test="${store!=null }">
 	<c:forEach var="store" items="${store }">
-	<div class="store_detail">
+	<div class="store_detail" data-seq=${store.seq }>
+	<img class="store-picture" src="/imgbin/balloons.png">
 	<ul>
-	<li>가게번호: ${store.seq }</li>
-	<li>사장님 아이디: ${store.owner_id }</li>
+	<li class="store_name">가게이름: ${store.store_name}</li>
 	<li>지역: ${store.location }</li>
-	<li>가게이름: ${store.store_name}</li>
 	<li><a class="link-select" href="ownerMyPage?no=${store.seq}">가게 선택</a></li>
 	</ul>
 	</div>
