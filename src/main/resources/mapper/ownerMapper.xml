@@ -22,11 +22,11 @@
 	, how_to_come=#{how_to_come}, parking=#{parking}, wifi=#{wifi}, animal=#{animal}, group_customer=#{group_customer}, playroom=#{playroom}, disabled=#{disabled}, district=#{district} where seq=${seq}
 </update>
 <select id="userInfoEdit" resultType="eat_schedule.dto.RegisterDTO">
-	select user_id, user_password, user_name, nickname, is_owner, phone_number, address, gender, email, balloon, join_date from user
+	select user_id, user_password, user_name, nickname, is_owner, phone_number, gender, email, balloon, join_date from user
 	where user_id=#{param1}
 </select>
 <update id="userInfoEditOk">
-	update user set user_name=#{user_name}, nickname=#{nickname}, phone_number=#{phone_number}, address=#{address}
+	update user set user_name=#{user_name}, nickname=#{nickname}, phone_number=#{phone_number}
 	, email=#{email} where user_id=#{user_id} and user_password=#{user_password}
 </update>
 <select id="reviewSelect" resultType="eat_schedule.dto.ReviewDTO">
@@ -121,4 +121,7 @@
 <delete id="menuDelete">
 	delete from menu where seq=${param1}
 </delete>
+<select id="advList" resultType="eat_schedule.dto.PromotionListDTO">
+	select * from promotion_list where store_seq=${param1} order by seq desc
+</select>
 </mapper>

@@ -80,4 +80,6 @@ public interface OwnerService {
 	public int storeDelete(Integer seq);
 	//메뉴삭제
 	public int menuDelete(Integer seq);
+	//광고리스트 사장님 확인
+	public List<PromotionListDTO> advList(Integer store_seq);
 }

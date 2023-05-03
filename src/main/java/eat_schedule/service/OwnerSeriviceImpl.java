@@ -152,4 +152,8 @@ public class OwnerSeriviceImpl implements OwnerService {
 	public double storeScore(Integer store_seq) {
 		return dao.storeScore(store_seq);
 	}
+	@Override
+	public List<PromotionListDTO> advList(Integer store_seq) {
+		return dao.advList(store_seq);
+	}
 }

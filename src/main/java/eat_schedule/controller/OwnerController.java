@@ -519,6 +519,16 @@ public class OwnerController {
 		model.addAttribute("user", user);
 		return "ownerpage/advApply";
 	}
+	@GetMapping("advList")
+	public String advList(HttpSession session, Model model) {
+		StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
+		model.addAttribute("store", store);
+		RegisterDTO user=service.userInfoEdit((String)session.getAttribute("logId"));
+		model.addAttribute("user", user);
+		List<PromotionListDTO> promotion=service.advList((Integer)session.getAttribute("storeSeq"));
+		model.addAttribute("promotion", promotion);
+		return "ownerpage/advList";
+	}
 	@PostMapping("couponGift")
 	public ModelAndView couponGift(@ModelAttribute("CouponDTO") CouponDTO coupon, HttpSession session) throws ParseException {
 		ModelAndView mav= new ModelAndView();
@@ -703,6 +713,7 @@ public class OwnerController {
 		}
 		return mav;
 	}
+	
 
 	@PostMapping("/payment/callback_receive")
 	public ResponseEntity<?> callback_recieve(@RequestBody Map<String, Object> model, HttpSession session){
@@ -768,6 +779,8 @@ public class OwnerController {
 		}
 		return new ResponseEntity<String>(responseObj.toString(), responseHeaders, HttpStatus.OK);
 	}
+	
+	
 //	//웹훅 수신 처리
 //	@PostMapping("/payment/webhook_receive")
 //	public ResponseEntity<?> webhook_recieve(@RequestBody Map<String, Object> model){

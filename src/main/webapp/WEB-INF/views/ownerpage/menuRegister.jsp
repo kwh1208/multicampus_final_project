@@ -85,14 +85,14 @@
   		}
 </style>
 <script>
-//		$(document).on('click', '#menuForm input[value=" + "]', function(){
-//		    $(this).parent().parent().after('<div><ul><li>메뉴 이름:</li><li><input type="text" name="menu_name" id="menu_name"></li><li>가격</li><li><input type="number" name="price" id="price" step="100"></li><li>카테고리</li><li><input type="text" name="category" id="category"></li><li>음식 정보</li><li><input type="text" name="information" id="information"></li><li><label for="filename">메뉴 사진:</label></li><li><input type="file" id="filename" name="filename"></li><li><input type="button" value=" + "></li></ul></div>');
-//		    $(this).val(" - ");
-//		});
+		$(document).on('click', '#menuForm input[value=" + "]', function(){
+		    $(this).parent().parent().after('<div><ul><li>메뉴 이름:</li><li><input type="text" name="menu_name" id="menu_name"></li><li>가격</li><li><input type="number" name="price" id="price" step="100"></li><li>카테고리</li><li><input type="text" name="category" id="category"></li><li>음식 정보</li><li><input type="text" name="information" id="information"></li><li><label for="filename">메뉴 사진:</label></li><li><input type="file" id="filename" name="filename"></li><li><input type="button" value=" + "></li></ul></div>');
+		    $(this).val(" - ");
+		});
 		
-//		$(document).on('click', '#menuForm input[value=" - "]',function(){
-//		    $(this).parent().parent().remove();
-//		});
+ 	    $(document).on('click', '#menuForm input[value=" - "]',function(){
+		    $(this).parent().parent().remove();
+		});
 </script>
 </head>
 <body>

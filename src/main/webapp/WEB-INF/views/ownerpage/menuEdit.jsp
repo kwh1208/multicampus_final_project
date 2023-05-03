@@ -99,7 +99,7 @@
 		<li>가격</li>
 		<li><input type="number" name="price" id="price" step="100" value="${menu.price }" required></li>
 		<li>카테고리</li>
-		<li><input type="text" name="category" id="category" value="${menu.category }" required></li>
+		<li><input type="text" name="category" id="category" value="${menu.category }"></li>
 		<li>음식 정보</li>
 		<li><input type="text" name="information" id="information" value="${menu.information }"></li>
 		<li><label for="filename">메뉴 사진:</label></li>
