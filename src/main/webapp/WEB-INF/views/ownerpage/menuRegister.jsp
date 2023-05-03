@@ -112,7 +112,6 @@
 		<li>
 			<input type="file" id="filename" name="filename">
 		</li>
-		<li><input type="button" value=" + "></li>
 		</ul>
 		</div>
 	 <input type="submit" value="메뉴 등록">
