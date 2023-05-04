@@ -1,5 +1,6 @@
 package eat_schedule.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -155,5 +156,9 @@ public class OwnerSeriviceImpl implements OwnerService {
 	@Override
 	public List<PromotionListDTO> advList(Integer store_seq) {
 		return dao.advList(store_seq);
+	}
+	@Override
+	public int menuInsertMap(HashMap<String, Object> map) {
+		return dao.menuInsertMap(map);
 	}
 }

@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -222,9 +223,7 @@ public class OwnerController {
 				mav.setViewName("ownerpage/failResult");
 		    }
 		}
-//		store.setPicture_location(folderName+"/"+filename);
-//		System.out.println(store.getPicture_location());
-//		int result2=service.pictureDirInsert(store);
+
 		if(result>0) {//가게등록 성공
 			List<StoreDTO> store1=service.storeSelect((String)session.getAttribute("logId"));
 			mav.addObject("store", store1);
@@ -251,7 +250,6 @@ public class OwnerController {
 		//3. 파일을 서버에 업로드할 위치의 절대주소가 필요하다.
 		String folderName="/storeuploadfile/store"+(Integer)session.getAttribute("storeSeq")+"/menupicture";
 		String path=req.getSession().getServletContext().getRealPath(folderName);
-		System.out.println("path->"+path);
 		
 		Path directoryPath = Paths.get(path);
 		
@@ -259,7 +257,6 @@ public class OwnerController {
             // 디렉토리 생성
             Files.createDirectories(directoryPath);
  
-            System.out.println(directoryPath + " 디렉토리가 생성되었습니다.");
  
         }catch (IOException e) {
             e.printStackTrace();
@@ -331,6 +328,111 @@ public class OwnerController {
 		return mav;
 	}
 	
+	@PostMapping("menuRegistertestOk")
+	public ModelAndView menuRegistertestOk(HttpServletRequest req,@ModelAttribute("MenuDTO") MenuDTO menu, HttpSession session){
+		//request: 폼의 데이터들과 첨부파일이 있다.
+		ModelAndView mav= new ModelAndView();
+		//MultiPartHttpServletRequest <- request이용하여 구한다.
+		
+		//1. 파일업로드
+		MultipartHttpServletRequest mr=(MultipartHttpServletRequest)req;
+		
+		//2. mr에서 MultipartFile 객체를 얻어오기 (업로드한 파일의 수만큼 있다.)
+		List<MultipartFile> files= mr.getFiles("filename");
+		
+		//3. 파일을 서버에 업로드할 위치의 절대주소가 필요하다.
+		String folderName="/storeuploadfile/store"+(Integer)session.getAttribute("storeSeq")+"/menupicture";
+		String path=req.getSession().getServletContext().getRealPath(folderName);
+		
+		
+		Path directoryPath = Paths.get(path);
+		
+		try {
+            // 디렉토리 생성
+            Files.createDirectories(directoryPath);
+ 
+ 
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+		
+		//-------업로드 시작 -> 같은 파일이 존재할 때 파일명을 만들어 주어야 한다. ------
+		List<FilenameDTO> fileList = new ArrayList<FilenameDTO>();
+		if(files!=null){//업로드 파일이 있을때
+		
+			for(int i=0; i<files.size(); i++){//업로드한 파일의 수만큼 반복수행
+				MultipartFile mf = files.get(i);
+				
+				String orgFilename = mf.getOriginalFilename();//클라이언트가 업로드한 원래 파일명을 구한다.
+				if(orgFilename !=null && !orgFilename.equals("")) {
+					//파일객체가 있는지 확인후 같은 파일이 있으면 파일명을 변경한다.
+					File f = new File(path, orgFilename);
+					
+					if(f.exists()) {// file 있으면 true, 없으면 false
+						//    a.gif -> a(1).gif ->a(2).gif -> ...
+						for(int renameNum=1;;renameNum++) {// 1,2,3,4......
+							// 파일명, 확장자를 나눈다.
+							// 마지막 .의 위치구한다.
+							int point = orgFilename.lastIndexOf(".");
+							String orgFile = orgFilename.substring(0, point);// 확장자 뺀 파일명
+							String orgExt = orgFilename.substring(point+1);// 확장자 gif
+							
+							String newFilename= orgFile+" ("+renameNum+")."+orgExt; //새로만드는 파일명
+							f = new File(path, newFilename);
+							if(!f.exists()) {// 새로만들 파일이 존재하지 않으면 반복문 중단
+								orgFilename= newFilename;
+								break;
+							}
+						}//for
+						//새로운 파일명을 찾았을때
+						//업로드 수행, 파일명보관
+						
+					}// if -> f.exists()
+					try {
+						mf.transferTo(new File(path, orgFilename));
+					} catch(Exception e) {}
+					
+					FilenameDTO fnDTO=new FilenameDTO();
+					fnDTO.setFilename(orgFilename);
+					fileList.add(fnDTO);
+				}//if->rename
+			}
+		}//if 업로드 파일이 있을때
+		//----------------------------------------------------------------
+		
+		try {
+			HashMap<String , Object> map = new HashMap<String , Object>();
+			map.put("store_seq", (Integer)session.getAttribute("storeSeq"));
+			map.put("menu_name", menu.getMenu_name());
+			map.put("price", menu.getPrice());
+			map.put("category", menu.getCategory());
+			map.put("information", menu.getInformation());
+			String fileName=fileList.get(0).getFilename();
+			map.put("picture_location", folderName+"/"+fileName);
+			
+			int result = service.menuInsertMap(map);
+			if(result>0) {
+				StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
+				List<StoreDTO> storeList=service.storeSelect((String)session.getAttribute("logId"));
+				mav.addObject("store", storeList);
+				int reservationNoCheck=service.reservationNoCheck(store.getSeq());
+			    int noShowCheckNum=service.noShowCheckNum(store.getSeq());
+			    mav.addObject("reservationNoCheck", reservationNoCheck);
+			    mav.addObject("noShowCheckNum", noShowCheckNum);
+				mav.setViewName("ownerpage/ownerMyPage");
+			}else {
+				mav.addObject("msg","가게등록실패!!");
+				mav.setViewName("ownerpage/failResult");
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return mav;
+	}
+	
 	// 업로드 파일 삭제
 	public void fileDelete(String path, String filename) {
 		File f = new File(path, filename);
@@ -355,7 +457,6 @@ public class OwnerController {
 			//3. 파일을 서버에 업로드할 위치의 절대주소가 필요하다.
 			String folderName="/storeuploadfile/store"+(Integer)session.getAttribute("storeSeq")+"/menupicture";
 			String path=req.getSession().getServletContext().getRealPath(folderName);
-			System.out.println("path->"+path);
 			
 			Path directoryPath = Paths.get(path);
 			
@@ -363,7 +464,6 @@ public class OwnerController {
 	            // 디렉토리 생성
 	            Files.createDirectories(directoryPath);
 	 
-	            System.out.println(directoryPath + " 디렉토리가 생성되었습니다.");
 	 
 	        }catch (IOException e) {
 	            e.printStackTrace();
@@ -651,36 +751,19 @@ public class OwnerController {
 	}
 	
 	
-	@GetMapping("reviewContent")
-	public ModelAndView reviewContent(Integer no) {
-		ModelAndView mav= new ModelAndView();
-		ReviewDTO review=service.reviewSelectDetail(no);
-		mav.addObject("reviewDetail", review);
-		mav.setViewName("ownerpage/reviewContent");
-		return mav;
-	}
-	@GetMapping("reservationDetail")
-	public ModelAndView reservationDetail(Integer no) {
-		ModelAndView mav= new ModelAndView();
-		ReservationDTO reservation=service.reservationSelectDetail(no);
-		mav.addObject("reservationDetail", reservation);
-		mav.setViewName("ownerpage/reservationDetail");
-		return mav;
-	}
 	@PostMapping("showCheckOk")
 	public ModelAndView showCheckOk(@ModelAttribute("ReservationDTO") ReservationDTO reservation, HttpSession session) {
 		ModelAndView mav= new ModelAndView();
 		BalloonDTO bDTO = new BalloonDTO();
+		StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
         int cnt=service.showCheck(reservation);
         int balloon=service.balloonNowNumber(reservation.getUser_id());
         int new_balloon=balloon+8;
         bDTO.setUser_id(reservation.getUser_id());
-        bDTO.setStore_seq((Integer)session.getAttribute("storeSeq"));
-        bDTO.setTotal_balloon(new_balloon);
+        bDTO.setContent(store.getStore_name()+" 방문 확인");      
         int cnt2=service.balloonGive(reservation.getUser_id(), new_balloon);
         int cnt3=service.balloonListUpdate(bDTO);
         if(cnt2>0 && cnt>0 && cnt3>0){// 확인 완료
-        	StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
         	int reservationNoCheck=service.reservationNoCheck(store.getSeq());
 		    int noShowCheckNum=service.noShowCheckNum(store.getSeq());
 			List<StoreDTO> storeList=service.storeSelect((String)session.getAttribute("logId"));

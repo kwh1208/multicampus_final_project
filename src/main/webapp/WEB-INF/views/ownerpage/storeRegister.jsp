@@ -10,6 +10,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>가게등록페이지</title>
 <style>
+h1{
+    text-align:center;
+    color:#696969;
+    margin-top:100px;
+}
 form {
     max-width: 800px;
     margin: 0 auto;
@@ -20,7 +25,7 @@ form {
   
   #main-subject {
     text-align: center;
-    margin-top: 100px;
+    margin-top: 10px;
     margin-bottom: 20px;
   }
   
@@ -96,7 +101,10 @@ form {
     background-color: #C65800;
   }
 
-  #main-title,
+  #main-title{
+  width:800px; 
+  margin:100px auto 10px auto;
+  }
   #file-upload
   {
     max-width: 800px;

@@ -10,6 +10,11 @@
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <title>가게수정페이지</title>
 <style>
+h1{
+margin-top:50px;
+text-align:center;
+    color:#696969;
+}
 form {
     max-width: 800px;
     margin: 0 auto;

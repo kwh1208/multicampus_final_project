@@ -9,8 +9,9 @@
     <title>예약확인페이지</title>
     <style>
     h1{
+    text-align:center;
+    color:#696969;
     margin-top:100px;
-    text-align: center;
     }
     h3{
 		color: #FF7100;
@@ -88,7 +89,7 @@ input[type="date"] {
     </style>
 </head>
 <body>
-	<h1>가게예약내역 확인</h1>
+	<h1>광고내역 확인</h1>
 	<c:if test="${empty promotion }">
 	<h1>광고내역이 없습니다.</h1>
 	</c:if>

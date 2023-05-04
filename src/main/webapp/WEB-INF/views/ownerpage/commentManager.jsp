@@ -53,9 +53,9 @@
   cursor: pointer;
 }
     h1 {
-   		text-align: center;
-  		margin-top: 100px;
-   		margin-bottom: 20px;
+   		    text-align:center;
+    		color:#696969;
+    		margin-top:100px;
  		}
     .container {
             max-width: 960px;

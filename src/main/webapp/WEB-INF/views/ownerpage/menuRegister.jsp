@@ -15,9 +15,9 @@
 			color: #333;
 		}
 		h1 {
-   			 text-align: center;
-  			  margin-top: 100px;
-   			 margin-bottom: 20px;
+   			 text-align:center;
+    color:#696969;
+    margin-top:100px;
  			 }
 		form {
 			max-width: 800px;
@@ -97,7 +97,7 @@
 </head>
 <body>
 	<div id="menu_title"><h1>메뉴등록</h1></div>
-	<form action="menuRegisterOk" ModelAttribute="MenuDTO" id="menuForm" method="post" enctype="multipart/form-data">
+	<form action="menuRegistertestOk" ModelAttribute="MenuDTO" id="menuForm" method="post" enctype="multipart/form-data">
 	<div>
 	<ul>
 		<li>메뉴 이름:</li>
@@ -112,7 +112,7 @@
 		<li>
 			<input type="file" id="filename" name="filename">
 		</li>
-		<li><input type="button" value=" + "></li>
+<!--	<li><input type="button" value=" + "></li> -->
 		</ul>
 		</div>
 	 <input type="submit" value="메뉴 등록">

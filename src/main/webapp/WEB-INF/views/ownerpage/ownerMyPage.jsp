@@ -23,12 +23,12 @@ body{
       
       .all-menu{
       	background-color: #F8F8F8;
-        max-width: 1200px;
+        max-width: 1500px;
         margin: 0 auto; 
       }
       .wrap{
         background-color: #F8F8F8; 
-        margin-top: 60px;
+        margin-top: 5px;
       }
       /*이름있는박스*/
       .topContainer{  

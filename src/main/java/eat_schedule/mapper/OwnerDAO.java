@@ -1,5 +1,6 @@
 package eat_schedule.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -84,4 +85,6 @@ public interface OwnerDAO {
 	public int menuDelete(Integer seq);
 	//광고리스트 사장님 확인
 	public List<PromotionListDTO> advList(Integer store_seq);
+	//메뉴등록 여러개
+	public int menuInsertMap(HashMap<String, Object> map);
 }

@@ -15,9 +15,9 @@
 			color: #333;
 		}
 		h1 {
-   			 text-align: center;
-  			  margin-top: 100px;
-   			 margin-bottom: 20px;
+    		text-align:center;
+   			color:#696969;
+    		margin-top:100px;
  			 }
 		form {
 			max-width: 800px;

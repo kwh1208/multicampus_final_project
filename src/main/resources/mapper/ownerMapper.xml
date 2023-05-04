@@ -91,12 +91,16 @@
 	insert into menu(store_seq, menu_name, price, category, information, picture_location)
 	values(${store_seq}, #{menu_name}, ${price}, #{category}, #{information}, #{picture_location})
 </insert>
+<insert id="menuInsertMap" parameterType="java.util.HashMap">
+	insert into menu(store_seq, menu_name, price, category, information, picture_location)
+	values(${store_seq}, #{menu_name}, ${price}, #{category}, #{information}, #{picture_location})
+</insert>
 <update id="pictureDirInsert">
 	update store set picture_location=#{picture_location} where seq=${seq}
 </update>
 <insert id="balloonListUpdate">
-	insert into balloon(user_id, store_seq, use_get, use_get_time, balloon, total_balloon, content)
-	values(#{user_id}, ${store_seq}, 1, now(), 8, ${total_balloon}, "적립(방문 확인)")
+	insert into balloon(user_id, use_get_time, balloon, content)
+	values(#{user_id}, now(), 8, #{content})
 </insert>
 <insert id="promotionInsert">
 	insert into promotion_list(store_seq, owner_id, list_date, district)
@@ -122,6 +126,6 @@
 	delete from menu where seq=${param1}
 </delete>
 <select id="advList" resultType="eat_schedule.dto.PromotionListDTO">
-	select * from promotion_list where store_seq=${param1} order by seq desc
+	select * from promotion_list where store_seq=${param1} order by list_date desc
 </select>
 </mapper>

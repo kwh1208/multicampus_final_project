@@ -2,6 +2,7 @@ package eat_schedule.service;
 
 import eat_schedule.dto.StoreDTO;
 
+import java.util.HashMap;
 import java.util.List;
 
 import eat_schedule.dto.BalloonDTO;
@@ -82,4 +83,6 @@ public interface OwnerService {
 	public int menuDelete(Integer seq);
 	//광고리스트 사장님 확인
 	public List<PromotionListDTO> advList(Integer store_seq);
+	//메뉴등록 여러개
+	public int menuInsertMap(HashMap<String, Object> map);
 }
