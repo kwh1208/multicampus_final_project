@@ -154,8 +154,8 @@
 			alert('전화번호를 확인해주세요 ! ');
 		}else{
 			if(!randomNum){
-				//randomNum = Math.floor(Math.random() * 900000) + 100000;
-				randomNum = 000000;
+				randomNum = Math.floor(Math.random() * 900000) + 100000;
+				
 				var url = "smssend";
 			   
 		       $.ajax({
