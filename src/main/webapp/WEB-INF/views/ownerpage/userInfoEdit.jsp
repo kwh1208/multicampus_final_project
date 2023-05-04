@@ -82,10 +82,10 @@
 			var pass_chk_val = $('#user_password_chk').val();
 			var nickname_val = $('#nickname').val();
 	        var phone_val = $('#phone_number').val().replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
-	        var address_val = $('#address').val();
+
 	        
 	        if(id_val=="" || pass_val=="" || pass_chk_val=="" || name_val=="" || nickname_val=="" || 
-	        		  email_val=="" || phone_val=="" || address_val==""){
+	        		  email_val=="" || phone_val==""){
 	        	  alert("모든 항목을 입력해주세요.");
 	        	  return;
 	          }
@@ -181,13 +181,6 @@
 			<div class="title">이메일</div>
 		</div>
 		<div><input type="text" name="email" id="email" value="${user.email }"/></div>
-		<div class="title_wrap">
-			<div class="dot">*</div>
-			<div class="title">주소</div>
-		</div>
-		<div>
-			<input type="text" id="address" name="address" class="" placeholder="주소" value="${user.address}" onkeyup="keyevent(this)" autocomplete='off'/>
-		</div>
 		<div>
 		<input type="submit" class="edit_btn" value="회원정보수정" onclick="edit_event()"/>
 		</div>

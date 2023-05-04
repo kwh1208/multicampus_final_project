@@ -95,5 +95,18 @@
 			<li>5. 상점에서 구매하신 쿠폰의 유효기간은 구매하신 날로부터 1달입니다.</li>
 		</ol>
 	</div>
+	
+	<div id="footer" style="width:100%; height:250px; background:rgb(49,55,63); bottom:0; margin-top:100px; font-size:14px;">
+		<div style="color:#fff;"><img src="/img/logo_r.png" style="width:90px; height:45px; margin-top:30px; margin-left:20px;"> | 개인정보처리방침 | 이용약관</div>
+		<div style="color:#fff; margin-top:40px; margin-left:20px;">
+			(주)먹스케쥴 [mukschedule@gmail.com]<br/>
+			<p style="margin-bottom:5px;">Developers<br/></p>
+			<a href="https://github.com/kwh1208">Kwon woohyun</a> | 
+			<a href="https://github.com/yongtae">Kim yongtae</a> | 
+			<a href="https://github.com/soomin">Cheon soomin</a> | 
+			<a href="https://github.com/wldbs98">Hyun Jiyoon</a>
+		</div>
+	</div>
+	
 </body>
 </html>

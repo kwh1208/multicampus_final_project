@@ -10,7 +10,7 @@
 <style>
 	.store_select_div{
 		max-width: 800px;
-    	margin: 0 auto;
+    	margin:50px auto 10px auto;
     	padding: 20px;
     	background-color: #fff;
     	border-radius: 10px;
@@ -22,9 +22,9 @@
 		color: #C65800; 
 	}
 	#store_select{
-	   	text-align: center;
-  		margin-top: 100px;
-   		margin-bottom: 20px;
+	text-align:center;
+    color:#696969;
+    margin-top:1px;
 	}
 	.store_detail{
 		max-width: 800px;

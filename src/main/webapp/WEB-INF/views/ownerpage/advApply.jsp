@@ -18,8 +18,9 @@
 	  background-color: #f9f9f9;
 	}
 	h1{
-	margin-top:100px;
-	text-align:center;
+	    text-align:center;
+    	color:#696969;
+    	margin-top:100px;
 	}
 	
 	.advall {
@@ -168,7 +169,6 @@
 		<div class="advall">광고 날짜 선택</div>
 		<div class="divall">광고 비용 : 1000원</div>
 		<input type="date" id="list_date" name="list_date"/>
-		<button type="button" onClick="payment('kcp')">kcp 결제</button>
 		<button type="button" onClick="payment('inicis')">inicis 결제</button>
 	</div>
 </body>

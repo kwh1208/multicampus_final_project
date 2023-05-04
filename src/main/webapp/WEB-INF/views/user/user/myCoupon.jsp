@@ -4,20 +4,16 @@
 <%@ include file="/resources/header.jspf" %>
 <style>
 h1{
-	font-size:30px;
-	color:#FF7100;
-	margin-bottom:50px;
 	text-align:center;
+	color:#696969;
+	margin-top:100px;
 }
-/*body, ul, li{
-	padding:0;
-	margin:0;
-	list-style-type:none;
-}*/
-
+.coupon{
+	max-width: 1200px;
+	margin : 0 auto;
+}
 .wrap{
 	float:left;
-	max-width: 1200px;
 	width:400px;
 	height:150px;
 	border : 1px solid #c0c0c0;
@@ -26,7 +22,7 @@ h1{
 	box-shadow:0 4px 6px 0 rgba(0,0,0,0.2);
 	position:relative;
 	background:linear-gradient(90deg, #ffffff 65%, #FF7100 35%);
-	margin:50px 50px 100px 50px;
+	margin:50px 50px;
 }
 .wrap::after {
   position: absolute;
@@ -67,6 +63,8 @@ h1{
 }
 </style>
 <h1>쿠폰 내역</h1>
+<div style="border-top:1px solid #ddd; width:1200px; margin:0 auto 100px auto; "></div>
+<div class="coupon">
 <c:forEach var="c" items="${list }">
 <jsp:useBean id="now" class="java.util.Date"/>
 <fmt:parseDate var="exTime" value="${c.expired_period }" pattern="yyyy-MM-dd"/>
@@ -76,7 +74,7 @@ h1{
 		location.href = "couponDel?no=${c.seq}";
 	}
 </script>
-
+<div class="coupon">
 <div class="wrap">
 	<div class="coupon_wrap">
 		<div class="left">
@@ -91,7 +89,9 @@ h1{
 		</c:if>
 	</div>
 </div>
+</div>
 </c:forEach>
+</div>
 
 
 

@@ -12,15 +12,10 @@ public class ReviewDTO {
 	private String user_id;
 	private String owner_id;
 	private Integer score;
-	//라디오버튼 스트링으로 받아야함
 	private String review;
 	private String review_time;
 	private String owner_comment;
 	private String comment_time;
-
 	private Integer coupon_status;
 	private String file_location;
-
-	private String store_name;
-
 }

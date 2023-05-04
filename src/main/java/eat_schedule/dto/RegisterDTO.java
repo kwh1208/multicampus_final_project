@@ -9,11 +9,11 @@ public class RegisterDTO {
 	private String user_name;
 	private String user_id;
     private String user_password;
-    private int gender; 
+    private Integer gender;
     private String nickname;
-    private int is_owner;
+    private Integer is_owner;
     private String phone_number;
     private String email;
-    private int balloon;
+    private Integer balloon;
     private String joindate;
 }

@@ -23,7 +23,7 @@
  		select rpad(substr(user_password,1,length(user_password)/2),length(user_password),'*') user_password from user where user_name=#{param1} and email=#{param2} and user_id=#{param3}
  	</select>
  	<insert id="balloonGetInsert">
- 		insert into balloon(user_id, use_get, use_get_time, balloon, total_balloon, content)
- 		values(#{user_id}, 1, NOW(), 15, 15, "회원가입")
+ 		insert into balloon(user_id, use_get_time, balloon, content)
+ 		values(#{user_id}, NOW(), 15, "회원가입")
  	</insert>
 </mapper>

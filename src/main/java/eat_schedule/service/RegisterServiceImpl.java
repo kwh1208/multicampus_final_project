@@ -37,10 +37,6 @@ public class RegisterServiceImpl implements RegisterService {
 		return dao.registerInsert(dto);
 	}
 
-	@Override
-	public int phoneCheckCount(String phone_number) {
-		return dao.phoneCheckCount(phone_number);
-	}
 
 	@Override
 	public String idSearch(String username, String email) {

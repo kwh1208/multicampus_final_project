@@ -13,8 +13,9 @@
     margin: 0;
   }
 	h1 {
-	text-align: center;
-	margin-top: 100px;
+	    text-align:center;
+    	color:#696969;
+    	margin-top:100px;
 	}
   .all-box {
     max-width: 800px;

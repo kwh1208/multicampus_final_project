@@ -188,11 +188,11 @@ $(document).ready(function() { // document ready function
 	         processData: false,
 	         contentType: false,
 	         success: function(data) {    /* ajax 요청 Success 시 , 발생되는 func */
-	         	alert('1:1문의가 등록되었습니다.');
+	         	suc();
 	         },
 	         beforeSend:function(data){ /* ajax send 시 , 발생되는 func || mask처리 */
-	               var pop     = document.getElementById("maskPop");
-	               var mask     = document.getElementById("mask");
+	             var pop     = document.getElementById("maskPop");
+	             var mask     = document.getElementById("mask");
 	             maskPop.style.display = 'flex';
 	             mask.style.display = 'block';
 	         },
@@ -201,7 +201,6 @@ $(document).ready(function() { // document ready function
 	            var mask  = document.getElementById("mask");
 	            maskPop.style.display = 'none';
 	            mask.style.display = 'none';
-	            location.reload(); 
 	         },
 	         error: function(data) { /* ajax 요청 Fail 시 , 발생되는 func */
 	            alert('통신 과정에서 오류가 발생하였습니다.\n다시 시도해주세요 !');
@@ -209,12 +208,17 @@ $(document).ready(function() { // document ready function
 	      }); 
 	    }
 	   
-	
+	   // 작성 취소
 	   function cancel() {
 		   // alert 창 띄우기
 		   alert("작성을 취소하시겠습니까?");
 		   // 이전 페이지로 돌아가기
 		   window.location.href="/board/inquiry";
+	   }
+	   // 성공
+	   function suc(){
+		   alert('1:1문의가 등록되었습니다.');
+		   window.location.href="/board/inquiryList";
 	   }
 
 </script>
@@ -254,6 +258,18 @@ $(document).ready(function() { // document ready function
 				</li>
 			</ul>
 		</form>
+		</div>
+	</div>
+	
+	<div id="footer" style="width:100%; height:250px; background:rgb(49,55,63); bottom:0; margin-top:100px; font-size:14px;">
+		<div style="color:#fff;"><img src="/img/logo_r.png" style="width:90px; height:45px; margin-top:30px; margin-left:20px;"> | 개인정보처리방침 | 이용약관</div>
+		<div style="color:#fff; margin-top:40px; margin-left:20px;">
+			(주)먹스케쥴 [mukschedule@gmail.com]<br/>
+			<p style="margin-bottom:5px;">Developers<br/></p>
+			<a href="https://github.com/kwh1208">Kwon woohyun</a> | 
+			<a href="https://github.com/yongtae">Kim yongtae</a> | 
+			<a href="https://github.com/soomin">Cheon soomin</a> | 
+			<a href="https://github.com/wldbs98">Hyun Jiyoon</a>
 		</div>
 	</div>
 	</body>

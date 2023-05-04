@@ -22,11 +22,11 @@
 	, how_to_come=#{how_to_come}, parking=#{parking}, wifi=#{wifi}, animal=#{animal}, group_customer=#{group_customer}, playroom=#{playroom}, disabled=#{disabled}, district=#{district} where seq=${seq}
 </update>
 <select id="userInfoEdit" resultType="eat_schedule.dto.RegisterDTO">
-	select user_id, user_password, user_name, nickname, is_owner, phone_number, address, gender, email, balloon, join_date from user
+	select user_id, user_password, user_name, nickname, is_owner, phone_number, gender, email, balloon, join_date from user
 	where user_id=#{param1}
 </select>
 <update id="userInfoEditOk">
-	update user set user_name=#{user_name}, nickname=#{nickname}, phone_number=#{phone_number}, address=#{address}
+	update user set user_name=#{user_name}, nickname=#{nickname}, phone_number=#{phone_number}
 	, email=#{email} where user_id=#{user_id} and user_password=#{user_password}
 </update>
 <select id="reviewSelect" resultType="eat_schedule.dto.ReviewDTO">
@@ -38,7 +38,7 @@
 <select id="reviewCouponSelect" resultType="eat_schedule.dto.ReviewDTO">
 	select * from review where store_seq=${param1} and coupon_status=${param2} order by seq desc
 </select>
-<select id="storeScore" resultType="double">
+<select id="storeScore" resultType="Double">
 	select round(avg(score), 1) from review where store_seq=${param1};
 </select>
 <select id="reservationSelect" resultType="eat_schedule.dto.ReservationDTO">
@@ -91,12 +91,16 @@
 	insert into menu(store_seq, menu_name, price, category, information, picture_location)
 	values(${store_seq}, #{menu_name}, ${price}, #{category}, #{information}, #{picture_location})
 </insert>
+<insert id="menuInsertMap" parameterType="java.util.HashMap">
+	insert into menu(store_seq, menu_name, price, category, information, picture_location)
+	values(${store_seq}, #{menu_name}, ${price}, #{category}, #{information}, #{picture_location})
+</insert>
 <update id="pictureDirInsert">
 	update store set picture_location=#{picture_location} where seq=${seq}
 </update>
 <insert id="balloonListUpdate">
-	insert into balloon(user_id, store_seq, use_get, use_get_time, balloon, total_balloon, content)
-	values(#{user_id}, ${store_seq}, 1, now(), 8, ${total_balloon}, "적립(방문 확인)")
+	insert into balloon(user_id, use_get_time, balloon, content)
+	values(#{user_id}, now(), 8, #{content})
 </insert>
 <insert id="promotionInsert">
 	insert into promotion_list(store_seq, owner_id, list_date, district)
@@ -121,4 +125,10 @@
 <delete id="menuDelete">
 	delete from menu where seq=${param1}
 </delete>
+<select id="advList" resultType="eat_schedule.dto.PromotionListDTO">
+	select * from promotion_list where store_seq=${param1} order by list_date desc
+</select>
+<select id="fileList" resultType="eat_schedule.dto.FilenameDTO">
+	select * from picture where store_seq=${param1}
+</select>
 </mapper>

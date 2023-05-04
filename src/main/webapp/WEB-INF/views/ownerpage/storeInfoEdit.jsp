@@ -10,6 +10,11 @@
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <title>가게수정페이지</title>
 <style>
+h1{
+margin-top:50px;
+text-align:center;
+    color:#696969;
+}
 form {
     max-width: 800px;
     margin: 0 auto;
@@ -164,12 +169,40 @@ form {
     });
 }
 </script>
+<script>
+	$(document).on('click', '#storeUpdate input[value=" + "]', function(){
+		$(this).parent().parent().append('<div><input type="file" id="filename" name="filename"><input type="button" value=" + "></div>');
+		$(this).val(" - ");
+	});
+
+	$(document).on('click', '#storeUpdate input[value=" - "]',function(){
+		$(this).parent().remove();
+	});
+
+	//파일 삭제
+	function deleteFile(filename) {
+    if (confirm("파일을 삭제하시겠습니까?")) {
+      $.ajax({
+        url: "삭제 요청을 처리하는 서버 URL",
+        type: "POST",
+        data: { filename: filename },
+        success: function(response) {
+          // 요청이 성공하면, fileList를 업데이트하고 새로고침하기
+          // ...
+        },
+        error: function(xhr, status, error) {
+          alert("파일 삭제 중 오류가 발생했습니다.");
+        }
+      });
+    }
+  }
+</script>
 </head>
 <body>
 	<div>
   <h1>가게 정보 수정</h1>
   </div>
-  <form action="storeInfoEditOk" ModelAttribute="StoreDTO" method="post">
+  <form action="storeInfoEditOk" id="storeUpdate" ModelAttribute="StoreDTO" method="post">
     <fieldset>
       <legend>기본 정보</legend>
       <label for="owner_id">사장님 ID:</label>
@@ -237,6 +270,21 @@ form {
       <c:if test="${store.disabled  !=true }">
       <input type="checkbox" id="disabled" name="disabled" value="${store.disabled }">
       </c:if>
+    </fieldset>
+
+    <fieldset>
+      <legend>사진 업로드</legend>
+      <label for="filename">가게 사진:</label>
+      <ul>
+      <li id="fileList">
+      	<c:forEach var="fDTO" items="${fileList }">
+      		<div>${fDTO.filename } <input type="button" value="파일삭제" onclick="deleteFile('${fDTO.filename}')"></div>
+      	</c:forEach>
+      </li>
+      </ul>
+      <div id="file-upload">
+      <input type="file" id="filename" name="filename"><input type="button" value=" + ">
+      </div>
     </fieldset>
     <input type="submit" value="가게 정보 수정">
   </form>

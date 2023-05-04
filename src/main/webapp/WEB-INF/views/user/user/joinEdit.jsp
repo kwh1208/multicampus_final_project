@@ -2,9 +2,75 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <%@ include file="/resources/header.jspf" %>
-<link rel="stylesheet" href="/inc/editFormStyle.css" type="text/css"/>
 <style>
-
+*{
+	padding:0;
+	margin:0;
+	border:none;
+	list-style:none;
+}
+.joinEdit{
+	font-size:15px;
+	margin-top:150px;
+	margin-bottom:50px;
+	width:600px;
+	height:100%;
+	padding:50px;
+	box-sizing:border-box;
+	margin:0 auto;
+}
+h1{
+	text-align:center;
+	color:#696969;
+	margin-top:100px;
+}
+.title_wrap{
+	display:flex;
+}
+.dot{
+	margin:25px 5px 0 0;
+	color:#FF7100;
+	font-weight:bold;
+}
+.title{
+	margin-top:25px;
+	color:#6e6e6e;
+	font-size:13px;
+}
+input[type="text"], input[type="password"]{
+	width:100%;
+	height:50px;
+	padding: 0 20px;
+	box-sizing:border-box;
+	margin-bottom:10px;
+	border-bottom:#6e6e6e solid 1px;
+}
+input:focus{
+	outline:none;
+}
+input[type="button"]{
+	height:30px;
+	line-height:30px;
+	padding:0 20px;
+	margin-bottom:10px;
+}
+input[type="submit"]{
+	border:none;
+	background-color:#FF7100;
+	color:white;
+	width:100px;
+	height:40px;
+	line-height:40px;
+	border-radius:10px;
+	float:right;
+}
+.edit_btn:hover{
+	background-color:#FFA964;
+	cursor:pointer;
+}
+input[type="button"]:hover{
+	cursor:pointer;
+}
 </style>
 <script>
 //정규표현식
@@ -127,7 +193,8 @@
 
 
 <div class="joinEdit">
-<h1>회원정보수정폼</h1>
+<h1>회원정보 수정</h1>
+<div style="border-top:1px solid #ddd; width:500px; margin:20px auto 100px auto; "></div>
 	<form method="post" id="joinEditForm" action="joinEditOk">
 		<div class="title_wrap">
 			<div class="dot">*</div>
@@ -186,13 +253,6 @@
 			<div class="title">이메일</div>
 		</div>
 		<div><input type="text" name="email" id="email" value="${dto.email }"/></div>
-		<div class="title_wrap">
-			<div class="dot">*</div>
-			<div class="title">주소</div>
-		</div>
-		<div>
-			<input type="text" id="address" name="address" class="" placeholder="주소" value="${dto.address}" onkeyup="keyevent(this)" autocomplete='off'/>
-		</div>
 		<div>
 		<input type="submit" class="edit_btn" value="회원정보수정" onclick="edit_event()"/>
 		</div>

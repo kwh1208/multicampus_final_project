@@ -39,16 +39,33 @@
 		border-radius:5px;
 	}
 	input[type="submit"]{
-		float:right;
 		border:none;
 		background-color:#FF7100;
 		color:white; 
 		width:100px;
 		height:40px;
 		border-radius:30px;
+		margin-left:20px;
 	}
 	input:focus, textarea:focus{
 		outline:none;
+	}
+	.btn{
+		text-align:center;
+		margin-top:40px;
+	}
+	#btn1:hover, #btn2:hover{
+		background-color:#FFA964;
+		cursor:pointer;
+	}
+	#btn1{
+		border:none;
+		background-color:#FF7100;
+		color:white; 
+		width:100px;
+		height:40px;
+		border-radius:30px;
+		margin-right:20px;
 	}
 </style>
 </head>
@@ -63,6 +80,13 @@
 		}
 	});
 
+	// 작성 취소
+	   function cancel() {
+		   // alert 창 띄우기
+		   alert("작성을 취소하시겠습니까?");
+		   // 이전 페이지로 돌아가기
+		   window.location.href="/board/inquiryList";
+	   }
 </script>
 <body>
 <div class="c">
@@ -92,11 +116,26 @@
 					<div><input type="file" name="filename"/></div>
 				</li>
 			<li>
-				<input type="submit" value="글 수정하기" id="submit"/>
+				<div class="btn">
+					<input type="button" value="취소하기" id="btn1" onclick="cancel()"/>
+					<input type="submit" value="글 수정하기" id="btn2"/>
+				</div>
 			</li>
 		</ul>
 	</form>
 </div>
 </div>
+
+	<div id="footer" style="width:100%; height:250px; background:rgb(49,55,63); bottom:0; margin-top:100px; font-size:14px;">
+		<div style="color:#fff;"><img src="/img/logo_r.png" style="width:90px; height:45px; margin-top:30px; margin-left:20px;"> | 개인정보처리방침 | 이용약관</div>
+		<div style="color:#fff; margin-top:40px; margin-left:20px;">
+			(주)먹스케쥴 [mukschedule@gmail.com]<br/>
+			<p style="margin-bottom:5px;">Developers<br/></p>
+			<a href="https://github.com/kwh1208">Kwon woohyun</a> | 
+			<a href="https://github.com/yongtae">Kim yongtae</a> | 
+			<a href="https://github.com/soomin">Cheon soomin</a> | 
+			<a href="https://github.com/wldbs98">Hyun Jiyoon</a>
+		</div>
+	</div>
 </body>
 </html>

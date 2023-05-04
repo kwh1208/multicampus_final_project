@@ -2,12 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ include file="/resources/header.jspf" %>
+<%@ include file="/resources/footer.jspf" %>
 <style>
 h1{
-	font-size:30px;
-	color:#FF7100;
-	margin-bottom:50px;
 	text-align:center;
+	color:#696969;
+	margin-top:100px;
 }
 .wrap{
 	background-color: #fff;
@@ -69,6 +69,7 @@ h1{
 }
 </style>
 <h1>예약 내역</h1>
+<div style="border-top:1px solid #ddd; width:1000px; margin:0 auto 100px auto; "></div>
 <c:forEach var="res" items="${list }">
 <jsp:useBean id="now" class="java.util.Date"/>
 <fmt:parseDate var="resTime" value="${res.reservation_time }" pattern="yyyy-MM-dd HH:mm:ss"/>
