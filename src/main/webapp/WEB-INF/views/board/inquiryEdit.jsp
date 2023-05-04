@@ -85,7 +85,7 @@
 		   // alert 창 띄우기
 		   alert("작성을 취소하시겠습니까?");
 		   // 이전 페이지로 돌아가기
-		   window.location.href="/board/inquiryEdit";
+		   window.location.href="/board/inquiryList";
 	   }
 </script>
 <body>

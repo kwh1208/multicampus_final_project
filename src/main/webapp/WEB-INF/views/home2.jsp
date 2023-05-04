@@ -212,7 +212,6 @@
 			<a href="https://github.com/yongtae">Kim yongtae</a> | 
 			<a href="https://github.com/soomin">Cheon soomin</a> | 
 			<a href="https://github.com/wldbs98">Hyun Jiyoon</a>
-			<a href="/board/inquiryList">문의내역보기</a>
 		</div>
 	</div>
 
