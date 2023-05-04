@@ -208,8 +208,9 @@ public class OwnerController {
 					fileList.add(fnDTO);
 				}//if->rename
 			}
-		}//if 업로드 파일이 있을때
-		//----------------------------------------------------------------
+		}else{//if 업로드 파일이 없을때
+			
+		}//----------------------------------------------------------------
 		
 		ModelAndView mav=new ModelAndView();
 		for(FilenameDTO i : fileList) { //for문을 통한 전체출력
@@ -305,8 +306,10 @@ public class OwnerController {
 			}
 		}//if 업로드 파일이 있을때
 		//----------------------------------------------------------------
+		if(files!=null) {
 		String fileName=fileList.get(0).getFilename();
 		menu.setPicture_location(folderName+"/"+fileName);
+		}
 		menu.setStore_seq((Integer)session.getAttribute("storeSeq"));
 		int result=service.menuInsert(menu);
 		
@@ -545,6 +548,14 @@ public class OwnerController {
 	public String storeInfoEdit(Model model,HttpSession session) {
 		StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));		
 		model.addAttribute("store",store);
+		List<FilenameDTO> fileList=service.fileList((Integer)session.getAttribute("storeSeq"));
+		for (FilenameDTO file : fileList) {
+			String string = file.getFilename();
+			String[] parts = string.split("/");
+			String filename = parts[parts.length - 1];
+		    file.setFilename(filename);
+		}
+		model.addAttribute("fileList", fileList);
 		return "ownerpage/storeInfoEdit";
 	}
 	@PostMapping("storeInfoEditOk")
@@ -595,8 +606,9 @@ public class OwnerController {
 	@GetMapping("commentManager")
 	public String commentmanager(Model model, HttpSession session, String searchKey, String use) {
 		StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
-		double storeScore=service.storeScore((Integer)session.getAttribute("storeSeq"));
+		Double storeScore=service.storeScore((Integer)session.getAttribute("storeSeq"));
 		model.addAttribute("storeScore", storeScore);
+		
 		if(searchKey!=null && use!=null) {
 			if(searchKey.equals("oc")) {
 				List<ReviewDTO> review=service.reviewOwnerCommentSelect((Integer)store.getSeq(), 1);

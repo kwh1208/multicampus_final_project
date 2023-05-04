@@ -44,7 +44,7 @@ public interface OwnerDAO {
 	//리뷰내역확인
 	public List<ReviewDTO> reviewCouponSelect(Integer store_seq, Integer status);
 	//가게 리뷰 평균 별점
-	public double storeScore(Integer store_seq);
+	public Double storeScore(Integer store_seq);
 	//쿠폰증정
 	public int couponGift(CouponDTO coupon);
 	//댓글남기기
@@ -87,4 +87,6 @@ public interface OwnerDAO {
 	public List<PromotionListDTO> advList(Integer store_seq);
 	//메뉴등록 여러개
 	public int menuInsertMap(HashMap<String, Object> map);
+	//업로드파일 리스트 불러오기
+	public List<FilenameDTO> fileList(Integer store_seq);
 }

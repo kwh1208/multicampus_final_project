@@ -38,7 +38,7 @@
 <select id="reviewCouponSelect" resultType="eat_schedule.dto.ReviewDTO">
 	select * from review where store_seq=${param1} and coupon_status=${param2} order by seq desc
 </select>
-<select id="storeScore" resultType="double">
+<select id="storeScore" resultType="Double">
 	select round(avg(score), 1) from review where store_seq=${param1};
 </select>
 <select id="reservationSelect" resultType="eat_schedule.dto.ReservationDTO">
@@ -127,5 +127,8 @@
 </delete>
 <select id="advList" resultType="eat_schedule.dto.PromotionListDTO">
 	select * from promotion_list where store_seq=${param1} order by list_date desc
+</select>
+<select id="fileList" resultType="eat_schedule.dto.FilenameDTO">
+	select * from picture where store_seq=${param1}
 </select>
 </mapper>

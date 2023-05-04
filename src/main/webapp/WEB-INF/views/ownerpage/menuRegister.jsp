@@ -97,7 +97,7 @@
 </head>
 <body>
 	<div id="menu_title"><h1>메뉴등록</h1></div>
-	<form action="menuRegistertestOk" ModelAttribute="MenuDTO" id="menuForm" method="post" enctype="multipart/form-data">
+	<form action="menuRegisterOk" ModelAttribute="MenuDTO" id="menuForm" method="post" enctype="multipart/form-data">
 	<div>
 	<ul>
 		<li>메뉴 이름:</li>
@@ -105,7 +105,7 @@
 		<li>가격</li>
 		<li><input type="number" name="price" id="price" step="100" required></li>
 		<li>카테고리</li>
-		<li><input type="text" name="category" id="category" required></li>
+		<li><input type="text" name="category" id="category"></li>
 		<li>음식 정보</li>
 		<li><input type="text" name="information" id="information"></li>
 		<li><label for="filename">메뉴 사진:</label></li>
