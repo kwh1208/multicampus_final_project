@@ -49,9 +49,22 @@ input[type="submit"]{
 	height:40px;
 	line-height:40px;
 	border-radius:10px;
-	float:right;
 }
-.new_face_btn:hover{
+.btn1{
+	border:none;
+	background-color:#FF7100;
+	color:white; 
+	width:100px;
+	height:40px;
+	line-height:40px;
+	border-radius:10px;
+	margin-right:20px;
+}
+.btn{
+	text-align:center;
+	margin-top:40px;
+}
+.new_face_btn:hover, .btn1:hover{
 	background-color:#FFA964;
 	cursor:pointer;
 }

@@ -154,8 +154,8 @@
 			alert('전화번호를 확인해주세요 ! ');
 		}else{
 			if(!randomNum){
-				randomNum = Math.floor(Math.random() * 900000) + 100000;
-				
+				//randomNum = Math.floor(Math.random() * 900000) + 100000;
+				randomNum = 000000;
 				var url = "smssend";
 			   
 		       $.ajax({
@@ -284,7 +284,13 @@
 	       }
 	    
 
-	
+	      // 작성 취소
+		   function cancel() {
+			   // alert 창 띄우기
+			   alert("작성을 취소하시겠습니까?");
+			   // 이전 페이지로 돌아가기
+			   window.location.href="/register/joinForm";
+		   }
 </script>
 <div class="all">
 <div class="join">
@@ -352,10 +358,10 @@
 			</li>
 		</ul>
 	</form>
-
-    
+	<div class="btn">
+    	<input type="button" value="취소하기" class="btn1" onclick="cancel()" style="height:40px;"/>
 		<input type="submit" id="new_face" class="new_face_btn" value="회원가입" onclick="new_face_event()"/> 
-		
+	</div>	
 </div>
 </div>
 

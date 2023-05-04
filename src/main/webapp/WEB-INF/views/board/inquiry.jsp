@@ -208,7 +208,7 @@ $(document).ready(function() { // document ready function
 	      }); 
 	    }
 	   
-	   // 실패
+	   // 작성 취소
 	   function cancel() {
 		   // alert 창 띄우기
 		   alert("작성을 취소하시겠습니까?");
