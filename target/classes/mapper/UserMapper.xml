@@ -8,7 +8,7 @@
  		where user_id=#{param1} and user_password=#{param2}
  	</select>
 	<select id="UserEdit" resultType="eat_schedule.dto.UserDTO">
-	 	select user_id, user_name, nickname, phone_number, address, email from user
+	 	select user_id, user_name, nickname, phone_number, email from user
  		where user_id=#{param1}
 	</select>
 	<select id="UserSelect" resultType="eat_schedule.dto.UserDTO">
@@ -20,7 +20,6 @@
 		set
 		nickname=#{nickname},
 		phone_number=#{phone_number},
-		address=#{address},
 		email=#{email}
 		where user_id=#{user_id} and user_password=#{user_password}
 	</update>

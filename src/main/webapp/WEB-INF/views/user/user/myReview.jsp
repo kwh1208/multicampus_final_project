@@ -2,12 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ include file="/resources/header.jspf" %>
+<%@ include file="/resources/footer.jspf" %>
 <style>
 h1{
-	font-size:30px;
-	color:#FF7100;
-	margin-bottom:50px;
 	text-align:center;
+	color:#696969;
+	margin-top:100px;
 }
 .wrap{
 	background-color: #fff;
@@ -18,6 +18,8 @@ h1{
 	padding : 15px 15px;
 	margin-bottom : 20px;
 }
+
+/* 가게 이름 */
 .name{
 	margin-top : 4px;
 	font-size: 18px;
@@ -28,6 +30,7 @@ h1{
 .name:hover{
 	color:#787878;
 }
+/* 내용 부분 */
 .content_wrap{
 	display:flex;
 	margin : 10px 10px;
@@ -46,6 +49,8 @@ h1{
 .image{
 	margin-left:auto;
 	margin-top:10px;
+	width:300px;
+	height:300px;
 }
 .star{
 	font-size:20px;
@@ -53,6 +58,7 @@ h1{
     color: transparent;
     text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
 }
+/* 버튼 */
 .btn{
 	display: inline-block;
 	line-height:25px;
@@ -65,9 +71,11 @@ h1{
     border-radius:5px;
     text-align:center;
     text-decoration: none;
+
 }
 </style>
 <h1>리뷰 내역</h1>
+<div style="border-top:1px solid #ddd; width:1000px; margin:0 auto 100px auto; "></div>
 <c:forEach var="rev" items="${list }">
 <fmt:parseDate var="revTime" value="${rev.review_time }" pattern="yyyy-MM-dd HH:mm:ss"/>
 <script>
@@ -96,7 +104,7 @@ h1{
 		
 		<div class="content">${rev.review}</div>
 		<c:if test="${not empty rev.file_location }">
-			<img src="${rev.file_location}" width="300px" height="300px" class="image">
+			<img src="${rev.file_location}" class="image">
 			
 		</c:if>
 	</div>
@@ -109,3 +117,5 @@ h1{
 	<li>${rev.comment_time }</li>
 	<li>${rev.seq }</li>
 	-->
+
+

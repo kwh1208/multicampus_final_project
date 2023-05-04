@@ -4,9 +4,9 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="eat_schedule.dao.BalloonDAO">
 	<select id ="BalloonSelect" resultType="eat_schedule.dto.BalloonDTO">
-		select b.store_seq, s.store_name, b.use_get, b.use_get_time, b.balloon, b.total_balloon, b.content from balloon b
-		join store s on s.seq=b.store_seq
+		select seq, use_get_time, balloon, content from balloon
 		where user_id=#{param1}
+		order by seq desc
 	</select>
 
 </mapper>
