@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import eat_schedule.dto.BoardDTO;
 import eat_schedule.service.BoardService;
@@ -110,12 +111,13 @@ public class BoardController {
 			
 			int result = service.inquiryInsert(map);
 			
-			mav.setViewName("/board/inquiryList"); 
+			mav.setViewName("redirect:/board/inquiryList"); 
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		return mav;
 		
+		return mav;	
 	}
 	
 		// 업로드 파일 삭제
@@ -253,7 +255,7 @@ public class BoardController {
 				
 				mav.addObject("list", list);
 				
-				mav.setViewName("/board/inquiryList"); 
+				mav.setViewName("redirect:/board/inquiryList"); 
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
