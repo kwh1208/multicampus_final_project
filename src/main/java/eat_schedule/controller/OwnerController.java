@@ -901,7 +901,7 @@ public class OwnerController {
 	    // 파일 db 삭제
 	    Integer seq=Integer.parseInt(fileSeq);
 	    FilenameDTO file=service.selectPicture(seq);
-	    String path="home/ec2-user/test"+file.getFilename(); //"home/ec2-user/test"+folderName
+	    String path=file.getFilename(); //"home/ec2-user/test"+folderName
 	    int result=service.deletePicture(seq);
 	    // 파일 삭제 로직 구현하기
 	    if(result>0) {
