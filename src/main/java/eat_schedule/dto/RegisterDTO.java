@@ -13,7 +13,6 @@ public class RegisterDTO {
     private String nickname;
     private Integer is_owner;
     private String phone_number;
-    private String address;
     private String email;
     private Integer balloon;
     private String joindate;

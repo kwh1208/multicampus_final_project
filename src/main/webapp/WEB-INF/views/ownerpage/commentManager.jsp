@@ -80,10 +80,7 @@
 			
 		}	
         .review-content {
-			border-style:dashed;
-			border-radius: 10px;
-			border-width: 1px;
-			border-color: #808080;
+			
             white-space: pre-line;
         }
         .space-work{
@@ -156,6 +153,9 @@
 	</div>
 	</div>
 <div class="container">
+	<c:if test="${empty review }">
+	<h1>리뷰내역이 없습니다.</h1>
+	</c:if>
     <c:forEach var="comment" items="${review}">
         <div class="review-container">
         	<img class="review_picture" src="${comment.file_location }">
@@ -185,16 +185,18 @@
                 사장님 코멘트:
             </div>
             <c:if test="${comment.owner_comment!=null }">
-	            <div class="review-owner-comment">
-	                ${comment.owner_comment}
-	            </div>
+	            <form action="ownerCommentAdd"  ModelAttribute="ReviewDTO" method="post">
+		        	<textarea class="owner_comment" name="owner_comment" rows="5">${comment.owner_comment}</textarea>
+		        	<input type="hidden" name="seq" value="${comment.seq}">
+		        	<input type="submit" value="수정" class="owner_comment_submit">
+		    	</form>
 	            <div class="review-boss-comment">
 	               사장님 comment time: ${comment.comment_time}
 	            </div>
             </c:if>
             <c:if test="${comment.owner_comment==null }">
             <form action="ownerCommentAdd"  ModelAttribute="ReviewDTO" method="post">
-		        <textarea class="owner_comment" name="owner_comment" rows="5"></textarea>
+		        <textarea class="owner_comment" name="owner_comment" rows="5">${comment.owner_comment}</textarea>
 		        <input type="hidden" name="seq" value="${comment.seq}">
 		        <input type="submit" value="등록" class="owner_comment_submit">
 		    </form>
@@ -204,4 +206,3 @@
 </div>
 </body>
 </html>
-<!-- <li><a href="reviewContent?no=${comment.seq}">상세보기</a></li> -->

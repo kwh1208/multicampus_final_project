@@ -183,12 +183,17 @@ form {
 	function deleteFile(filename) {
     if (confirm("파일을 삭제하시겠습니까?")) {
       $.ajax({
-        url: "삭제 요청을 처리하는 서버 URL",
+        url: "/ownerpage/storePictureDel",
         type: "POST",
-        data: { filename: filename },
+        data: { fileSeq: filename },
         success: function(response) {
-          // 요청이 성공하면, fileList를 업데이트하고 새로고침하기
-          // ...
+        	// 요청이 성공하면, fileList를 업데이트하고 새로고침하기
+        	  if (response === "success") {
+        		// 현재 페이지 새로고침
+        		    location.reload();
+        		} else {
+        		    alert("파일 삭제 중 오류가 발생했습니다.");
+        		}
         },
         error: function(xhr, status, error) {
           alert("파일 삭제 중 오류가 발생했습니다.");
@@ -202,7 +207,7 @@ form {
 	<div>
   <h1>가게 정보 수정</h1>
   </div>
-  <form action="storeInfoEditOk" id="storeUpdate" ModelAttribute="StoreDTO" method="post">
+  <form action="storeInfoEditOk" id="storeUpdate" ModelAttribute="StoreDTO" method="post" enctype="multipart/form-data">
     <fieldset>
       <legend>기본 정보</legend>
       <label for="owner_id">사장님 ID:</label>
@@ -278,7 +283,7 @@ form {
       <ul>
       <li id="fileList">
       	<c:forEach var="fDTO" items="${fileList }">
-      		<div>${fDTO.filename } <input type="button" value="파일삭제" onclick="deleteFile('${fDTO.filename}')"></div>
+      		<div>${fDTO.filename } <input type="button" value="파일삭제" onclick="deleteFile('${fDTO.seq}')"></div>
       	</c:forEach>
       </li>
       </ul>

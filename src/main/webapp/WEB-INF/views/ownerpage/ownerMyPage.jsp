@@ -172,7 +172,7 @@ body{
   <div class="all-menu">
     <div class="wrap">
         <div class="topContainer">
-            <div class="name">${logName }</div><div class="text">님 안녕하세요!</div>
+            <div class="name">${storeName }</div><div class="text">사장님 안녕하세요!</div>
             <div class="modify"><a href="/ownerpage/userInfoEdit">정보 수정 ></a></div>   
         </div>
         <div class="shippingStatusContainer">
