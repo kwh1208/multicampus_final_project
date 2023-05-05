@@ -9,10 +9,13 @@ import eat_schedule.service.FindStore;
 import eat_schedule.service.UpdateReservation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.internet.MimeMessage;
 import java.util.List;
 
 @RequestMapping("/restaurant")
@@ -27,13 +30,12 @@ public class Restaurant {
     private final UpdateReservation updateReservation;
     private final ReservationMapper reservationMapper;
     private final CouponMapper couponMapper;
-    private final ImgMapper imgMapper;
     private final EmailService emailService;
     private final UserDAO userMapper;
     private final WishDAO wishMapper;
     private final Reservation reservation;
-
-    private final Mail mail;
+    private final ImgMapper imgMapper;
+    private final JavaMailSender mailSender;
 
 
 
@@ -46,6 +48,7 @@ public class Restaurant {
 
         StringBuilder facility = facility(store);
 
+        model.addAttribute("img", imgMapper.findImg(seq));
 
         model.addAttribute("facility", facility);
 
@@ -59,20 +62,16 @@ public class Restaurant {
 
         model.addAttribute("store", store);
 
-        model.addAttribute("left", reservationMapper.findReservationLeft(seq));
-
-        model.addAttribute("img", imgMapper.findImg(seq));
-
-        List<WishDTO> wish = wishMapper.WishSelectSpecific(user_id, seq);
-        int wishChk;
-        if(wish.size()==0){
-            wishChk=0;
-        }
-        else {
-            wishChk=1;
-        }
-
-        model.addAttribute("wish", wishChk);
+//        List<WishDTO> wish = wishMapper.WishSelectSpecific(user_id, seq);
+//        int wishChk;
+//        if(wish.size()==0){
+//            wishChk=0;
+//        }
+//        else {
+//            wishChk=1;
+//        }
+//
+//        model.addAttribute("wish", wishChk);
 
         model.addAttribute("coupon", couponMapper.findCoupon(user_id, seq));
 
@@ -96,33 +95,33 @@ public class Restaurant {
 
         updateReservation.updateReservation(reservation);
 
-        mailSendToUser(reservation);
-
-        mailSendToOwner(reservation);
+//        mailSendToUser(reservation);
+//
+//        mailSendToOwner(reservation);
 
         return "redirect:/user/user/myReservation";
     }
 
-    private void mailSendToUser(Reservation reservation) {
-        UserDTO user = userMapper.UserSelect(reservation.getUser_id());
-
-        Store store = findStore.findStoreBySeq(reservation.getStore_seq());
-
-        mail.setTitle(user.getUser_name()+"님 "+store.getStore_name()+"의 예약이 완료되었습니다.");
-        mail.setAddress(user.getEmail());
-        mail.setMessage(user.getUser_name()+"님\n"+ reservation.getReservation_time()+" "+store.getStore_name()+"의 예약이 완료되었습니다.\n"+"확인하러 가기 "+"localhost:8080/user/mypage/reservation");
-        emailService.sendEmail(mail);
-    }
-    private void mailSendToOwner(Reservation reservation) {
-        String ownerId = findStore.findStoreBySeq(reservation.getStore_seq()).getOwner_id();
-        UserDTO owner = userMapper.UserSelect(ownerId);
-        Store store = findStore.findStoreBySeq(reservation.getStore_seq());
-
-        mail.setTitle(owner.getUser_name()+"님 "+store.getStore_name()+"에 새로운 예약이 들어왔습니다.");
-        mail.setAddress(owner.getEmail());
-        mail.setMessage(owner.getUser_name()+"님\n"+ reservation.getReservation_time()+" "+store.getStore_name()+"의 예약이 들어왔습니다.\n"+"확인하러 가기 "+"localhost:8080/user/mypage/reservation");
-        emailService.sendEmail(mail);
-    }
+//    private void mailSendToUser(Reservation reservation) {
+//        UserDTO user = userMapper.UserSelect(reservation.getUser_id());
+//
+//        Store store = findStore.findStoreBySeq(reservation.getStore_seq());
+//
+//        mail.setTitle(user.getUser_name()+"님 "+store.getStore_name()+"의 예약이 완료되었습니다.");
+//        mail.setAddress(user.getEmail());
+//        mail.setMessage(user.getUser_name()+"님\n"+ reservation.getReservation_time()+" "+store.getStore_name()+"의 예약이 완료되었습니다.\n"+"확인하러 가기 "+"localhost:8080/user/mypage/reservation");
+//        emailService.sendEmail(mail);
+//    }
+//    private void mailSendToOwner(Reservation reservation) {
+//        String ownerId = findStore.findStoreBySeq(reservation.getStore_seq()).getOwner_id();
+//        UserDTO owner = userMapper.UserSelect(ownerId);
+//        Store store = findStore.findStoreBySeq(reservation.getStore_seq());
+//
+//        mail.setTitle(owner.getUser_name()+"님 "+store.getStore_name()+"에 새로운 예약이 들어왔습니다.");
+//        mail.setAddress(owner.getEmail());
+//        mail.setMessage(owner.getUser_name()+"님\n"+ reservation.getReservation_time()+" "+store.getStore_name()+"의 예약이 들어왔습니다.\n"+"확인하러 가기 "+"localhost:8080/user/mypage/reservation");
+//        emailService.sendEmail(mail);
+//    }
 
 
     private static StringBuilder facility(Store store) {
@@ -135,5 +134,31 @@ public class Restaurant {
         if(store.isWifi()) sb.append("무선 인터넷");
         return sb;
     }
+
+//    String emailSubject = "아이디 찾기 결과";
+//    String emailContent = "<div style=margin:50px; padding:50px; border:2px solid gray; font-size:2em; text-align:center;>";
+//    emailContent += "<b>MUKSCHEDULE</b><br/>아이디찾기 검색결과입니다.<br/>";
+//    emailContent += "아이디: "+user_id;
+//    emailContent += "</div>";
+//
+//			try {
+//        // mimeMessage -> mimeMessageHelper
+//        MimeMessage message = mailSender.createMimeMessage();
+//        MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+//
+//        // 보내는 메일주소
+//        messageHelper.setFrom("guswldbs98@naver.com");
+//        // 받는 쪽
+//        messageHelper.setTo(dto.getEmail());
+//        messageHelper.setSubject(emailSubject);
+//        messageHelper.setText("text/html; charset=UTF-8", emailContent);
+//
+//        mailSender.send(message); // 보내기
+//
+//        return "Y";
+//    }catch(Exception e) {
+//        e.printStackTrace();
+//        return "N";
+//    }
 
 }

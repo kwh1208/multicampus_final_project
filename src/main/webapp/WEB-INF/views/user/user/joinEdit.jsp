@@ -258,3 +258,4 @@ input[type="button"]:hover{
 		</div>
 	</form>
 </div>
+<%@ include file="/resources/footer.jspf" %>

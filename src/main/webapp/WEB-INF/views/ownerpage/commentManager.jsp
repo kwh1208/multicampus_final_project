@@ -202,6 +202,7 @@
         </div>
     </c:forEach>
 </div>
+	<%@ include file="/resources/footer.jspf" %>
 </body>
 </html>
 <!-- <li><a href="reviewContent?no=${comment.seq}">상세보기</a></li> -->

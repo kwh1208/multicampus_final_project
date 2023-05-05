@@ -14,4 +14,5 @@ public class WishDTO {
 	private String category;
 	private double avg_score;
 	private String owner_comment;
+	private int count;
 }

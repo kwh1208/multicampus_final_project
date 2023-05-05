@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ include file="/resources/header.jspf" %>
-<%@ include file="/resources/footer.jspf" %>
 <style>
 h1{
 	text-align:center;
@@ -117,4 +116,4 @@ h1{
 
 </div>
 </c:forEach>
-  
+<%@ include file="/resources/footer.jspf" %>

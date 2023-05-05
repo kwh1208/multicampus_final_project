@@ -49,7 +49,7 @@
 			<div class="right"> > </div>
 		</a>
 		-->
-		<a href="user/myQnA" class="item">
+		<a href="/board/inquiryList" class="item">
 			<div class="text">문의 내역</div>
 			<div class="right"> > </div>
 		</a>
@@ -60,3 +60,4 @@
 	</div>
 
 </div>
+<%@ include file="/resources/footer.jspf" %>

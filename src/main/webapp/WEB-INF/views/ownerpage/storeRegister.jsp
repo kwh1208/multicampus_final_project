@@ -240,5 +240,6 @@ form {
 
     <input type="submit" value="가게 등록">
   </form>
+    <%@ include file="/resources/footer.jspf" %>
 </body>
 </html>

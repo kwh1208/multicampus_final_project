@@ -47,15 +47,15 @@
       </div>
 
       <div id="login_logout">
-        <div th:if="${logStatus!= Y}"><a href="/register/loginForm">로그인</a></div>
-        <img th:if="${logStatus!= Y && isOwner==1}" src="/img/person.png" style="width:30px; height:30px;" id="person_img"/>
+        <div th:if="${session.logStatus!= 'Y'}"><a href="/register/loginForm">로그인</a></div>
+        <img th:if="${session.logStatus == 'Y' && session.isOwner==1}" src="/img/person.png" style="width:30px; height:30px;" id="person_img"/>
         <div class="menu">
 							<span>
 								<a href="/register/logout">로그아웃</a><br/>
 								<a href="/ownerpage/ownerStart">마이페이지</a>
 							</span>
         </div>
-        <img th:if ="${logStatus=='Y'  && isOwner==0 }" src="/img/person.png" style="width:30px; height:30px;" id="person_img"/>
+        <img th:if ="${session.logStatus=='Y'  && session.isOwner==0 }" src="/img/person.png" style="width:30px; height:30px;" id="person_img"/>
         <div class="menu">
 							<span>
 								<a href="/register/logout">로그아웃</a><br/>
@@ -65,18 +65,19 @@
       </div>
 
       <div id="join_balloon">
-        <div th:if ="${logStatus!='Y' }"><a href="/register/joinForm">회원가입</a></div>
-        <img th:if ="${logStatus=='Y'  && isOwner==1 }"  src="/img/balloons.png" style="width:30px; height:30px; margin:0 auto;"/>
-        <p th:if ="${logStatus=='Y'  && isOwner==0 }" style="color:#FF7100">&nbsp;&nbsp; X ${balloon}</p>
-        <img th:if ="${logStatus=='Y'  && isOwner==0 }"  src="/img/balloons.png" style="width:30px; height:30px; margin:0 auto;"/>
-        <p th:if ="${logStatus=='Y'  && isOwner==0 }" style="color:#FF7100">&nbsp;&nbsp; X ${balloon}</p>
+        <div th:if ="${session.logStatus !='Y'}"><a href="/register/joinForm">회원가입</a></div>
+        <img th:if ="${session.logStatus=='Y' && session.isOwner==1 }"  src="/img/balloons.png" style="width:30px; height:30px; margin:0 auto;"/>
+        <p th:if ="${session.logStatus=='Y' && session.isOwner==0 }" style="color:#FF7100">&nbsp;&nbsp; X ${balloon}</p>
+        <img th:if ="${session.logStatus=='Y'  && session.isOwner==0 }"  src="/img/balloons.png" style="width:30px; height:30px; margin:0 auto;"/>
+        <p th:if ="${session.logStatus=='Y'  && session.isOwner==0 }" style="color:#FF7100">&nbsp;&nbsp; X ${balloon}</p>
       </div>
     </div>
   </div>
 </div>
 <div id="slideShow">
   <ul id="bxslider">
-    <li th:each="img:${img}"><img th:src="${img}"></li>
+<!--    <li th:each="img:${img}"><img th:src="${img}"></li>-->
+    <li style="text-align: center"><img src="/img/noodle.png" class="main_img"></li>
   </ul>
 </div>
 <span style="height: 100vh">

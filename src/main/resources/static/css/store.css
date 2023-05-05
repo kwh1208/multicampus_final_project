@@ -100,12 +100,11 @@ a{
 }
 #slideShow {
     /*전체 컨테이너*/
-    width: 500px;
-    height: 300px;
+    width: 800px;
+    height: 400px;
     position: relative;
     margin: 50px auto;
-    overflow: hidden;
-    margin-top: 13vh;/*리스트 형식으로 이미지를 일렬로 정렬할 것이기 때문에, 500px 밖으로 튀어 나간 이미지들은 hidden으로 숨겨줘야됨*/
+    overflow: hidden; /*리스트 형식으로 이미지를 일렬로 정렬할 것이기 때문에, 500px 밖으로 튀어 나간 이미지들은 hidden으로 숨겨줘야됨*/
 }
 .slides {
     /*이미지들이 담겨있는 슬라이드 컨테이너*/
@@ -231,10 +230,6 @@ th{
 .bx-wrapper{
     height: 400px;
 }
-.test{
-    width: 500px;
-    height: 250px;
-}
 .bxslider{
     text-align: center;
 }
@@ -265,4 +260,8 @@ th{
 }
 #review_container:hover{
     background-color: lightgray;
+}
+.main_img{
+    height: 340px;
+    text-align: center;
 }

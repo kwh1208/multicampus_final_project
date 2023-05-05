@@ -116,5 +116,6 @@
 		</div>
 	 <input type="submit" value="메뉴 등록">
 	 </form>
+	<%@ include file="/resources/footer.jspf" %>
 </body>
 </html>

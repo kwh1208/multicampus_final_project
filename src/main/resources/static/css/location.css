@@ -21,6 +21,7 @@ a{
     box-shadow:0 7px 7px -7px #FF7100;
     padding:10px 0 10px 10px;
     top:0;
+    z-index: 2;
 }
 #logo, #shop, #board, #login_logout, #join_balloon, img{
     height:80px;
@@ -134,8 +135,8 @@ a{
     margin-top: 15vh;
 }
 #category{
-    margin-left: 10%;
-    margin-right: 10%;
+    margin-left: 3%;
+    margin-right: 3%;
 }
 #sort{
     min-height: 5vh;
@@ -190,16 +191,13 @@ option{
 #slideShow{
     max-width: 1000px;
     margin: auto;
+    margin-top: 13vh;
 }
 .bx-viewport{
     height: 300px;
 }
 .bx-wrapper{
     height: 400px;
-}
-.test{
-    width: 500px;
-    height: 250px;
 }
 .bxslider{
     text-align: center;
@@ -231,6 +229,7 @@ option{
     margin-left: 1vw;
     margin-top: 1vw;
     width: 27vw;
+    max-width: 305px;
 }
 .promotion{
     text-align: center;
@@ -241,4 +240,16 @@ option{
 }
 .promotion_inf{
     width: 300px;
+}
+#name{
+    border: 1px solid #FF7100;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding: 12px 13px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    appearance: none;
+    margin-right: 3%;
 }

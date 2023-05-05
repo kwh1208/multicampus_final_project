@@ -4,8 +4,10 @@
 <mapper namespace="eat_schedule.mapper.PromotionMapper">
 
     <select id="findAll" resultType="eat_schedule.dto.Store">
-        select * from store
-        where seq =(select store_seq
+        select distinct store.seq, picture_location, store.owner_id, store_name, location, tel_number, store.owner_comment, open_time, close_time, how_to_come, parking, wifi,animal, group_customer, playroom, disabled, round(AVG(review.score),1) as score
+        from store
+        right join review on store.seq=review.store_seq
+        where store.seq =(select store_seq
                     from promotion_list
                     where district = #{district} and list_date = #{today})
     </select>

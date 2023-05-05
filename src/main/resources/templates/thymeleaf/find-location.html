@@ -30,15 +30,15 @@
             </div>
 
             <div id="login_logout">
-                    <div th:if="${logStatus!= Y}"><a href="/register/loginForm">로그인</a></div>
-                    <img th:if="${logStatus!= Y && isOwner==1}" src="/img/person.png" style="width:30px; height:30px;" id="person_img"/>
+                    <div th:if="${session.logStatus!= 'Y'}"><a href="/register/loginForm">로그인</a></div>
+                    <img th:if="${session.logStatus == 'Y' && session.isOwner==1}" src="/img/person.png" style="width:30px; height:30px;" id="person_img"/>
                     <div class="menu">
 							<span>
 								<a href="/register/logout">로그아웃</a><br/>
 								<a href="/ownerpage/ownerStart">마이페이지</a>
 							</span>
                     </div>
-                    <img th:if ="${logStatus=='Y'  && isOwner==0 }" src="/img/person.png" style="width:30px; height:30px;" id="person_img"/>
+                    <img th:if ="${session.logStatus=='Y'  && session.isOwner==0 }" src="/img/person.png" style="width:30px; height:30px;" id="person_img"/>
                     <div class="menu">
 							<span>
 								<a href="/register/logout">로그아웃</a><br/>
@@ -48,14 +48,23 @@
             </div>
 
             <div id="join_balloon">
-                    <div th:if ="${logStatus!='Y' }"><a href="/register/joinForm">회원가입</a></div>
-                    <img th:if ="${logStatus=='Y'  && isOwner==1 }"  src="/img/balloons.png" style="width:30px; height:30px; margin:0 auto;"/>
-                    <p th:if ="${logStatus=='Y'  && isOwner==0 }" style="color:#FF7100">&nbsp;&nbsp; X ${balloon}</p>
-                    <img th:if ="${logStatus=='Y'  && isOwner==0 }"  src="/img/balloons.png" style="width:30px; height:30px; margin:0 auto;"/>
-                    <p th:if ="${logStatus=='Y'  && isOwner==0 }" style="color:#FF7100">&nbsp;&nbsp; X ${balloon}</p>
+                    <div th:if ="${session.logStatus !='Y'}"><a href="/register/joinForm">회원가입</a></div>
+                    <img th:if ="${session.logStatus=='Y' && session.isOwner==1 }"  src="/img/balloons.png" style="width:30px; height:30px; margin:0 auto;"/>
+                    <p th:if ="${session.logStatus=='Y' && session.isOwner==0 }" style="color:#FF7100">&nbsp;&nbsp; X ${balloon}</p>
+                    <img th:if ="${session.logStatus=='Y'  && session.isOwner==0 }"  src="/img/balloons.png" style="width:30px; height:30px; margin:0 auto;"/>
+                    <p th:if ="${session.logStatus=='Y'  && session.isOwner==0 }" style="color:#FF7100">&nbsp;&nbsp; X ${balloon}</p>
             </div>
         </div>
     </div>
+</div>
+<div style="text-align: center; background-color: rgb(230,230,230); position: absolute; top: 0; width: 100%; padding-top: 70px">
+    <p th:text="|${district} 먹풍리스트|" style="font-size: x-large; text-shadow: 1px 1px 1px gray"></p>
+    <p style="color: #9b9b9b">"뭐 먹을지 고민돼? 이 집은 어때?"</p>
+</div>
+<div id="slideShow">
+    <ul id="bxslider">
+        <a th:each="List:${promotionList}" th:href="@{/restaurant/{seq}(seq=${List.seq})}"><li style="text-align: center"><img th:src="${List.picture_location}" class="promotion_img"><br><p th:text="|${List.store_name} ★ ${List.score}|" style="display: inline;color: #ff7100;font-size: large;font-weight: bold"></p></li></a>
+    </ul>
 </div>
 <form action="./search" method="get" id="district_category">
     <select name="district" id="area" class="select">
@@ -64,19 +73,14 @@
       </th:block>
     </select>
   <select name="category" th:label="category" class="select" id="category">
-    <option th:value="none">분류</option>
+    <option value="">분류</option>
     <th:block th:each="categorys:${AllCategory}">
     <option th:each="val:${categorys}" th:value="${categorys}" th:id="${categorys}" th:text="${categorys}" ></option>
     </th:block>
+      <input type="text" name="store_name" id="name" placeholder="가게이름으로 검색">
   </select>
   <button type="submit" id="district_category_button" class="button">검색</button>
 </form>
-<div id="slideShow">
-    <ul id="bxslider">
-        <li class="promotion"><img src="/img/kimchi.png" class="promotion_img"><p class="promotion_inf">대충 가게이름<span style="float: right"> ★ 5.0</span></p></a></li>
-<!--        <li th:each="List:${promotionList}"><a th:href="@{/restaurant/{seq}(seq=${List.seq})}"><img th:src="${List.picture_location}"><p th:text="${List.store_name}" style="display: inline"><span th:text="|★${List.score}|"></span></p></a></li>-->
-    </ul>
-</div>
 
 <form action="" method="get" id="sort">
     <input type="hidden" name="district" th:value="${district}">
@@ -117,10 +121,25 @@
             slideMargin: 50, // 슬라이드간의 간격
             auto: true, // 자동 실행 여부
             autoHover: true, // 마우스 호버시 정지 여부
-            controls: true // 이전 다음 버튼 노출 여부
+            controls: true, // 이전 다음 버튼 노출 여부
+            touchEnabled : (navigator.maxTouchPoints > 0)
         });
     });
 </script>
-<div id="footer" style="width:100vw;height: 20vh"></div>
+<footer>
+    <div id="footer" style="width:100%; height:25%; background:rgb(49,55,63); bottom:0; margin-top:100px; font-size:14px; position: relative">
+        <div style="color:#fff;"><img src="/img/logo_r.png" style="width:90px; height:45px; margin-top:30px; margin-left:20px;"> | 개인정보처리방침 | 이용약관</div>
+        <div style="color:#fff; margin-top:40px; margin-left:20px;">
+            (주)먹스케쥴 [mukschedule@gmail.com]<br/>
+            <p style="margin-bottom:5px;">Developers<br/></p>
+            <a href="https://github.com/kwh1208>Kwon"> woohyun</a> |
+            <a href="https://github.com/yongtae>Kim"> yongtae</a> |
+            <a href="https://github.com/soomin>Cheon"> soomin</a> |
+            <a href="https://github.com/wldbs98>Hyun"> Jiyoon</a>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
 </body>
 </html>

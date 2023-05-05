@@ -122,5 +122,6 @@
 	 	<input type="submit" value="삭제">
 	 </form>
 	 </div>
+	<%@ include file="/resources/footer.jspf" %>
 </body>
 </html>

@@ -92,5 +92,6 @@
 		</form>
 	</div>	
 </div>
+<%@ include file="/resources/footer.jspf" %>
 </body>
 </html>

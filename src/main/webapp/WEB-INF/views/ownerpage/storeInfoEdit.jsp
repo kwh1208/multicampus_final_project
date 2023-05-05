@@ -288,5 +288,6 @@ form {
     </fieldset>
     <input type="submit" value="가게 정보 수정">
   </form>
+    <%@ include file="/resources/footer.jspf" %>
 </body>
 </html>

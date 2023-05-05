@@ -91,5 +91,6 @@ $(document).ready(function() {
 	
 	<a class="register-select" href="/ownerpage/storeRegister">가게등록 바로가기</a>
 	</div>
+	<%@ include file="/resources/footer.jspf" %>
 </body>
 </html>

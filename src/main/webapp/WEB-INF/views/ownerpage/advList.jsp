@@ -105,6 +105,6 @@
         </div>
     </c:forEach>
 </div>
-
+<%@ include file="/resources/footer.jspf" %>
 </body>
 </html>

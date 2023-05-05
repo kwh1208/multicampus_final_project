@@ -11,4 +11,6 @@ import java.util.List;
 public interface ImgMapper {
     List<String> findImg(int seq);
 
+    String findMainImg(int seq);
+
 }

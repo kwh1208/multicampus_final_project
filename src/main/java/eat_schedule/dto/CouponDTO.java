@@ -12,4 +12,5 @@ public class CouponDTO {
 	private Integer seq;
 	private Integer store_seq;
 	private Integer review_seq;
+	private String store_name;
 }

@@ -155,5 +155,6 @@ input[type="date"] {
 	</c:forEach>
 	</div>
 	</c:if>
+	<%@ include file="/resources/footer.jspf" %>
 </body>
 </html>

@@ -32,8 +32,9 @@ public class Search {
     public String searchDistrict(@RequestParam(value = "district") String district,
                                  @RequestParam(value = "category", required = false) String category,
                                  @RequestParam(value = "sort", required = false) String sort,
-                                 @SessionAttribute(value = "logId", required = false) String user_id,
+                                 @RequestParam(value = "store_name", required = false) String search_name,
                                  Model model){
+
         model.addAttribute("district", district);
 
         model.addAttribute("promotionList", findPromotion(district));
@@ -46,7 +47,7 @@ public class Search {
 
         model.addAttribute("area", regionMapper.findRegion());
 
-        model.addAttribute("stores", findAllStore(district, category, sort));
+        model.addAttribute("stores", findAllStore(district, category, sort, search_name));
 
         return "thymeleaf/find-location";
     }
@@ -54,15 +55,15 @@ public class Search {
         return findPromotion.findPromotionList(district);
     }
 
-    ArrayList<Store> findAllStore(String district, String category, String sort){
+    ArrayList<Store> findAllStore(String district, String category, String sort, String name){
         if(sort==null||sort.equals("score")){
-            return findStore.findAllScore(district, category);
+            return findStore.findAllScore(district, category, name);
         }
         else if (sort.equals("wish")){
-            return findStore.findAllWish(district, category);
+            return findStore.findAllWish(district, category, name);
         }
         else {
-            return findStore.findAllScore(district, category);
+            return findStore.findAllReview(district, category, name);
         }
     }
 }
