@@ -78,7 +78,7 @@ $(document).ready(function() {
 	<c:if test="${store!=null }">
 	<c:forEach var="store" items="${store }">
 	<div class="store_detail" data-seq=${store.seq }>
-	<img class="store-picture" src="/imgbin/balloons.png">
+	<img class="store-picture" src="${store.picture_location }">
 	<ul>
 	<li class="store_name">가게이름: ${store.store_name}</li>
 	<li>지역: ${store.location }</li>
