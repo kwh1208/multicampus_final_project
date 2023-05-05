@@ -8,7 +8,6 @@
 	<c:set var="buyer_name" value="${user.user_name }" />
 	<c:set var="buyer_email" value="${user.email }" />
 	<c:set var="buyer_tel" value="${user.phone_number }" />
-	<c:set var="buyer_addr" value="${user.address }" />
 	<c:set var="district" value="${store.district }" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -112,7 +111,6 @@
 				var buyer_name= "${buyer_name}";
 				var buyer_email= "${buyer_email}";
 				var buyer_tel="${buyer_tel}";
-				var buyer_addr="${buyer_addr}";
 				var district="${district}";
 				if(pg_provider=='inicis'){
 						pg_mid='html5_inicis';
@@ -130,8 +128,7 @@
 						amount: 1000,
 						buyer_email: buyer_email,
 						buyer_name: buyer_name,
-						buyer_tel: buyer_tel,
-						buyer_addr: buyer_addr					
+						buyer_tel: buyer_tel,					
 				};
 				
 				IMP.request_pay(data, response => {
