@@ -63,7 +63,17 @@
 </div>
 <div id="slideShow">
     <ul id="bxslider">
-        <a th:each="List:${promotionList}" th:href="@{/restaurant/{seq}(seq=${List.seq})}"><li style="text-align: center"><img th:src="${List.picture_location}" class="promotion_img"><br><p th:text="|${List.store_name} ★ ${List.score}|" style="display: inline;color: #ff7100;font-size: large;font-weight: bold"></p></li></a>
+        <th:block th:if="${promotionList != null}">
+            <th:block th:each="List:${promotionList}" th:if="${List != null}">
+                <a th:href="@{/restaurant/{seq}(seq=${List.seq})}">
+                    <li style="text-align: center">
+                        <img th:src="${List.picture_location}" class="promotion_img">
+                        <br>
+                        <p th:text="|${List.store_name} ★ ${List.score}|" style="display: inline;color: #ff7100;font-size: large;font-weight: bold"></p>
+                    </li>
+                </a>
+            </th:block>
+        </th:block>
     </ul>
 </div>
 <form action="./search" method="get" id="district_category">

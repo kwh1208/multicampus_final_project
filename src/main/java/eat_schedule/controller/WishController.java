@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import eat_schedule.mapper.WishMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,9 @@ import eat_schedule.service.WishService;
 public class WishController {
 	@Autowired
 	WishService service;
+
+	@Autowired
+	WishMapper wishMapper;
 	
 	// 찜 내역 확인
 	@GetMapping("user/user/wishlist")
@@ -30,12 +34,13 @@ public class WishController {
 
 	@RequestMapping("/wishUpdate")
 	public void wishUpdate(@RequestParam(value = "seq") String seq,
-						   @RequestParam("wish") String wish){
+						   @RequestParam("wish") String wish,
+						   @SessionAttribute(value = "logId") String user_id){
 		if(wish.equals("true")){
-			//찜목록 추가하기
+			wishMapper.WishOn(Integer.parseInt(seq), user_id);
 		}
 		else {
-			//찜목록에서 제거하기
+			wishMapper.WishOff(Integer.parseInt(seq), user_id);
 		}
 	}
 

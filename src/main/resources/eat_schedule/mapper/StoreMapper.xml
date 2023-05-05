@@ -59,9 +59,10 @@
         order By wish DESC
     </select>
     <select id="findStore" resultType="eat_schedule.dto.Store">
-        select seq, owner_id, store_name, location, tel_number, store.owner_comment, open_time, close_time, how_to_come, parking, wifi,animal, group_customer, playroom, disabled
+        select store.seq, store.owner_id, store_name, location, tel_number, store.owner_comment, open_time, close_time, how_to_come, parking, wifi,animal, group_customer, playroom, disabled, ROUND(IFNULL(AVG(review.score), 0), 1) AS score
         from store
-        where seq = #{param1}
+        left outer join review on store.seq=review.store_seq
+        where store.seq = #{param1}
     </select>
 
 </mapper>

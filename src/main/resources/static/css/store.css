@@ -200,7 +200,7 @@ th{
 }
 #score_{
     float: right;
-    margin-right: 8vw;
+    margin-right: 10vw;
 }
 #score{
     color:#FF7100;
@@ -253,15 +253,43 @@ th{
     color: white;
 }
 .review_time{
-    text-align: right;
+    text-align: left;
+    color: #7d7d7d;
 }
 .review_name{
     font-weight: 900;
 }
-#review_container:hover{
+.review_container:hover{
     background-color: lightgray;
 }
 .main_img{
     height: 340px;
     text-align: center;
+}
+.owner_review::before{
+    content: "";
+    width: 10px;
+    top: 1em;
+    right: 4.4em;
+    border: 1em solid transparent;
+    border-right: 1em solid rgb(230, 229, 234);
+    z-index: 0;
+    position: relative;
+    display: block;
+}
+.owner_review{
+    margin-left: 70px;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    border-right: 1em solid rgb(230, 229, 234);
+    background-color: rgb(230, 229, 234);
+    border-radius: 15px;
+    padding-left: 1.8em;
+    padding-right: 1.8em;
+    margin-top: 20px;
+}
+.wish{
+    color: palevioletred;
+    font-size: x-large;
 }

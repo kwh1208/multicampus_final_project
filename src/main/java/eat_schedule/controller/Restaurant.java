@@ -28,10 +28,8 @@ public class Restaurant {
     private final MenuMapper menuMapper;
     private final ReviewMapper reviewMapper;
     private final UpdateReservation updateReservation;
-    private final ReservationMapper reservationMapper;
     private final CouponMapper couponMapper;
     private final EmailService emailService;
-    private final UserDAO userMapper;
     private final WishDAO wishMapper;
     private final Reservation reservation;
     private final ImgMapper imgMapper;
@@ -62,16 +60,16 @@ public class Restaurant {
 
         model.addAttribute("store", store);
 
-//        List<WishDTO> wish = wishMapper.WishSelectSpecific(user_id, seq);
-//        int wishChk;
-//        if(wish.size()==0){
-//            wishChk=0;
-//        }
-//        else {
-//            wishChk=1;
-//        }
-//
-//        model.addAttribute("wish", wishChk);
+        List<WishDTO> wish = wishMapper.WishSelectSpecific(user_id, seq);
+        int wishChk;
+        if(wish.size()==0){
+            wishChk=0;
+        }
+        else {
+            wishChk=1;
+        }
+
+        model.addAttribute("wish", wishChk);
 
         model.addAttribute("coupon", couponMapper.findCoupon(user_id, seq));
 
@@ -82,14 +80,30 @@ public class Restaurant {
     @PostMapping("/{seq}")
     public String showRestaurant(@PathVariable int seq,
                                  @SessionAttribute(value = "logStatus", required = false) String login,
+                                 @SessionAttribute("logId") String user_id,
                                  @RequestParam("date") String date,
                                  @RequestParam("time") String time,
-                                 Model model) throws Exception {
+                                 @RequestParam("coupon") String coupon,
+                                 @RequestParam("people") String people,
+                                 @RequestParam(value = "comment", required = false) String comment,
+                                 Model model){
         if(!login.equals("Y")){
             return "redirect:/register/loginForm";//로그인페이지 url
         }
+        reservation.setUser_id(user_id);
+        reservation.setStore_seq(seq);
+        Integer coupon1 = Integer.parseInt(coupon);
+        reservation.setCoupon(coupon1);
+        Integer people1 = Integer.parseInt(people);
+        reservation.setNumber_of_people(people1);
+        reservation.setReservation_status("예약");
+        if(comment==null){
+            comment="예약";
+        }
+        reservation.setReservation_comment(comment);
+        String time1 = time.substring(0,1)+":00:00";
         //인원수, user, 기타등등 받아서 update 하고 마이페이지로 넘어감.
-        reservation.setReservation_time(date+time);
+        reservation.setReservation_time(date+" "+time1);
 
         model.addAttribute("reservation", reservation);
 
