@@ -114,7 +114,7 @@
 		<li><input type="hidden" name="seq" id="seq" value="${menu.seq }"></li>
 		</ul>
 		</div>
-	 <input type="submit" value="메뉴 등록">
+	 <input type="submit" value="메뉴 수정">
 	 </form>
 	 <div>
 	 <form action="menuDelete" ModelAttribute="MenuDTO" method="post" id="menuDelete">
