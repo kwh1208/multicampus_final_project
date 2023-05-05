@@ -182,7 +182,7 @@ public class OwnerController {
 		
 		//3. 파일을 서버에 업로드할 위치의 절대주소가 필요하다.
 		String folderName="/storeuploadfile/store"+store.getSeq()+"/storepicture"; //여기서 알아서 경로 바꾸면 됨
-		String path="C:/Users/samsung/img_test"+folderName; //"home/ec2-user/test"+folderName
+		String path="home/ec2-user/test"+folderName; //"home/ec2-user/test"+folderName
 		
 		Path directoryPath = Paths.get(path);
 		 
@@ -281,7 +281,7 @@ public class OwnerController {
 		
 		//3. 파일을 서버에 업로드할 위치의 절대주소가 필요하다.
 		String folderName="/storeuploadfile/store"+store.getSeq()+"/storepicture"; //여기서 알아서 경로 바꾸면 됨
-		String path="C:/Users/samsung/img_test"+folderName; //"home/ec2-user/test"+folderName
+		String path="home/ec2-user/test"+folderName; //"home/ec2-user/test"+folderName
 		
 		Path directoryPath = Paths.get(path);
 		 
@@ -381,7 +381,7 @@ public class OwnerController {
 		
 		//3. 파일을 서버에 업로드할 위치의 절대주소가 필요하다.
 		String folderName="/storeuploadfile/store"+(Integer)session.getAttribute("storeSeq")+"/menupicture";
-		String path="C:/Users/samsung/img_test"+folderName; //"home/ec2-user/test"+folderName
+		String path="home/ec2-user/test"+folderName; //"home/ec2-user/test"+folderName
 		
 		Path directoryPath = Paths.get(path);
 		
@@ -480,7 +480,7 @@ public class OwnerController {
 			List<MultipartFile> files= mr.getFiles("filename");
 			//3. 파일을 서버에 업로드할 위치의 절대주소가 필요하다.
 			String folderName="/storeuploadfile/store"+(Integer)session.getAttribute("storeSeq")+"/menupicture";
-			String path="C:/Users/samsung/img_test"+folderName; //"home/ec2-user/test"+folderName
+			String path="home/ec2-user/test"+folderName; //"home/ec2-user/test"+folderName
 			
 			Path directoryPath = Paths.get(path);
 			
@@ -766,7 +766,7 @@ public class OwnerController {
 	public ModelAndView storeDeleteOk(Model model, HttpSession session) {
 		ModelAndView mav=new ModelAndView();
 		Integer store_seq=(Integer)session.getAttribute("storeSeq");
-		String folder_path="C:/Users/samsung/img_test/storeuploadfile/store"+store_seq; //"home/ec2-user/test"+folderName
+		String folder_path="home/ec2-user/test/storeuploadfile/store"+store_seq; //"home/ec2-user/test"+folderName
 		System.out.println(folder_path);
 		File storeDirectory = new File(folder_path);
 		deleteDirectory(storeDirectory);
@@ -901,7 +901,7 @@ public class OwnerController {
 	    // 파일 db 삭제
 	    Integer seq=Integer.parseInt(fileSeq);
 	    FilenameDTO file=service.selectPicture(seq);
-	    String path="C:/Users/samsung/img_test"+file.getFilename(); //"home/ec2-user/test"+folderName
+	    String path="home/ec2-user/test"+file.getFilename(); //"home/ec2-user/test"+folderName
 	    int result=service.deletePicture(seq);
 	    // 파일 삭제 로직 구현하기
 	    if(result>0) {
