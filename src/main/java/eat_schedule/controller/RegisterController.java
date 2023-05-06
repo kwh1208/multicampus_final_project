@@ -240,11 +240,11 @@ public class RegisterController {
 	@RequestMapping(value = "/smssend", method = RequestMethod.POST)
 	public @ResponseBody String getData(@RequestParam("phone_number") String toPerson,
 										@RequestParam("randomNum") String randomNum) {
-		
-		final String client_service_id = "";
-		final String request_uri 	   = "";
-		final String client_access_key = "";
-		final String client_secret_key = "";
+
+		final String client_service_id = "ncp:sms:kr:304995613909:sms_test";
+		final String request_uri        = "https://sens.apigw.ntruss.com/sms/v2/services/";
+		final String client_access_key = "5AKpLpuxf6FTVT2aXNEJ";
+		final String client_secret_key = "qdhBX0LB185vxFicRumQK8xxurFF4LWV906wkbmG";
 
 		String msg = "";
 		

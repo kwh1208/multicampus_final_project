@@ -28,7 +28,6 @@
 						</span>
                 </div>
             </div>
-
             <div id="login_logout">
                     <div th:if="${session.logStatus!= 'Y'}"><a href="/register/loginForm">로그인</a></div>
                     <img th:if="${session.logStatus == 'Y' && session.isOwner==1}" src="/img/person.png" style="width:30px; height:30px;" id="person_img"/>

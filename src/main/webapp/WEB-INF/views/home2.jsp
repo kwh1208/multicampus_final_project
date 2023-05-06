@@ -9,7 +9,7 @@
 		margin:0 auto;
 	}
 	#search{
-		width: 100px;
+		width: 21.6%;
     	height: 40px;
 	    background-color: #fff;
 	    border: none;
@@ -36,7 +36,7 @@
 		appearance: none;
 	    -webkit-appearance: none;
 	    -moz-appearance: none;
-	    width: 350px;
+	    width: 76.8%;
 	    height: 35px;
 	    border-radius: 50px;
 	    border: none;
@@ -143,6 +143,7 @@
 					<option value="여의도">여의도</option>
 					<option value="서촌">서촌</option>
 					<option value="잠실">잠실</option>
+					<option value="종로">종로</option>
 				</select>
 					<input id="search" type="button" value="search"/>
 			</div>

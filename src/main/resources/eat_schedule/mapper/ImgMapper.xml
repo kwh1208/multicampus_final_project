@@ -7,7 +7,7 @@
         select filename from picture where store_seq=#{seq}
     </select>
     <select id="findMainImg" resultType="java.lang.String">
-        select distinct filename from picture where store_seq=#{seq}
+        select distinct filename from picture where store_seq=#{seq} LIMIT 1
     </select>
 
 </mapper>

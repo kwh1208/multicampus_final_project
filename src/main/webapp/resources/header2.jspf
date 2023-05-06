@@ -59,7 +59,7 @@
 						<div class="menu2">
 							<span>
 								<a href="/register/logout">로그아웃</a><br/>
-								<a href="/ownerpage/ownerStart">마이페이지</a>
+								<a href="/ownerpage/ownerMyPage?no=${storeSeq}">마이페이지</a>
 							</span>
 						</div>
 					</c:if>

@@ -179,23 +179,28 @@ form {
 		$(this).parent().remove();
 	});
 
-	//파일 삭제
-	function deleteFile(filename) {
-    if (confirm("파일을 삭제하시겠습니까?")) {
-      $.ajax({
-        url: "삭제 요청을 처리하는 서버 URL",
-        type: "POST",
-        data: { filename: filename },
-        success: function(response) {
-          // 요청이 성공하면, fileList를 업데이트하고 새로고침하기
-          // ...
-        },
-        error: function(xhr, status, error) {
-          alert("파일 삭제 중 오류가 발생했습니다.");
-        }
-      });
+    //파일 삭제
+    function deleteFile(filename) {
+      if (confirm("파일을 삭제하시겠습니까?")) {
+        $.ajax({
+          url: "/ownerpage/storePictureDel",
+          type: "POST",
+          data: { fileSeq: filename },
+          success: function(response) {
+            // 요청이 성공하면, fileList를 업데이트하고 새로고침하기
+            if (response === "success") {
+              // 현재 페이지 새로고침
+              location.reload();
+            } else {
+              alert("파일 삭제 중 오류가 발생했습니다.");
+            }
+          },
+          error: function(xhr, status, error) {
+            alert("파일 삭제 중 오류가 발생했습니다.");
+          }
+        });
+      }
     }
-  }
 </script>
 </head>
 <body>

@@ -1,21 +1,15 @@
 package eat_schedule.controller;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -26,13 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -57,27 +45,28 @@ import eat_schedule.service.OwnerService;
 public class OwnerController {
 	@Autowired
 	OwnerService service;
-	
-	@GetMapping("ownerStart")
-	public String ownerStart(Model model, HttpSession session) {
-		List<StoreDTO> store=service.storeSelect((String)session.getAttribute("logId"));
-		model.addAttribute("store", store);
-		return "ownerpage/ownerStart";
-	}
+
+
 	
 	@GetMapping("ownerMyPage")
 	public String ownerPage(Integer no, Model model, HttpSession session) {
 		//사장님 마이페이지 가게 선택시
+		session.setAttribute("storeSeq", no);
+		if(session.getAttribute("storeSeq")==null){
+			List<StoreDTO> store=service.storeSelect((String)session.getAttribute("logId"));
+			model.addAttribute("store", store);
+			return "ownerpage/ownerStart";
+		}
+		else {
 		List<StoreDTO> storeList=service.storeSelect((String)session.getAttribute("logId"));
 		model.addAttribute("store", storeList);
 		StoreDTO store=service.storeInfoEdit(no);
-		session.setAttribute("storeSeq", store.getSeq());
-		session.setAttribute("storeStatus", "Y");
+		session.setAttribute("store", "Y");
 		int reservationNoCheck=service.reservationNoCheck(store.getSeq());
 		int noShowCheckNum=service.noShowCheckNum(store.getSeq());
 		model.addAttribute("reservationNoCheck", reservationNoCheck);
 		model.addAttribute("noShowCheckNum", noShowCheckNum);
-		return "ownerpage/ownerMyPage";
+		return "ownerpage/ownerMyPage";}
 	}
 	@GetMapping("reservation")
 	public String reservation(Model model, HttpSession session, String date) {
@@ -138,7 +127,7 @@ public class OwnerController {
 	public ModelAndView storeRegisterOk(HttpServletRequest req,@ModelAttribute("StoreDTO") StoreDTO store, HttpSession session){
 		int result=service.storeRegisterOk(store);
 		System.out.println(store.toString());
-		
+
 		//request: 폼의 데이터들과 첨부파일이 있다.
 		
 		//MultiPartHttpServletRequest <- request이용하여 구한다.
@@ -251,7 +240,7 @@ public class OwnerController {
 		String path=req.getSession().getServletContext().getRealPath(folderName);
 		
 		Path directoryPath = Paths.get(path);
-		
+
 		try {
             // 디렉토리 생성
             Files.createDirectories(directoryPath);
@@ -304,10 +293,8 @@ public class OwnerController {
 			}
 		}//if 업로드 파일이 있을때
 		//----------------------------------------------------------------
-		if(files!=null) {
 		String fileName=fileList.get(0).getFilename();
 		menu.setPicture_location(folderName+"/"+fileName);
-		}
 		menu.setStore_seq((Integer)session.getAttribute("storeSeq"));
 		int result=service.menuInsert(menu);
 		
@@ -325,7 +312,7 @@ public class OwnerController {
 			mav.addObject("msg","가게등록실패!!");
 			mav.setViewName("ownerpage/failResult");
 		}
-		
+
 		return mav;
 	}
 	
@@ -433,13 +420,13 @@ public class OwnerController {
 
 		return mav;
 	}
-
+	
 	// 업로드 파일 삭제
 	public void fileDelete(String path, String filename) {
 		File f = new File(path, filename);
 		f.delete();
 	}
-	
+
 	@PostMapping("menuEditOk")
 	public ModelAndView menuEditOk(HttpServletRequest req,@ModelAttribute("MenuDTO") MenuDTO menu, HttpSession session){
 		//request: 폼의 데이터들과 첨부파일이 있다.
@@ -454,7 +441,7 @@ public class OwnerController {
 			
 			//2. mr에서 MultipartFile 객체를 얻어오기 (업로드한 파일의 수만큼 있다.)
 			List<MultipartFile> files= mr.getFiles("filename");
-			
+
 			//3. 파일을 서버에 업로드할 위치의 절대주소가 필요하다.
 			String folderName="/storeuploadfile/store"+(Integer)session.getAttribute("storeSeq")+"/menupicture";
 			String path=req.getSession().getServletContext().getRealPath(folderName);
@@ -475,7 +462,7 @@ public class OwnerController {
 			catch(Exception e) {
 				System.out.println("삭제안됨");
 			}
-			
+
 			//-------업로드 시작 -> 같은 파일이 존재할 때 파일명을 만들어 주어야 한다. ------
 			List<FilenameDTO> fileList = new ArrayList<FilenameDTO>();
 			if(files!=null){//업로드 파일이 있을때
@@ -546,14 +533,6 @@ public class OwnerController {
 	public String storeInfoEdit(Model model,HttpSession session) {
 		StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));		
 		model.addAttribute("store",store);
-		List<FilenameDTO> fileList=service.fileList((Integer)session.getAttribute("storeSeq"));
-		for (FilenameDTO file : fileList) {
-			String string = file.getFilename();
-			String[] parts = string.split("/");
-			String filename = parts[parts.length - 1];
-		    file.setFilename(filename);
-		}
-		model.addAttribute("fileList", fileList);
 		return "ownerpage/storeInfoEdit";
 	}
 	@PostMapping("storeInfoEditOk")
@@ -604,9 +583,8 @@ public class OwnerController {
 	@GetMapping("commentManager")
 	public String commentmanager(Model model, HttpSession session, String searchKey, String use) {
 		StoreDTO store=service.storeInfoEdit((Integer)session.getAttribute("storeSeq"));
-		Double storeScore=service.storeScore((Integer)session.getAttribute("storeSeq"));
+		double storeScore=service.storeScore((Integer)session.getAttribute("storeSeq"));
 		model.addAttribute("storeScore", storeScore);
-
 		if(searchKey!=null && use!=null) {
 			if(searchKey.equals("oc")) {
 				List<ReviewDTO> review=service.reviewOwnerCommentSelect((Integer)store.getSeq(), 1);
@@ -877,39 +855,39 @@ public class OwnerController {
 //	//웹훅 수신 처리
 //	@PostMapping("/payment/webhook_receive")
 //	public ResponseEntity<?> webhook_recieve(@RequestBody Map<String, Object> model){
-//		
+//
 //		//응답 header 생성
 //		HttpHeaders responseHeaders = new HttpHeaders();
 //		responseHeaders.add("Content-Type", "application/json; charset=UTF-8");
-//		
+//
 //		try {
 //			String imp_uid = (String)model.get("imp_uid");
 //			String merchant_uid = (String)model.get("merchant_uid");
 //			boolean success = (Boolean)model.get("success");
-//			
+//
 //			System.out.println("---callback receive---");
 //			System.out.println("----------------------");
 //			System.out.println("imp_uid : " + imp_uid);
 //			System.out.println("merchant_uid" + merchant_uid);
 //			System.out.println("success : " + success);
-//			
-//				
+//
+//
 //			//db select ( select amount from oder_table where merchant_uid = ?)
-//				
+//
 //			//step5
 //			String api_key ="발급받은 키 입력";
 //			String api_secret ="발급받은 키 입력";
-//				
+//
 //			IamportClient ic=new IamportClient(api_key, api_secret);
 //			IamportResponse<Payment> response = ic.paymentByImpUid(imp_uid);
-//				
+//
 //			BigDecimal iamport_amount = response.getResponse().getAmount();
 //			//compare db_amount and api_amount
 //			//if(db_amount==api_amount)
-//				
+//
 //			//db save (Update oder_table set pay_result = 'success', imp_uid=? where merchant_uid=?)
 //			//responseObj.put("process_result", "결제위변조");
-//			//else{ result = "fail"; cancel API}		
+//			//else{ result = "fail"; cancel API}
 //		}catch(Exception e) {
 //			e.printStackTrace();
 //		}

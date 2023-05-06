@@ -91,10 +91,6 @@
 	insert into menu(store_seq, menu_name, price, category, information, picture_location)
 	values(${store_seq}, #{menu_name}, ${price}, #{category}, #{information}, #{picture_location})
 </insert>
-<insert id="menuInsertMap" parameterType="java.util.HashMap">
-	insert into menu(store_seq, menu_name, price, category, information, picture_location)
-	values(${store_seq}, #{menu_name}, ${price}, #{category}, #{information}, #{picture_location})
-</insert>
 <update id="pictureDirInsert">
 	update store set picture_location=#{picture_location} where seq=${seq}
 </update>
@@ -119,7 +115,8 @@
 <insert id="pictureInsert">
 	insert into picture(store_seq, filename) values(${store_seq}, #{filename})
 </insert>
-<delete id="storeDelete">
+    <insert id="menuInsertMap"></insert>
+    <delete id="storeDelete">
 	delete from store where seq=${param1}
 </delete>
 <delete id="menuDelete">
@@ -130,5 +127,14 @@
 </select>
 <select id="fileList" resultType="eat_schedule.dto.FilenameDTO">
 	select * from picture where store_seq=${param1}
+</select>
+<delete id="deletePicture">
+	delete from picture where seq=${param1}
+</delete>
+<select id="selectPicture" resultType="eat_schedule.dto.FilenameDTO">
+	select * from picture where seq=${param1}
+</select>
+<select id="storePicture" resultType="eat_schedule.dto.FilenameDTO">
+	select * from picture where store_seq=${param1} order by seq limit 1;
 </select>
 </mapper>

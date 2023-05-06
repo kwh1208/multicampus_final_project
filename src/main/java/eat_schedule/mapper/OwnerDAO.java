@@ -1,5 +1,6 @@
 package eat_schedule.mapper;
 
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -85,8 +86,14 @@ public interface OwnerDAO {
 	public int menuDelete(Integer seq);
 	//광고리스트 사장님 확인
 	public List<PromotionListDTO> advList(Integer store_seq);
-	//메뉴등록 여러개
-	public int menuInsertMap(HashMap<String, Object> map);
 	//업로드파일 리스트 불러오기
 	public List<FilenameDTO> fileList(Integer store_seq);
+	//db에서 파일삭제
+	public int deletePicture(Integer fileSeq);
+	//파일 시퀀스로 파일찾기
+	public FilenameDTO selectPicture(Integer seq);
+	//가게 사진 한장만 가져오기
+	public FilenameDTO storePicture(Integer store_seq);
+
+	int menuInsertMap(HashMap<String, Object> map);
 }

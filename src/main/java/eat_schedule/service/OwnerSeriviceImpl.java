@@ -1,5 +1,6 @@
 package eat_schedule.service;
 
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -150,7 +151,7 @@ public class OwnerSeriviceImpl implements OwnerService {
 		return dao.reviewCouponSelect(store_seq, status);
 	}
 	@Override
-	public double storeScore(Integer store_seq) {
+	public Double storeScore(Integer store_seq) {
 		return dao.storeScore(store_seq);
 	}
 	@Override
@@ -160,9 +161,5 @@ public class OwnerSeriviceImpl implements OwnerService {
 	@Override
 	public int menuInsertMap(HashMap<String, Object> map) {
 		return dao.menuInsertMap(map);
-	}
-	@Override
-	public List<FilenameDTO> fileList(Integer store_seq) {
-		return dao.fileList(store_seq);
 	}
 }

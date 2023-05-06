@@ -211,7 +211,6 @@ body{
               <div class="text">가게등록</div>
               <div class="right"> > </div>
           </a>
-          <c:if test="${storeStatus=='Y' }">
           <a href="/ownerpage/storeInfoEdit" class="item">
               <div class="text">가게정보수정</div>
               <div class="right"> > </div>
@@ -244,13 +243,8 @@ body{
               <div class="text">먹풍리스트 확인</div>
               <div class="right"> > </div>
           </a>
-        </c:if>
         </div>
         <div class="listContainer">
-          <a href="/ownerpage/userInfoEdit" class="item">
-              <div class="text">회원정보수정</div>
-              <div class="right"> > </div>
-          </a> 
           <a href="/ownerpage/storeDelete" class="item">
               <div class="text">가게삭제</div>
               <div class="right"> > </div>
