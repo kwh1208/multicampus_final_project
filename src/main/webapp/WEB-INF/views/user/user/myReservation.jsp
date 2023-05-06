@@ -92,7 +92,7 @@ h1{
 					<a href="reviewWrite?no=${res.seq }" class="btn">리뷰 쓰기</a>
 				</c:if>
 				<c:if test="${def > 1 }"> <!-- 예약 시간 1시간 전까지 취소 가능 -->
-					<a href="javascript:reservationDel()" class="btn">예약 취소</a>
+					<input type="button" value="예약 취소" class="btn" onclick="reservationDel()"/>
 				</c:if>
 			</c:if>
 		</div>
