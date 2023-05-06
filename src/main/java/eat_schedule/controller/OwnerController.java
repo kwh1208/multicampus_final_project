@@ -73,35 +73,33 @@ public class OwnerController {
 	    }
 	}
 	
-	@GetMapping("ownerStart")
-	public String ownerStart(Model model, HttpSession session) {
-		List<StoreDTO> store=service.storeSelect((String)session.getAttribute("logId"));
-		for (StoreDTO s : store) {
-		    FilenameDTO file=service.storePicture(s.getSeq());
-		    if (file != null) {
-	            s.setPicture_location(file.getFilename());
-	        } else {
-	            s.setPicture_location("/imgbin/balloons.png");
-	        }
-		}
-		model.addAttribute("store", store);
-		return "ownerpage/ownerStart";
-	}
-	
 	@GetMapping("ownerMyPage")
 	public String ownerPage(Integer no, Model model, HttpSession session) {
 		//사장님 마이페이지 가게 선택시
+		session.setAttribute("storeSeq", no);
+		if(session.getAttribute("storeSeq")==null){
+			List<StoreDTO> store=service.storeSelect((String)session.getAttribute("logId"));
+			for (StoreDTO s : store) {
+			    FilenameDTO file=service.storePicture(s.getSeq());
+			    if (file != null) {
+		            s.setPicture_location(file.getFilename());
+		        } else {
+		            s.setPicture_location("/imgbin/balloons.png");
+		        }
+			}
+			model.addAttribute("store", store);
+			return "ownerpage/ownerStart";
+		}
+		else {
 		List<StoreDTO> storeList=service.storeSelect((String)session.getAttribute("logId"));
 		model.addAttribute("store", storeList);
 		StoreDTO store=service.storeInfoEdit(no);
-		session.setAttribute("storeSeq", store.getSeq());
-		session.setAttribute("storeName", store.getStore_name());
-		session.setAttribute("storeStatus", "Y");
+		session.setAttribute("store", "Y");
 		int reservationNoCheck=service.reservationNoCheck(store.getSeq());
 		int noShowCheckNum=service.noShowCheckNum(store.getSeq());
 		model.addAttribute("reservationNoCheck", reservationNoCheck);
 		model.addAttribute("noShowCheckNum", noShowCheckNum);
-		return "ownerpage/ownerMyPage";
+		return "ownerpage/ownerMyPage";}
 	}
 	@GetMapping("reservation")
 	public String reservation(Model model, HttpSession session, String date) {
