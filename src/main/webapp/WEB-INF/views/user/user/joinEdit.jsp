@@ -180,14 +180,6 @@ input[type="button"]:hover{
 				alert("닉네임을 입력 후 중복검사하세요.");
 			}
 		}
-		// 전화번호 DB에 이미 등록되어있는지 확인
-		function phone_chk(){
-			if($("#phone_number").val()!=""){
-				window.open("/register/phoneCheck?phone_number="+$("#phone_number").val(), "chk", "width=400, height=300");
-			}else{
-				alert("전화번호를 입력 후 인증버튼을 눌러주세요.");
-			}
-		}
 	
 </script>
 
@@ -241,8 +233,7 @@ input[type="button"]:hover{
 			<div class="title">연락처</div>
 		</div>
 		<div>
-			<input type="text" id="phone_number" name="phone_number" class="" placeholder="휴대폰번호( - 없이 입력)" value="${dto.phone_number }" onkeyup="keyevent(this)" autocomplete='off'/>
-			<input type="button" value="인증" onclick="phone_chk()"/>
+			<input type="text" id="phone_number" name="phone_number" class="" value="${dto.phone_number }" onkeyup="keyevent(this)" autocomplete='off' readonly/>
 			<input type="hidden" id="phoneStatus" value="N"/>
 			<div class="login_param_check" id="login_pass_param_check">
                	<span id="login_param_check_txt_phone" class="login_param_check_txt" ></span>
