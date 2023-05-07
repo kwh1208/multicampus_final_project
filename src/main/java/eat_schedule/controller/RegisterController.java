@@ -275,7 +275,7 @@ public class RegisterController {
 		    toArr.put(toJson);
 		    
 		    bodyJson.put("type","SMS");							// Madantory, 메시지 Type (SMS | LMS | MMS), (소문자 가능)
-		    bodyJson.put("from","01038231933");					// Mandatory, 발신번호, 사전 등록된 발신번호만 사용 가능		
+		    bodyJson.put("from","");					// Mandatory, 발신번호, 사전 등록된 발신번호만 사용 가능		
 		    bodyJson.put("content", "[MUKSCHEDULE] 인증번호는 " + randomNum + "입니다.");	// Mandatory(필수), 기본 메시지 내용, SMS: 최대 80byte, LMS, MMS: 최대 2000byte
 		    bodyJson.put("messages", toArr);					// Mandatory(필수), 아래 항목들 참조 (messages.XXX), 최대 1,000개
 		    
