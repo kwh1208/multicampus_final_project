@@ -236,11 +236,11 @@ body{
               <div class="right"> > </div>
           </a>
           <a href="/ownerpage/advApply" class="item">
-            <div class="text">먹풍리스트 신청</div>
+            <div class="text">광고리스트 신청</div>
             <div class="right"> > </div>
         </a>
         <a href="/ownerpage/advList" class="item">
-              <div class="text">먹풍리스트 확인</div>
+              <div class="text">광고리스트 확인</div>
               <div class="right"> > </div>
           </a>
         </div>
