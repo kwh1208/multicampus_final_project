@@ -165,7 +165,7 @@
 	<div class="advall">
 		<div class="advall">광고를 원하시는 날짜를 선택하신 후 결제해주세요!</div>
 		<div class="advall">광고 날짜 선택</div>
-		<div class="divall">광고 비용 : 1000원</div>
+		<div class="divall">광고 비용 : 80000원</div>
 		<input type="date" id="list_date" name="list_date"/>
 		<button type="button" onClick="payment('inicis')">inicis 결제</button>
 	</div>
