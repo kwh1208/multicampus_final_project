@@ -241,10 +241,10 @@ public class RegisterController {
 	public @ResponseBody String getData(@RequestParam("phone_number") String toPerson,
 										@RequestParam("randomNum") String randomNum) {
 
-		final String client_service_id = "ncp:sms:kr:304995613909:sms_test";
-		final String request_uri        = "https://sens.apigw.ntruss.com/sms/v2/services/";
-		final String client_access_key = "5AKpLpuxf6FTVT2aXNEJ";
-		final String client_secret_key = "qdhBX0LB185vxFicRumQK8xxurFF4LWV906wkbmG";
+		final String client_service_id = "";
+		final String request_uri        = "";
+		final String client_access_key = "";
+		final String client_secret_key = "";
 
 		String msg = "";
 		
@@ -275,7 +275,7 @@ public class RegisterController {
 		    toArr.put(toJson);
 		    
 		    bodyJson.put("type","SMS");							// Madantory, 메시지 Type (SMS | LMS | MMS), (소문자 가능)
-		    bodyJson.put("from","01038231933");					// Mandatory, 발신번호, 사전 등록된 발신번호만 사용 가능		
+		    bodyJson.put("from","");					// Mandatory, 발신번호, 사전 등록된 발신번호만 사용 가능		
 		    bodyJson.put("content", "[MUKSCHEDULE] 인증번호는 " + randomNum + "입니다.");	// Mandatory(필수), 기본 메시지 내용, SMS: 최대 80byte, LMS, MMS: 최대 2000byte
 		    bodyJson.put("messages", toArr);					// Mandatory(필수), 아래 항목들 참조 (messages.XXX), 최대 1,000개
 		    
